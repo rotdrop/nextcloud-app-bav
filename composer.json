@@ -1,0 +1,15 @@
+{
+    "name": "Bav",
+    "description": "Bank Account Validator",
+    "type": "project",
+    "license": "AGPL",
+    "authors": [
+        {
+            "name": "Claus-Justus Heine"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^5.4"
+    }
+}

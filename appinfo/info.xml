@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>bav</id>
+    <name>Bav</name>
+    <summary>Bank Account Validator</summary>
+    <description><![CDATA[Bank Account Validator description text.]]></description>
+    <version>0.0.1</version>
+    <licence>agpl</licence>
+    <author mail="himself@claus-justus-heine.de" homepage="https://gitlab.claus-justus-heine.de/nextcloud/apps/bav.git">Claus-Justus Heine</author>
+    <namespace>Bav</namespace>
+    <category>office</category>
+    <bugs>https://gitlab.claus-justus-heine.de/nextcloud/apps/bav/-/issues</bugs>
+    <dependencies>
+        <nextcloud min-version="15" max-version="15"/>
+    </dependencies>
+    <navigations>
+        <navigation>
+            <name>Bav</name>
+            <route>bav.page.index</route>
+        </navigation>
+    </navigations>
+</info>
