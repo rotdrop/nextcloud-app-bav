@@ -4,7 +4,7 @@
     <id>bav</id>
     <name>Bav</name>
     <summary>Bank Account Validator</summary>
-    <description><![CDATA[Bank Account Validator description text.]]></description>
+    <description><![CDATA[German Bank Account Validator.]]></description>
     <version>0.0.1</version>
     <licence>agpl</licence>
     <author mail="himself@claus-justus-heine.de" homepage="https://gitlab.claus-justus-heine.de/nextcloud/apps/bav.git">Claus-Justus Heine</author>

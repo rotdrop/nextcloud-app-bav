@@ -30,3 +30,6 @@ $bavConfig->setDataBackendContainer(new \malkusch\bav\PDODataBackendContainer($p
 $bavConfig->setUpdatePlan(new \malkusch\bav\AutomaticUpdatePlan());
 
 \malkusch\bav\ConfigurationRegistry::setConfiguration($bavConfig );
+
+\OCP\Util::addScript('bav', 'script');
+\OCP\Util::addStyle('bav', 'style');
