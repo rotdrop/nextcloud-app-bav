@@ -3,7 +3,7 @@
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>bav</id>
     <name>Bav</name>
-    <summary>Bank Account Validator</summary>
+    <summary>German Bank Account Validator</summary>
     <description><![CDATA[German Bank Account Validator.]]></description>
     <version>0.0.1</version>
     <licence>agpl</licence>

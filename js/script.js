@@ -43,7 +43,7 @@ console.log(OC.generateUrl('/apps/bav/bav'));
                 dialogHolder.find('input.bankAccountBankId').val('');
                 dialogHolder.find('input.bankAccountId').val('');
                 dialogHolder.find('input.bankAccountBankName').val('');
-                dialogHolder.find('div.status').html('');
+                dialogHolder.find('div.bav-status').html('&nbsp;');
                 if (!validating) {
                   clearing = false;
                 }
@@ -116,7 +116,7 @@ console.log(OC.generateUrl('/apps/bav/bav'));
                 dialogHolder.find('input.bankAccountBankId').val(result.bankAccountBankId);
                 dialogHolder.find('input.bankAccountId').val(result.bankAccountId);
                 dialogHolder.find('input.bankAccountBankName').val(result.bankAccountBankName);
-                dialogHolder.find('div.status').html(result.message);
+                dialogHolder.find('div.bav-status').html(result.message);
                 return false;
               });
               return false;
