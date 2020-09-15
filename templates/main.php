@@ -12,7 +12,7 @@ if (!isset($_['dialog']) || !$_['dialog']) {
 }
 
 ?>
-<form class="bank-account-validator">
+<form class="bank-account-validator bav">
   <table>
     <tr>
       <td class="label">
@@ -73,6 +73,6 @@ if (!isset($_['dialog']) || !$_['dialog']) {
       </td>
     </tr>
   </table>
-  <div class="status"></div>
-  <div class="suggestions"></div>
+  <div class="bav-status">&nbsp;</div>
+  <div class="bav-suggestions"></div>
 </form>
