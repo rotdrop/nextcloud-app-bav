@@ -92,7 +92,7 @@ class PageController extends Controller {
     
         if ($bankAccountIBAN != '') {
             $bankAccountIBAN = strtoupper($bankAccountIBAN);
-            $iban = new \IBAN($bankAccountIBAN);
+            $iban = new \PHP_IBAN\IBAN($bankAccountIBAN);
             $bankAccountIBAN = $iban->MachineFormat();
       
             if (!$iban->Verify()) {
@@ -160,6 +160,7 @@ class PageController extends Controller {
         if ($message == '' && $anyInput) {
             $message = $this->l->t('No errors found, but use at your own risk.');
         }
+
         return array('bankAccountIBAN' => $bankAccountIBAN,
                      'bankAccountBIC' => $bankAccountBIC,
                      'bankAccountBankId' => $bankAccountBankId,
