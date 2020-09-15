@@ -12,9 +12,12 @@
 
   $(document).ready(function () {
 
-    var anchor = $('#appmenu li[data-id="bav"] a');
-    anchor.click(function(event) {
-console.log(OC.generateUrl('/apps/bav/bav'));
+    var appButton = $('#appmenu li[data-id="bav"] a');
+    appButton.click(function(event) {
+      if ($('#bav-container').length > 0) {
+        return false;
+      }
+      appButton.hide();
       $.post(OC.generateUrl('/apps/bav/bav'), {}).success(function(result) {
         var dialogHolder = $('<div id="bav-container"></div>');
         dialogHolder.html(result);
@@ -54,30 +57,30 @@ console.log(OC.generateUrl('/apps/bav/bav'));
               'title': t('bav', 'Opens a window which tells you what this is.'),
               'click': function() {
                 // maybe place this in a new template for greater flexibility.
-                OC.dialogs.info( '<div class="bavhelp">'
-                               + t('bav', 'This is a mere front-end to')
-                               + '</div>'
-                               + '<div class="bavhelp">'
-                               + '<a target="_blank" href="http://bav.malkusch.de">'
-                               + 'BAV -- The German Bank Account Validator</a>, &copy; M. Malkusch'
-                               + '</div>'
-                               + '<div class="bavhelp">'
-                               + 'Owncloud front-end: &copy; C.-J. Heine'
-                               + '</div>'
-                               + '<div class="bavhelp">'
-                               + t('bav', 'Data entered will not be stored. BAV is able to compute '
-                               + 'the BIC given the bank-id, and to compute the IBAN '
-                               + 'given additionally the bank-account id. '
-                               + 'Additionally, it verifies that the bank-id exists '
-                               + 'by comparing with the data provided by the Deutsche Bundesbank. '
-                               + 'It will also pick the correct check-sum formula for the given '
-                               + 'bank-account id (there are a few hundret possible '
-                               + 'check-sum formulas, differing from bank to bank). '
-                               + 'Finally, given an IBAN, it will extract the bank-id and bank-account-id '
-                               + 'and also perform the check-sum computations in order to test whether the '
-                               + 'provided bank-account data is consistent. Please keep in mind that check-sums '
-                               + 'cannot catch all possible errors.'),
-                                t('bav', 'About BAV'), undefined, false, true);
+                OC.dialogs.message( '<div class="bavhelp">'
+                                  + t('bav', 'This is a mere front-end to')
+                                  + '</div>'
+                                  + '<div class="bavhelp">'
+                                  + '<a target="_blank" href="http://bav.malkusch.de">'
+                                  + 'BAV -- The German Bank Account Validator</a>, &copy; M. Malkusch'
+                                  + '</div>'
+                                  + '<div class="bavhelp">'
+                                  + 'Owncloud front-end: &copy; C.-J. Heine'
+                                  + '</div>'
+                                  + '<div class="bavhelp">'
+                                  + t('bav', 'Data entered will not be stored. BAV is able to compute '
+                                           + 'the BIC given the bank-id, and to compute the IBAN '
+                                           + 'given additionally the bank-account id. '
+                                           + 'Additionally, it verifies that the bank-id exists '
+                                           + 'by comparing with the data provided by the Deutsche Bundesbank. '
+                                           + 'It will also pick the correct check-sum formula for the given '
+                                           + 'bank-account id (there are a few hundret possible '
+                                           + 'check-sum formulas, differing from bank to bank). '
+                                           + 'Finally, given an IBAN, it will extract the bank-id and bank-account-id '
+                                           + 'and also perform the check-sum computations in order to test whether the '
+                                           + 'provided bank-account data is consistent. Please keep in mind that check-sums '
+                                           + 'cannot catch all possible errors.'),
+                                    t('bav', 'About BAV'), 'info', OC.dialogs.OK_BUTTON, undefined, false, true);
               }
             }
           ],
@@ -116,6 +119,9 @@ console.log(OC.generateUrl('/apps/bav/bav'));
                 dialogHolder.find('input.bankAccountBankId').val(result.bankAccountBankId);
                 dialogHolder.find('input.bankAccountId').val(result.bankAccountId);
                 dialogHolder.find('input.bankAccountBankName').val(result.bankAccountBankName);
+                if (result.message == '') {
+                  result.message = '&nbsp;';
+                }
                 dialogHolder.find('div.bav-status').html(result.message);
                 return false;
               });
@@ -127,6 +133,7 @@ console.log(OC.generateUrl('/apps/bav/bav'));
             $('.tooltip').remove();
             dialogHolder.dialog('destroy');
             dialogHolder.remove();
+            appButton.show();
           }
         });
       });
