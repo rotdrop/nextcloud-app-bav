@@ -1,0 +1,6 @@
+[submodule "3rdparty/bav"]
+	path = 3rdparty/bav
+	url = https://github.com/rotdrop/bav.git
+[submodule "3rdparty/php-index"]
+	path = 3rdparty/php-index
+	url = https://github.com/bav-php/php-index
