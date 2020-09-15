@@ -12,7 +12,7 @@
 
   $(document).ready(function () {
 
-    var appButton = $('#appmenu li[data-id="bav"] a');
+    var appButton = $('li[data-id="bav"] a');
     appButton.click(function(event) {
       if ($('#bav-container').length > 0) {
         return false;
