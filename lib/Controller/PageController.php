@@ -8,10 +8,12 @@ use OCP\AppFramework\Controller;
 
 class PageController extends Controller {
 	private $userId;
+    private $bav;
 
 	public function __construct($AppName, IRequest $request, $UserId){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
+        $this->bav = new \malkusch\bav\BAV;
 	}
 
 	/**
