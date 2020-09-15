@@ -2,3 +2,4 @@ composer.lock
 vendor
 **/#*
 l10n/*
+build
