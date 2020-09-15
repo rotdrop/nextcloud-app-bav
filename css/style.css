@@ -53,6 +53,10 @@ color: #333;
   padding-left: 2em;
 }
 
+.ui-dialog.bav .ui-dialog-titlebar .ui-dialog-titlebar-close {
+  margin: -15px 0 0 0;
+}
+
 .ui-widget-content.bav {
   border: 1px solid #DDD;
   background: #EEE url("images/ui-bg_highlight-soft_100_eeeeee_1x100.png") repeat-x scroll 50% top;
@@ -76,8 +80,8 @@ color: #333;
 }
 
 #bav-container {
-  width:32em;
-  min-width:44em;
+  /* width:32em; */
+  /* min-width:44em; */
   max-width:44em;
 }
 
