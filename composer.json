@@ -1,5 +1,5 @@
 {
-    "name": "Bav",
+    "name": "rotdrop/nextcloud-bav",
     "description": "Bank Account Validator",
     "type": "project",
     "license": "AGPL",
@@ -8,8 +8,22 @@
             "name": "Claus-Justus Heine"
         }
     ],
-    "require": {},
+    "require": {
+        "rotdrop/bav": "dev-master"
+    },
     "require-dev": {
         "phpunit/phpunit": "^5.4"
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "3rdparty/bav"
+        },
+        {
+            "type": "path",
+            "url": "3rdparty/php-index"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
