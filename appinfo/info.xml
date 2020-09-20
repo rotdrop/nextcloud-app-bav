@@ -12,7 +12,8 @@
     <category>office</category>
     <bugs>https://gitlab.claus-justus-heine.de/nextcloud/apps/bav/-/issues</bugs>
     <dependencies>
-        <nextcloud min-version="15" max-version="15"/>
+        <php min-version="7.4" max-version="7.4" />
+        <nextcloud min-version="19" max-version="19" />
     </dependencies>
     <navigations>
         <navigation>
