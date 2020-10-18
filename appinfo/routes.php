@@ -9,8 +9,14 @@
  */
 return [
     'routes' => [
-        ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
-        ['name' => 'page#dialog', 'url' => '/bav', 'verb' => 'POST'],
-        ['name' => 'page#validate', 'url' => '/validate', 'verb' => 'POST'],
+        [ 'name' => 'page#index', 'url' => '/', 'verb' => 'GET' ],
+        [ 'name' => 'page#dialog', 'url' => '/bav', 'verb' => 'POST' ],
+        [ 'name' => 'page#validate', 'url' => '/validate', 'verb' => 'POST' ],
+        [ 'name' => 'admin_settings#set', 'url' => '/settings/admin/set/{parameter}', 'verb' => 'POST' ],
+        [
+            'name' => 'admin_settings#get',
+            'url' => '/settings/admin/get/{parameter}/{default}',
+            'verb' => 'GET'
+        ],
     ]
 ];

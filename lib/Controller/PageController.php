@@ -6,16 +6,27 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
+use OCP\IConfig;
 use OCP\IL10N;
 
 class PageController extends Controller {
     private $bav;
 
+    /** @var IConfig */
+    private $config;
+
     /** @var IL10N */
     private $l;
 
-	public function __construct($AppName, IRequest $request, IL10N $l){
-		parent::__construct($AppName, $request);
+	public function __construct(
+        $appName,
+        IRequest $request,
+        IConfig $config,
+        IL10N $l
+    ){
+		parent::__construct($appName, $request);
+
+        $this->config = $config;
         $this->l = $l;
         $this->bav = new \malkusch\bav\BAV;
 	}
@@ -31,7 +42,10 @@ class PageController extends Controller {
      * @NoCSRFRequired
      */
     public function index() {
+        $modal = $this->config->getAppValue($this->appName, 'modal', true);
+        
         $params = array('dialog' => false,
+                        'modal' => $modal,
                         'bankAccountIBAN' => '',
                         'bankAccountBIC' => '',
                         'bankAccountBankId' => '',

@@ -6,10 +6,8 @@
  * @var $l OC_L10N
  */
 
-if (!isset($_['dialog']) || !$_['dialog']) {
-  \OCP\Util::addScript('bav', 'script');
-  \OCP\Util::addStyle('bav', 'style');
-}
+//script($appName, 'script');
+//style($appName, 'style');
 
 ?>
 <form class="bank-account-validator bav">
