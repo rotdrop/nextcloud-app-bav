@@ -37,8 +37,6 @@
       getAppValue('modal', true, function(modal) {
         console.info('modal', modal);
 
-        alert('modal: ' + modal);
-
         $.post(OC.generateUrl('/apps/bav/bav'), {}).success(function(result) {
           var dialogHolder = $('<div id="bav-container"></div>');
           dialogHolder.html(result);
