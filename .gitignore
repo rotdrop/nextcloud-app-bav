@@ -3,3 +3,8 @@ vendor
 **/#*
 l10n/*
 build
+css/**
+js/**
+node_modules/**
+package-lock.json
+*.html
