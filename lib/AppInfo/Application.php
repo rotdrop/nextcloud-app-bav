@@ -25,7 +25,8 @@ class Application extends App implements IBootstrap {
     private $appName;
     
     public function __construct (array $urlParams=array()) {
-        $this->appName = 'bav';
+        $infoXml = new \SimpleXMLElement(file_get_contents(__DIR__ . '/../../appinfo/info.xml'));
+        $this->appName = (string)$infoXml->id;
         parent::__construct($this->appName, $urlParams);
     }
 
@@ -59,8 +60,8 @@ class Application extends App implements IBootstrap {
             throw new \Exception('Cannot include autoload. Did you run install dependencies using composer?');
         }
 
-        \OCP\Util::addScript('bav', 'script');
-        \OCP\Util::addStyle('bav', 'style');    
+        \OCP\Util::addScript($this->appName, 'app');
+        \OCP\Util::addStyle($this->appName, 'app');    
 
         $config = \OC::$server->query(IConfig::class);
         $initialStateService = \OC::$server->query(IInitialStateService::class);

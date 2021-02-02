@@ -1,8 +1,8 @@
-<?php
-/* BAV -- Bank Account Validator
+/**
+ * BAV -- German Bank Account Validator
  *
  * @author Claus-Justus Heine
- * @copyright 2020 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2014-2021 Claus-Justus Heine <himself@claus-justus-heine.de>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU GENERAL PUBLIC LICENSE
@@ -18,17 +18,15 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-script($appName, 'admin-settings');
-// style($appName, 'admin-settings');
+const appInfo = require('appinfo/info.xml');
+const appName = appInfo.info.id[0];
+const webRoot = OC.appswebroots[appName] + '/';
 
-?>
+const initialState = OCP.InitialState.loadState(appName, 'BAV');
 
-<div class="section">
-  <h2><?php echo $l->t('Bank Account Validator') ?></h2>
-  <form id="bav-admin-settings">
-    <input type="checkbox" class="checkbox" name="modal" id="bav-modal" <?php echo ($modal ? ' checked="checked"' : ''); ?>/>
-    <label for="bav-modal"><?php echo $l->t('Disable other navigation elements while dialog is open.');?></label>
-    <br/>
-    <span class="msg"></span>
-  </form>
-</div>
+export { appInfo, appName, webRoot, initialState };
+
+// Local Variables: ***
+// js-indent-level: 2 ***
+// indent-tabs-mode: nil ***
+// End: ***

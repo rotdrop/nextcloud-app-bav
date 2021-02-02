@@ -6,8 +6,8 @@
  * @var $l OC_L10N
  */
 
-//script($appName, 'script');
-//style($appName, 'style');
+script($appName, 'app');
+style($appName, 'app');
 
 ?>
 <form class="bank-account-validator bav">

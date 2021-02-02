@@ -1,0 +1,38 @@
+{
+  "name": "bav",
+  "version": "0.0.2",
+  "description": ">German Bank Account Validator",
+  "author": "Claus-Justus Heine <himself@claus-justus-heine.de>",
+  "scripts": {
+    "build": "NODE_ENV=production webpack --progress --mode production --hide-modules --config webpack.config.js",
+    "dev": "NODE_ENV=development webpack --progress --mode development --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.claus-justus-heine.de/nextcloud/apps/bav.git"
+  },
+  "keywords": [],
+  "license": "agpl",
+  "bugs": {
+    "url": "https://gitlab.claus-justus-heine.de/nextcloud/apps/bav.git"
+  },
+  "homepage": "https://gitlab.claus-justus-heine.de/nextcloud/apps/bav.git",
+  "devDependencies": {
+    "bootstrap": "^4.6.0",
+    "css-loader": "^5.0.1",
+    "css-minimizer-webpack-plugin": "^1.2.0",
+    "eslint": "^7.18.0",
+    "mini-css-extract-plugin": "^1.3.5",
+    "style-loader": "^2.0.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-merge": "^5.1.4",
+    "webpack-node-externals": "^2.5.2",
+    "xml-loader": "^1.2.1",
+    "xml-reader": "^2.4.3",
+    "webpack-visualizer-plugin": "^0.1.11",
+    "webpack-bundle-analyzer": "^4.4.0",
+    "jquery": "^3.5.1",
+    "jquery-ui": "^1.12.1"
+  }
+}

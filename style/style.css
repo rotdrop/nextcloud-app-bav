@@ -40,7 +40,7 @@
 .ui-dialog.bav .ui-dialog-buttonpane {
   max-width:none;
   border: 1px solid #DDD;
-background: #EEE url("images/ui-bg_highlight-soft_100_eeeeee_1x100.png") repeat-x scroll 50% top;
+background: #EEE url("../img/ui-bg_highlight-soft_100_eeeeee_1x100.png") repeat-x scroll 50% top;
 color: #333;
 }
 
@@ -59,7 +59,7 @@ color: #333;
 
 .ui-widget-content.bav {
   border: 1px solid #DDD;
-  background: #EEE url("images/ui-bg_highlight-soft_100_eeeeee_1x100.png") repeat-x scroll 50% top;
+  background: #EEE url("../img/ui-bg_highlight-soft_100_eeeeee_1x100.png") repeat-x scroll 50% top;
   color: #333;
 }
 
