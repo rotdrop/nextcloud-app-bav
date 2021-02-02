@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bav\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-09-15 22:26+0200\n"
+"POT-Creation-Date: 2021-02-02 18:39+0100\n"
 "PO-Revision-Date: 2020-09-15 22:27+0200\n"
 "Last-Translator: Claus-Justus Heine <himself@claus-justus-heine.de>\n"
 "Language-Team: German\n"
@@ -16,31 +16,115 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/js/script.js:25
+#: /var/www/html/nextcloud-git/apps/bav/lib/Controller/AdminSettingsController.php:59
+#, php-format
+msgid "Invalid value `%s' for parameter `%s'."
+msgstr ""
+
+#: /var/www/html/nextcloud-git/apps/bav/lib/Controller/AdminSettingsController.php:62
+#, php-format
+msgid "Parameter `%s' set to `%s'"
+msgstr ""
+
+#: /var/www/html/nextcloud-git/apps/bav/lib/Controller/AdminSettingsController.php:64
+#: /var/www/html/nextcloud-git/apps/bav/lib/Controller/AdminSettingsController.php:85
+#, php-format
+msgid "Unknown parameter: %s"
+msgstr ""
+
+#: /var/www/html/nextcloud-git/apps/bav/lib/Controller/AdminSettingsController.php:77
+#, php-format
+msgid "Invalid default value `%s' for parameter `%s'."
+msgstr ""
+
+#: /var/www/html/nextcloud-git/apps/bav/lib/Controller/PageController.php:113
+msgid "Failed to validate IBAN"
+msgstr "Die IBAN scheint nicht korrekt zu sein"
+
+#: /var/www/html/nextcloud-git/apps/bav/lib/Controller/PageController.php:129
+#, php-format
+msgid "Bank-id %s from IBAN and submitted bank-id %s do not coincide"
+msgstr ""
+"Aus der IBAN abgeleitete BLZ %s und angegebene BLZ %s stimmen nicht überein"
+
+#: /var/www/html/nextcloud-git/apps/bav/lib/Controller/PageController.php:135
+#, php-format
+msgid "Account-id %s from IBAN and submitted account-id %s do not coincide"
+msgstr ""
+"Aus der IBAN abgeleitet Kontonummer %s und angegebene Kontonummer %s stimmen "
+"nicht überein"
+
+#: /var/www/html/nextcloud-git/apps/bav/lib/Controller/PageController.php:150
+#, php-format
+msgid "Computed BIC %s and submitted BIC %s do not coincide"
+msgstr ""
+"Automatisch ermittelte BIC %s und angegebene BIC %s stimmen nicht überein"
+
+#: /var/www/html/nextcloud-git/apps/bav/lib/Controller/PageController.php:160
+#, php-format
+msgid "Generated IBAN %s and submitted IBAN %s do not coincide"
+msgstr "Berechnete IBAN %s und angegebene IBAN %s stimmen nicht überein"
+
+#: /var/www/html/nextcloud-git/apps/bav/lib/Controller/PageController.php:164
+#, php-format
+msgid ""
+"The account number %s @ %s appears not to be a valid German bank account id."
+msgstr "Die Kontonummer %s @ %s scheint ungültig zu sein"
+
+#: /var/www/html/nextcloud-git/apps/bav/lib/Controller/PageController.php:169
+#, php-format
+msgid "The bank-id %s does not seem to be a valid German bank id."
+msgstr "Die BLZ %s scheint ungültig zu sein"
+
+#: /var/www/html/nextcloud-git/apps/bav/lib/Controller/PageController.php:175
+msgid "No errors found, but use at your own risk."
+msgstr ""
+"Keine Fehler gefunden, aber benutzt das Zeug bitte auf eigenes Risko ;)"
+
+#: /var/www/html/nextcloud-git/apps/bav/lib/Settings/AdminSection.php:60
+#: /var/www/html/nextcloud-git/apps/bav/templates/admin-settings.php:27
+#, fuzzy
+#| msgid "German Bank Account Validator"
+msgid "Bank Account Validator"
+msgstr "BAV - Bank Account Validator (DE)"
+
+#: /var/www/html/nextcloud-git/apps/bav/specialAppInfoFakeDummyForL10nScript.php:2
+msgid "Bav"
+msgstr "Bav"
+
+#: /var/www/html/nextcloud-git/apps/bav/specialAppInfoFakeDummyForL10nScript.php:3
+msgid "German Bank Account Validator"
+msgstr "BAV - Bank Account Validator (DE)"
+
+#: /var/www/html/nextcloud-git/apps/bav/specialAppInfoFakeDummyForL10nScript.php:4
+msgid "German Bank Account Validator."
+msgstr "BAV - Bank Account Validator (DE)"
+
+#: /var/www/html/nextcloud-git/apps/bav/src/script.js:73
 msgid "BAV - Bank Account Validator (DE)"
 msgstr "BAV - Bank Account Validator (DE)"
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/js/script.js:36
+#: /var/www/html/nextcloud-git/apps/bav/src/script.js:87
 msgid "Clear"
 msgstr "Löschen"
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/js/script.js:38
+#: /var/www/html/nextcloud-git/apps/bav/src/script.js:89
 msgid "Clear all fields of the input form"
 msgstr "Lösche alle Felddaten"
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/js/script.js:52
+#: /var/www/html/nextcloud-git/apps/bav/src/script.js:104
 msgid "About"
 msgstr "Über"
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/js/script.js:54
+#: /var/www/html/nextcloud-git/apps/bav/src/script.js:106
 msgid "Opens a window which tells you what this is."
 msgstr "Öffnet ein Fenster, indem Dir mitgeteilt wird, was das hier ist."
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/js/script.js:58
+#: /var/www/html/nextcloud-git/apps/bav/src/script.js:110
 msgid "This is a mere front-end to"
 msgstr "Diese App ist ein bloßes Front-End zu"
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/js/script.js:68
+#: /var/www/html/nextcloud-git/apps/bav/src/script.js:120
 msgid ""
 "Data entered will not be stored. BAV is able to compute the BIC given the "
 "bank-id, and to compute the IBAN given additionally the bank-account id. "
@@ -65,103 +149,50 @@ msgstr ""
 "werden. Bitte beachte, dass Prüfsummen nicht jeden Fehler finden\n"
 "können."
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/js/script.js:80
+#: /var/www/html/nextcloud-git/apps/bav/src/script.js:132
 msgid "About BAV"
 msgstr "Über BAV"
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/lib/Controller/PageController.php:99
-msgid "Failed to validate IBAN"
-msgstr "Die IBAN scheint nicht korrekt zu sein"
-
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/lib/Controller/PageController.php:115
-#, php-format
-msgid "Bank-id %s from IBAN and submitted bank-id %s do not coincide"
+#: /var/www/html/nextcloud-git/apps/bav/templates/admin-settings.php:30
+msgid "Disable other navigation elements while dialog is open."
 msgstr ""
-"Aus der IBAN abgeleitete BLZ %s und angegebene BLZ %s stimmen nicht überein"
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/lib/Controller/PageController.php:121
-#, php-format
-msgid "Account-id %s from IBAN and submitted account-id %s do not coincide"
-msgstr ""
-"Aus der IBAN abgeleitet Kontonummer %s und angegebene Kontonummer %s stimmen "
-"nicht überein"
-
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/lib/Controller/PageController.php:136
-#, php-format
-msgid "Computed BIC %s and submitted BIC %s do not coincide"
-msgstr ""
-"Automatisch ermittelte BIC %s und angegebene BIC %s stimmen nicht überein"
-
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/lib/Controller/PageController.php:146
-#, php-format
-msgid "Generated IBAN %s and submitted IBAN %s do not coincide"
-msgstr "Berechnete IBAN %s und angegebene IBAN %s stimmen nicht überein"
-
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/lib/Controller/PageController.php:150
-#, php-format
-msgid ""
-"The account number %s @ %s appears not to be a valid German bank account id."
-msgstr "Die Kontonummer %s @ %s scheint ungültig zu sein"
-
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/lib/Controller/PageController.php:155
-#, php-format
-msgid "The bank-id %s does not seem to be a valid German bank id."
-msgstr "Die BLZ %s scheint ungültig zu sein"
-
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/lib/Controller/PageController.php:161
-msgid "No errors found, but use at your own risk."
-msgstr ""
-"Keine Fehler gefunden, aber benutzt das Zeug bitte auf eigenes Risko ;)"
-
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/specialAppInfoFakeDummyForL10nScript.php:2
-msgid "Bav"
-msgstr "Bav"
-
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/specialAppInfoFakeDummyForL10nScript.php:3
-msgid "German Bank Account Validator"
-msgstr "BAV - Bank Account Validator (DE)"
-
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/specialAppInfoFakeDummyForL10nScript.php:4
-msgid "German Bank Account Validator."
-msgstr "BAV - Bank Account Validator (DE)"
-
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/templates/main.php:19
+#: /var/www/html/nextcloud-git/apps/bav/templates/main.php:17
 msgid "IBAN"
 msgstr "IBAN"
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/templates/main.php:25
+#: /var/www/html/nextcloud-git/apps/bav/templates/main.php:23
 msgid "IBAN of bank account"
 msgstr "IBAN des Bankkontos"
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/templates/main.php:30
+#: /var/www/html/nextcloud-git/apps/bav/templates/main.php:28
 msgid "BIC"
 msgstr "BIC"
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/templates/main.php:36
+#: /var/www/html/nextcloud-git/apps/bav/templates/main.php:34
 msgid "BIC of bank"
 msgstr "BIC des Kreditinstituts"
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/templates/main.php:41
+#: /var/www/html/nextcloud-git/apps/bav/templates/main.php:39
 msgid "Bank Id"
 msgstr "Bankleitzahl"
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/templates/main.php:47
+#: /var/www/html/nextcloud-git/apps/bav/templates/main.php:45
 msgid "Bank id of bank account"
 msgstr "BLZ des Bankkontos"
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/templates/main.php:52
+#: /var/www/html/nextcloud-git/apps/bav/templates/main.php:50
 msgid "Account Id"
 msgstr "Kontonummer"
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/templates/main.php:58
+#: /var/www/html/nextcloud-git/apps/bav/templates/main.php:56
 msgid "Id of bank account"
 msgstr "Kontonummer des Bankkontos"
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/templates/main.php:63
+#: /var/www/html/nextcloud-git/apps/bav/templates/main.php:61
 msgid "Bank"
 msgstr "Bank"
 
-#: /var/www/localhost/htdocs/nextcloud-git/apps/bav/templates/main.php:70
+#: /var/www/html/nextcloud-git/apps/bav/templates/main.php:68
 msgid "Bank Name"
 msgstr "Name der Bank"
-
