@@ -22,7 +22,7 @@ const appInfo = require('appinfo/info.xml');
 const appName = appInfo.info.id[0];
 const webRoot = OC.appswebroots[appName] + '/';
 
-const initialState = OCP.InitialState.loadState(appName, 'BAV');
+const initialState = OCP.InitialState.loadState(appName, 'data');
 
 export { appInfo, appName, webRoot, initialState };
 

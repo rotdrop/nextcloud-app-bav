@@ -43,14 +43,17 @@ class PageController extends Controller {
      */
     public function index() {
         $modal = $this->config->getAppValue($this->appName, 'modal', true);
-        
-        $params = array('dialog' => false,
-                        'modal' => $modal,
-                        'bankAccountIBAN' => '',
-                        'bankAccountBIC' => '',
-                        'bankAccountBankId' => '',
-                        'bankAccountId' => '',
-                        'bankAccountBankName' => '');
+
+        $params = [
+            'appName' => $this->appName,
+            'dialog' => false,
+            'modal' => $modal,
+            'bankAccountIBAN' => '',
+            'bankAccountBIC' => '',
+            'bankAccountBankId' => '',
+            'bankAccountId' => '',
+            'bankAccountBankName' => '',
+        ];
         return new TemplateResponse('bav', 'main', $params);  // templates/main.php
     }
 
@@ -99,16 +102,16 @@ class PageController extends Controller {
         $suggestions = '';
         $nl = "\n";
         $anyInput = $bankAccountIBAN.$bankAccountBIC.$bankAccountBankId.$bankAccountId != '';
-    
+
         $bav = new \malkusch\bav\BAV;
 
         $bankAccountBankName = '';
-    
+
         if ($bankAccountIBAN != '') {
             $bankAccountIBAN = strtoupper($bankAccountIBAN);
             $iban = new \PHP_IBAN\IBAN($bankAccountIBAN);
             $bankAccountIBAN = $iban->MachineFormat();
-      
+
             if (!$iban->Verify()) {
                 $message .= $this->l->t('Failed to validate IBAN').$nl;
                 $suggestions = array();
@@ -182,7 +185,7 @@ class PageController extends Controller {
                      'bankAccountBankName' => $bankAccountBankName,
                      'message' => nl2br($message),
                      'suggestions' => nl2br($suggestions));
-    }    
+    }
 }
 
 // Local Variables: ***

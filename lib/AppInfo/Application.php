@@ -18,12 +18,13 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\IInitialStateService;
+use OCP\IUserSession;
 use OCP\IConfig;
 
 class Application extends App implements IBootstrap {
 
     private $appName;
-    
+
     public function __construct (array $urlParams=array()) {
         $infoXml = new \SimpleXMLElement(file_get_contents(__DIR__ . '/../../appinfo/info.xml'));
         $this->appName = (string)$infoXml->id;
@@ -33,22 +34,43 @@ class Application extends App implements IBootstrap {
     // Called later than "register".
     public function boot(IBootContext $context): void
     {
-        $ncConfig = \OC::$server->getSystemConfig();
+        $context->injectFn([$this, 'initialize']);
+    }
+
+    public function initialize(
+        IUserSession $userSession
+        , IConfig $cloudConfig
+        , IInitialStateService $initialStateService
+    ) {
+        $user = $userSession->getUser();
+        if (empty($user)) {
+            return; // this is an interactive app only
+        }
+
+        \OCP\Util::addScript($this->appName, 'app');
+        \OCP\Util::addStyle($this->appName, 'app');
+
+        $initialStateService->provideInitialState(
+            $this->appName,
+            'data',
+            [ 'modal' => $cloudConfig->getAppValue($this->appName, 'modal', true) ]
+        );
+
         $bavConfig = new \malkusch\bav\DefaultConfiguration();
 
-        $dbType = $ncConfig->getValue('dbtype', 'mysql');
-        $dbHost = $ncConfig->getValue('dbhost', 'localhost');
-        $dbName = $ncConfig->getValue('dbname', false);
-        $dbUser = $ncConfig->getValue('dbuser', false);
-        $dbPass = $ncConfig->getValue('dbpassword', false);
-        
+        $dbType = $cloudConfig->getSystemValue('dbtype', 'mysql');
+        $dbHost = $cloudConfig->getSystemValue('dbhost', 'localhost');
+        $dbName = $cloudConfig->getSystemValue('dbname', false);
+        $dbUser = $cloudConfig->getSystemValue('dbuser', false);
+        $dbPass = $cloudConfig->getSystemValue('dbpassword', false);
+
         $dbURI = $dbType.':'.'host='.$dbHost.';dbname='.$dbName;
 
         $pdo = new \PDO($dbURI, $dbUser, $dbPass);
         $bavConfig->setDataBackendContainer(new \malkusch\bav\PDODataBackendContainer($pdo));
-        
+
         $bavConfig->setUpdatePlan(new \malkusch\bav\AutomaticUpdatePlan());
-        
+
         \malkusch\bav\ConfigurationRegistry::setConfiguration($bavConfig);
     }
 
@@ -59,14 +81,6 @@ class Application extends App implements IBootstrap {
         if ((@include_once __DIR__ . '/../../vendor/autoload.php')===false) {
             throw new \Exception('Cannot include autoload. Did you run install dependencies using composer?');
         }
-
-        \OCP\Util::addScript($this->appName, 'app');
-        \OCP\Util::addStyle($this->appName, 'app');    
-
-        $config = \OC::$server->query(IConfig::class);
-        $initialStateService = \OC::$server->query(IInitialStateService::class);
-
-        $initialStateService->provideInitialState($this->appName, 'BAV', [ 'modal' => $config->getAppValue($this->appName, 'modal', true) ]);
     }
 }
 
