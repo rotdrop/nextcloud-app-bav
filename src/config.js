@@ -24,7 +24,12 @@ const webRoot = OC.appswebroots[appName] + '/';
 
 const initialState = OCP.InitialState.loadState(appName, 'data');
 
-export { appInfo, appName, webRoot, initialState };
+export {
+  appInfo,
+  appName,
+  webRoot,
+  initialState,
+};
 
 // Local Variables: ***
 // js-indent-level: 2 ***

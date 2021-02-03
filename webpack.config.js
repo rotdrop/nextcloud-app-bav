@@ -12,7 +12,6 @@ module.exports = {
     'admin-settings': './src/admin-settings.js',
   },
   output: {
-    // path: path.resolve(__dirname, 'js'),
     path: path.resolve(__dirname, '.'),
     filename: 'js/[name].js',
   },
