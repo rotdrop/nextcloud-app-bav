@@ -9,8 +9,8 @@
     <licence>agpl</licence>
     <author mail="himself@claus-justus-heine.de" homepage="https://gitlab.claus-justus-heine.de/nextcloud/apps/bav.git">Claus-Justus Heine</author>
     <namespace>Bav</namespace>
-    <types><filesystem/><dav/></types>
     <category>office</category>
+    <category>tools</category>
     <bugs>https://gitlab.claus-justus-heine.de/nextcloud/apps/bav/-/issues</bugs>
     <dependencies>
         <php min-version="8.0.0" max-version="8.0.99" />
