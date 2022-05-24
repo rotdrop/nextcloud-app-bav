@@ -53,7 +53,8 @@ class PageController extends Controller {
             'bankAccountId' => '',
             'bankAccountBankName' => '',
         ];
-        return new TemplateResponse('bav', 'main', $params);  // templates/main.php
+
+        return new TemplateResponse($this->appName, 'main', $params);  // templates/main.php
     }
 
     /********************************************************
