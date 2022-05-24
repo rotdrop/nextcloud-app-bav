@@ -13,7 +13,7 @@
     <category>tools</category>
     <bugs>https://gitlab.claus-justus-heine.de/nextcloud/apps/bav/-/issues</bugs>
     <dependencies>
-        <php min-version="8.0.0" max-version="8.0.99" />
+        <php min-version="8.0" max-version="8.1" />
         <nextcloud min-version="20" max-version="24" />
     </dependencies>
     <navigations>
