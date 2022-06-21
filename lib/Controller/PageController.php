@@ -18,14 +18,13 @@ class PageController extends Controller {
     /** @var IL10N */
     private $l;
 
-	public function __construct(
+    public function __construct(
         $appName,
         IRequest $request,
         IConfig $config,
         IL10N $l
     ){
-		parent::__construct($appName, $request);
-
+        parent::__construct($appName, $request);
         $this->config = $config;
         $this->l = $l;
         $this->bav = new \malkusch\bav\BAV;
@@ -83,12 +82,15 @@ class PageController extends Controller {
      * @NoCSRFRequired
      */
     public function dialog() {
-        $params = array('dialog' => true,
-                        'bankAccountIBAN' => '',
-                        'bankAccountBIC' => '',
-                        'bankAccountBankId' => '',
-                        'bankAccountId' => '',
-                        'bankAccountBankName' => '');
+        $params = [
+            'appName' => $this->appName,
+            'dialog' => true,
+            'bankAccountIBAN' => '',
+            'bankAccountBIC' => '',
+            'bankAccountBankId' => '',
+            'bankAccountId' => '',
+            'bankAccountBankName' => '',
+        ];
         return new TemplateResponse('bav', 'main', $params, '');  // templates/main.php
     }
 
