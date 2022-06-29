@@ -5,6 +5,8 @@ DOC_BUILD_DIR=$(ABSBUILDDIR)/artifacts/doc
 
 PHPDOC=/opt/phpDocumentor/bin/phpdoc
 PHPDOC_TEMPLATE=--template=default
+NPM_OPTS = --legacy-peer-deps
+NPM = $(shell which npm) $(NPM_OPTS)
 
 #--template=clean --template=xml
 #--template=responsive-twig
@@ -19,16 +21,16 @@ composer:
 
 .PHONY: npm-update
 npm-update:
-	npm update
+	$(NPM) update
 
 .PHONY: npm-init
 npm-init:
-	npm install
+	$(NPM) install
 
-# Installs npm dependencies
+# Installs $(NPM) dependencies
 .PHONY: npm
 npm: npm-init
-	npm run build
+	$(NPM) run build
 
 .PHONY: doc
 doc: $(PHPDOC) $(DOC_BUILD_DIR)
