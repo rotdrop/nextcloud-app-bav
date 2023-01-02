@@ -57,8 +57,12 @@ $(function () {
       });
   };
 
-  const appButton = $('li[data-app-id="' + appName + '"].app-menu-entry a');
-  appButton.click(function(event) {
+  const appLinkSelector = 'li[data-app-id="' + appName + '"].app-menu-entry a'
+        + ','
+        + 'li.action.app-menu-popover-entry a[href*="' + appName + '"]';
+
+  $('body').on('click', appLinkSelector, function(event) {
+
     if ($('#bav-container').length > 0) {
       console.info('already open');
       return false;
