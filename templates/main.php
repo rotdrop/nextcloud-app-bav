@@ -6,8 +6,6 @@
  * @var $l OC_L10N
  */
 
-\OCP\Util::writeLog('bav', print_r($_, true), \OCP\Util::INFO);
-
 $appName = $_['appName'];
 
 script($appName, 'app');
