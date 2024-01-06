@@ -1,6 +1,6 @@
 {
   "name": "bav",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": ">German Bank Account Validator",
   "author": "Claus-Justus Heine <himself@claus-justus-heine.de>",
   "scripts": {
