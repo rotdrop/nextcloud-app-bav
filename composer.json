@@ -13,7 +13,7 @@
         "globalcitizen/php-iban": "^4.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.0.0"
+        "bamarni/composer-bin-plugin": "^1.8.2"
     },
     "repositories": [
         {
@@ -26,5 +26,23 @@
         }
     ],
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "config": {
+        "optimize-autoloader": true,
+        "classmap-authoritative": true,
+        "platform": {
+            "php": "8.1.0"
+        },
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true
+        }
+    },
+
+    "extra": {
+        "bamarni-bin": {
+            "bin-links": true,
+            "target-directory": "vendor-bin",
+            "forward-command": true
+        }
+    }
 }
