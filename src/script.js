@@ -57,7 +57,7 @@ $(function () {
       });
   };
 
-  const appLinkSelector = 'li.app-menu-entry a'
+  const appLinkSelector = 'li.app-menu-entry a[href*="' + appName + '"]'
         + ','
         + 'li.action.app-menu-popover-entry a[href*="' + appName + '"]';
 
