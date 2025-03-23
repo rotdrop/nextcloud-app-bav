@@ -24,24 +24,18 @@ const appName = appInfo.info.id[0];
 const productionMode = process.env.NODE_ENV === 'production';
 
 webpackConfig.entry = {
-  // 'admin-settings': path.join(__dirname, 'src', 'admin-settings.ts'),
-  // refresh: path.join(__dirname, 'src', 'refresh.ts'),
-  // app: path.join(__dirname, 'src', 'app.ts'),
-  app: './src/script.js',
-  'admin-settings': './src/admin-settings.js',
+  'admin-settings': path.join(__dirname, 'src', 'admin-settings.js'),
+  bav: path.join(__dirname, 'src', 'script.js'),
 };
 
 webpackConfig.output = {
-  // // path: path.resolve(__dirname, 'js'),
-  // path: path.resolve(__dirname, '.'),
-  // publicPath: '',
-  // filename: 'js/[name]-[contenthash].js',
-  // assetModuleFilename: 'js/assets/[name]-[hash][ext][query]',
-  // chunkFilename: 'js/chunks/[name]-[contenthash].js',
-  // clean: false,
-  // compareBeforeEmit: true, // true would break the Makefile
   path: path.resolve(__dirname, '.'),
-  filename: 'js/[name].js',
+  publicPath: '',
+  filename: 'js/[name]-[contenthash].js',
+  assetModuleFilename: 'js/assets/[name]-[hash][ext][query]',
+  chunkFilename: 'js/chunks/[name]-[contenthash].js',
+  clean: false,
+  compareBeforeEmit: true,
 };
 
 webpackConfig.plugins = webpackConfig.plugins.concat([
@@ -52,6 +46,7 @@ webpackConfig.plugins = webpackConfig.plugins.concat([
     extensions: ['ts', 'js', 'vue'],
     exclude: [
       'node_modules',
+      'src/nextcloud',
       'src/toolkit/util/jquery.js',
     ],
   }),
@@ -119,7 +114,7 @@ webpackConfig.module.rules = [
         options: {
           // Prefer `dart-sass`
           implementation: require('sass'),
-          additionalData: '$dokuWikiAppName: ' + appName + ';',
+          additionalData: '$bavAppName: ' + appName + ';',
         },
       },
     ],

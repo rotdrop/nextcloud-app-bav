@@ -2,7 +2,7 @@
  * BAV -- German Bank Account Validator
  *
  * @author Claus-Justus Heine
- * @copyright 2014-2022, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2014-2022, 2024, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU GENERAL PUBLIC LICENSE
@@ -18,9 +18,9 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { appName } from './config.js';
-import generateUrl from './generate-url.js';
-import 'bootstrap/js/dist/tooltip';
+import { appName } from './config.ts';
+import generateAppUrl from './toolkit/util/generate-url.ts';
+import 'bootstrap/js/dist/tooltip.js';
 
 const jQuery = require('jquery');
 const $ = jQuery;
@@ -34,21 +34,22 @@ require('./nextcloud/jquery/requesttoken.js');
 
 console.info('JQUERY', $.fn.jquery);
 
-$(function () {
+$(function() {
+
+  console.info('BAV ON DOCUMENT READY');
 
   /**
    * Post to get application value, call callback with default value
    * on failure or unset, else with configured value.
    *
-   * @param {String} key TBD.
+   * @param {string} key TBD.
    *
-   * @param {String} defaultValue TBD.
+   * @param {string} defaultValue TBD.
    *
    * @param {Function} callback TBD.
    */
-  const getAppValue = function(key, defaultValue, callback)
-  {
-    $.get(generateUrl('settings/admin/get/modal/' + defaultValue))
+  const getAppValue = function(key, defaultValue, callback) {
+    $.get(generateAppUrl('settings/admin/get/modal/' + defaultValue))
       .done(function(data) {
         callback(data.value || defaultValue);
       })
@@ -63,6 +64,8 @@ $(function () {
 
   $('body').on('click', appLinkSelector, function(event) {
 
+    console.info('BAV APPLINK CLICKED');
+
     if ($('#bav-container').length > 0) {
       console.info('already open');
       return false;
@@ -71,7 +74,7 @@ $(function () {
     getAppValue('modal', true, function(modal) {
       console.info('modal', modal);
 
-      $.post(generateUrl(appName), {})
+      $.post(generateAppUrl(''), {})
         .done(function(result) {
           const dialogHolder = $('<div id="bav-container"></div>');
           dialogHolder.html(result);
@@ -87,7 +90,7 @@ $(function () {
             },
             width: 'auto',
             height: 'auto',
-            modal: modal,
+            modal,
             closeOnEscape: false,
             dialogClass: appName,
             resizable: false,
@@ -154,8 +157,8 @@ $(function () {
               }
 
               // TODO: no more tipsy available
-              dialogWidget.find('button').tooltip({ gravity: 'nw', fade: true, });
-              dialogHolder.find('input').tooltip({ gravity: 'nw', fade: true, });
+              dialogWidget.find('button').tooltip({ gravity: 'nw', fade: true });
+              dialogHolder.find('input').tooltip({ gravity: 'nw', fade: true });
 
               dialogHolder.find('input[type="text"]')
                 .off('blur')
@@ -167,7 +170,7 @@ $(function () {
                   }
                   event.stopImmediatePropagation();
                   validating = true;
-                  $.post(OC.generateUrl('/apps/bav/validate'), dialogHolder.find('form').serialize())
+                  $.post(generateAppUrl('validate'), dialogHolder.find('form').serialize())
                     .done(function(result) {
                       validating = false;
                       if (clearing) {
@@ -180,7 +183,7 @@ $(function () {
                       dialogHolder.find('input.bankAccountBankId').val(result.bankAccountBankId);
                       dialogHolder.find('input.bankAccountId').val(result.bankAccountId);
                       dialogHolder.find('input.bankAccountBankName').val(result.bankAccountBankName);
-                      if (result.message == '') {
+                      if (result.message === '') {
                         result.message = '&nbsp;';
                       }
                       dialogHolder.find('div.bav-status').html(result.message);
@@ -202,8 +205,3 @@ $(function () {
   });
 
 });
-
-// Local Variables: ***
-// js-indent-level: 2 ***
-// indent-tabs-mode: nil ***
-// End: ***

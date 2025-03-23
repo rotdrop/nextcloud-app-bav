@@ -1,5 +1,5 @@
 <?php
-/* Bav -- Bank Account Validator
+/* BAV -- Bank Account Validator
  *
  * @author Claus-Justus Heine
  * @copyright 2020, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
@@ -18,7 +18,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OCA\Bav\Settings;
+namespace OCA\BAV\Settings;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Settings\IDelegatedSettings;

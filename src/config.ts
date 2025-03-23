@@ -1,10 +1,8 @@
 /**
- * Orchestra member, musicion and project management application.
- *
- * CAFEVDB -- Camerata Academica Freiburg e.V. DataBase.
+ * BAV -- German Bank Account Validator
  *
  * @author Claus-Justus Heine
- * @copyright 2011-2016, 2020, 2021 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2014-2021, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU GENERAL PUBLIC LICENSE
@@ -20,15 +18,13 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { appName } from './config.js';
+import type { AppName } from '../build/ts-types/app-config.ts';
+import { appName } from '../build/ts-types/app-config.ts';
 
-const generateUrl = function(postFix) {
-  return OC.generateUrl('/apps/' + appName + '/' + postFix);
+export type {
+  AppName,
 };
 
-export default generateUrl;
-
-// Local Variables: ***
-// js-indent-level: 2 ***
-// indent-tabs-mode: nil ***
-// End: ***
+export {
+  appName,
+};

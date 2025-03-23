@@ -1,90 +1,131 @@
 <?php
 /**
- * ownCloud - bav
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
+ * BAV - Bank Account Validator for German bank accounts.
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright Claus-Justus Heine 2014-2020
+ * @copyright Claus-Justus Heine 2014-2020, 2025
+ * @license   AGPL-3.0-or-later
+ *
+ * Nextcloud DokuWiki is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * Nextcloud DokuWiki is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with Nextcloud DokuWiki. If not, see
+ * <http://www.gnu.org/licenses/>.
  */
+
+// phpcs:disable PSR1.Files.SideEffects
+// phpcs:ignore PSR1.Files.SideEffects
 
 namespace OCA\BAV\AppInfo;
 
+use malkusch;
+use PDO;
+
+/*-********************************************************
+ *
+ * Bootstrap
+ *
+ */
 
 use OCP\AppFramework\App;
-use OCP\IL10N;
+use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\Bootstrap\IBootContext;
-use OCP\IInitialStateService;
-use OCP\IUserSession;
 use OCP\IConfig;
+use OCP\IInitialStateService;
+use OCP\IL10N;
+use OCP\IUserSession;
+use OCP\Util;
 
-class Application extends App implements IBootstrap {
+/*
+ *
+ **********************************************************
+ *
+ */
 
-    private $appName;
+include_once __DIR__ . '/../../vendor/autoload.php';
 
-    public function __construct (array $urlParams=array()) {
-        $infoXml = new \SimpleXMLElement(file_get_contents(__DIR__ . '/../../appinfo/info.xml'));
-        $this->appName = (string)$infoXml->id;
-        parent::__construct($this->appName, $urlParams);
+/**
+ * App entry point.
+ */
+class Application extends App implements IBootstrap
+{
+  use \OCA\BAV\Toolkit\Traits\AppNameTrait;
+  use \OCA\BAV\Toolkit\Traits\AssetTrait;
+
+  private const ASSET = 'bav';
+
+  /** {@inheritdoc} */
+  public function __construct(array $urlParams = [])
+  {
+    $this->appName = $this->getAppInfoAppName(__DIR__);
+    parent::__construct($this->appName, $urlParams);
+    $this->initializeAssets(__DIR__);
+  }
+
+  /** {@inheritdoc} */
+  public function boot(IBootContext $context): void
+  {
+    $context->injectFn([$this, 'initialize']);
+  }
+
+  /**
+   * @param IUserSession $userSession
+   *
+   * @param IConfig $cloudConfig
+   *
+   * @param IInitialStateService $initialStateService
+   *
+   * @return void
+   */
+  public function initialize(
+    IUserSession $userSession,
+    IConfig $cloudConfig,
+    IInitialStateService $initialStateService,
+  ):void {
+    $user = $userSession->getUser();
+    if (empty($user)) {
+      return; // this is an interactive app only
     }
 
-    // Called later than "register".
-    public function boot(IBootContext $context): void
-    {
-        $context->injectFn([$this, 'initialize']);
-    }
+    // @todo: this MUST got to the additional script listener
+    Util::addScript($this->appName, $this->getJSAsset(self::ASSET)['asset']);
+    Util::addStyle($this->appName, $this->getCSSAsset(self::ASSET)['asset']);
 
-    public function initialize(
-        IUserSession $userSession
-        , IConfig $cloudConfig
-        , IInitialStateService $initialStateService
-    ) {
-        $user = $userSession->getUser();
-        if (empty($user)) {
-            return; // this is an interactive app only
-        }
+    $initialStateService->provideInitialState(
+      $this->appName,
+      'data',
+      [ 'modal' => $cloudConfig->getAppValue($this->appName, 'modal', true) ]
+    );
 
-        \OCP\Util::addScript($this->appName, 'app');
-        \OCP\Util::addStyle($this->appName, 'app');
+    $bavConfig = new malkusch\bav\DefaultConfiguration();
 
-        $initialStateService->provideInitialState(
-            $this->appName,
-            'data',
-            [ 'modal' => $cloudConfig->getAppValue($this->appName, 'modal', true) ]
-        );
+    $dbType = $cloudConfig->getSystemValue('dbtype', 'mysql');
+    $dbHost = $cloudConfig->getSystemValue('dbhost', 'localhost');
+    $dbName = $cloudConfig->getSystemValue('dbname', false);
+    $dbUser = $cloudConfig->getSystemValue('dbuser', false);
+    $dbPass = $cloudConfig->getSystemValue('dbpassword', false);
 
-        $bavConfig = new \malkusch\bav\DefaultConfiguration();
+    $dbURI = $dbType.':'.'host='.$dbHost.';dbname='.$dbName;
 
-        $dbType = $cloudConfig->getSystemValue('dbtype', 'mysql');
-        $dbHost = $cloudConfig->getSystemValue('dbhost', 'localhost');
-        $dbName = $cloudConfig->getSystemValue('dbname', false);
-        $dbUser = $cloudConfig->getSystemValue('dbuser', false);
-        $dbPass = $cloudConfig->getSystemValue('dbpassword', false);
+    $pdo = new PDO($dbURI, $dbUser, $dbPass);
+    $bavConfig->setDataBackendContainer(new malkusch\bav\PDODataBackendContainer($pdo));
 
-        $dbURI = $dbType.':'.'host='.$dbHost.';dbname='.$dbName;
+    $bavConfig->setUpdatePlan(new malkusch\bav\AutomaticUpdatePlan());
 
-        $pdo = new \PDO($dbURI, $dbUser, $dbPass);
-        $bavConfig->setDataBackendContainer(new \malkusch\bav\PDODataBackendContainer($pdo));
+    \malkusch\bav\ConfigurationRegistry::setConfiguration($bavConfig);
+  }
 
-        $bavConfig->setUpdatePlan(new \malkusch\bav\AutomaticUpdatePlan());
-
-        \malkusch\bav\ConfigurationRegistry::setConfiguration($bavConfig);
-    }
-
-    // Called earlier than boot, so anything initialized in the
-    // "boot()" method must not be used here.
-    public function register(IRegistrationContext $context): void
-    {
-        if ((@include_once __DIR__ . '/../../vendor/autoload.php')===false) {
-            throw new \Exception('Cannot include autoload. Did you run install dependencies using composer?');
-        }
-    }
+  /** {@inheritdoc} */
+  public function register(IRegistrationContext $context):void
+  {
+  }
 }
-
-// Local Variables: ***
-// c-basic-offset: 4 ***
-// indent-tabs-mode: nil ***
-// End: ***

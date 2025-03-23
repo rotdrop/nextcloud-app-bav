@@ -2,28 +2,32 @@
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>bav</id>
-    <name>Bav</name>
+    <name>German Bank Account Validator</name>
     <summary>German Bank Account Validator</summary>
-    <description><![CDATA[German Bank Account Validator.]]></description>
+    <description>German Bank Account Validator</description>
     <version>0.0.3</version>
     <licence>agpl</licence>
     <author mail="himself@claus-justus-heine.de" homepage="https://gitlab.claus-justus-heine.de/nextcloud/apps/bav.git">Claus-Justus Heine</author>
-    <namespace>Bav</namespace>
+    <namespace>BAV</namespace>
     <category>office</category>
     <category>tools</category>
     <bugs>https://gitlab.claus-justus-heine.de/nextcloud/apps/bav/-/issues</bugs>
     <dependencies>
         <php min-version="8.0" max-version="8.3" />
-        <nextcloud min-version="27" max-version="30" />
+        <nextcloud min-version="29" max-version="31" />
     </dependencies>
+    <types>
+      <filesystem/><!-- required for catching dav events, otherwise app is not loaded -->
+      <dav/>
+    </types>
     <navigations>
         <navigation>
-            <name>Bav</name>
+            <name>BAV</name>
             <route>bav.page.index</route>
         </navigation>
     </navigations>
     <settings>
-      <admin>OCA\Bav\Settings\Admin</admin>
-      <admin-section>OCA\Bav\Settings\AdminSection</admin-section>
+      <admin>OCA\BAV\Settings\Admin</admin>
+      <admin-section>OCA\BAV\Settings\AdminSection</admin-section>
     </settings>
 </info>
