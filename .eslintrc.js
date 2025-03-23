@@ -1,47 +1,49 @@
 module.exports = {
-  globals: {
-    __webpack_nonce__: true,
-    __webpack_public_path__: true,
-    __APP_NAME__: true,
-    _: true,
-    $: true,
-    jQuery: true,
-    moment: true,
-    escapeHTML: true,
-    oc_userconfig: true,
-    dayNames: true,
-    firstDay: true,
-  },
+  // extends: [
+  //   '@nextcloud',
+  // ],
+  // some unused toolkit files
+  ignorePatterns: [
+    'src/toolkit/util/file-node-helper.js',
+    'src/toolkit/util/file-download.js',
+    'src/toolkit/util/dialogs.js',
+    'src/toolkit/util/ajax.js',
+    'src/toolkit/util/jquery.js',
+  ],
   rules: {
-    'no-tabs': 'ERROR',
+    'no-tabs': ['error', { allowIndentationTabs: false }],
     indent: ['error', 2],
+    'no-mixed-spaces-and-tabs': 'error',
+    'vue/html-indent': ['error', 2],
     semi: ['error', 'always'],
-    'node/no-unpublished-import': 'off',
-    'node/no-unpublished-require': 'off',
-    'node/no-missing-import': [
+    'no-console': 'off',
+    'n/no-missing-require': [
       'error', {
-        // 'allowModules': [],
         resolvePaths: [
           './src',
           './style',
+          './',
         ],
-        tryExtensions: ['.js', '.json', '.node', '.css'],
+        tryExtensions: ['.js', '.json', '.node', '.css', '.scss', '.ts', '.xml', '.vue'],
       },
     ],
-    'node/no-missing-require': [
-      'error', {
-        // 'allowModules': [],
-        resolvePaths: [
-          './src',
-          './style',
-        ],
-        tryExtensions: ['.js', '.json', '.node', '.css'],
-      },
-    ],
+    // Do allow line-break before closing brackets
+    'vue/html-closing-bracket-newline': ['error', { singleline: 'never', multiline: 'always' }],
+    'n/no-unpublished-import': 'off',
+    'n/no-unpublished-require': 'off',
   },
+  overrides: [
+    {
+      files: ['*.vue'],
+      rules: {
+        semi: ['error', 'never'],
+      },
+    },
+    {
+      files: ['*.ts', '*.cts', '*.mts', '*.tsx', '*.vue'],
+      rules: {
+        '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      },
+    },
+  ],
 };
-
-// Local Variables: ***
-// js-indent-level: 2 ***
-// indent-tabs-mode: nil ***
-// End: ***
