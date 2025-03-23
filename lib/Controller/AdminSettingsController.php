@@ -4,7 +4,7 @@
  * BAV -- Bank Account Validator
  *
  * @author Claus-Justus Heine
- * @copyright 2020 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2020, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU GENERAL PUBLIC LICENSE
@@ -49,9 +49,16 @@ class AdminSettingsController extends Controller {
     $this->l = $l10n;
   }
 
-
-  
-  public function set($parameter, $value) {
+  /**
+   * @param string $parameter
+   *
+   * @param mixed $value
+   *
+   * @return DataResponse
+   *
+   * @AuthorizedAdminSetting(settings=OCA\BAV\Settings\Admin)
+   */
+  public function set(string $parameter, mixed $value):DataResponse {
     switch ($parameter) {
     case 'modal':
       $realValue = filter_var($value, FILTER_VALIDATE_BOOLEAN, ['flags' => FILTER_NULL_ON_FAILURE]);
@@ -67,6 +74,7 @@ class AdminSettingsController extends Controller {
 
   /**
    * @NoAdminRequired
+   * @AuthorizedAdminSetting(settings=OCA\BAV\Settings\Admin)
    */
   public function get($parameter, $defaultValue) {
     switch ($parameter) {

@@ -2,7 +2,7 @@
 /* Bav -- Bank Account Validator
  *
  * @author Claus-Justus Heine
- * @copyright 2020 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2020, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU GENERAL PUBLIC LICENSE
@@ -21,16 +21,16 @@
 namespace OCA\Bav\Settings;
 
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Settings\ISettings;
+use OCP\Settings\IDelegatedSettings;
 use OCP\IConfig;
 
-class Admin implements ISettings {
-
+class Admin implements IDelegatedSettings
+{
   const TEMPLATE = "admin-settings";
 
   /** @var string */
   private $appName;
-  
+
   /** @var IConfig */
   private $config;
 
@@ -69,9 +69,16 @@ class Admin implements ISettings {
     // @@TODO could be made a configure option.
     return 50;
   }
-}
 
-// Local Variables: ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: nil ***
-// End: ***
+  /** {@inheritdoc} */
+  public function getName():?string
+  {
+    return null;
+  }
+
+  /** {@inheritdoc} */
+  public function getAuthorizedAppConfig():array
+  {
+    return [];
+  }
+}
