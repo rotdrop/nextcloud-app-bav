@@ -44,6 +44,9 @@ use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IUserSession;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
+
+use OCA\BAV\Listener\Registration as ListenerRegistration;
 
 /*
  *
@@ -61,7 +64,7 @@ class Application extends App implements IBootstrap
   use \OCA\BAV\Toolkit\Traits\AppNameTrait;
   use \OCA\BAV\Toolkit\Traits\AssetTrait;
 
-  private const ASSET = 'bav';
+  private const ASSET_BASENAME = 'bav';
 
   /** {@inheritdoc} */
   public function __construct(array $urlParams = [])
@@ -84,27 +87,38 @@ class Application extends App implements IBootstrap
    *
    * @param IInitialStateService $initialStateService
    *
+   * @param LoggerInterface $logger
+   *
+   * @param IL10N $l
+   *
    * @return void
    */
   public function initialize(
     IUserSession $userSession,
     IConfig $cloudConfig,
     IInitialStateService $initialStateService,
+    LoggerInterface $logger,
+    IL10N $l,
   ):void {
     $user = $userSession->getUser();
     if (empty($user)) {
-      return; // this is an interactive app only
+      return; // this is an interactive logged-on app only
     }
 
-    // @todo: this MUST got to the additional script listener
-    Util::addScript($this->appName, $this->getJSAsset(self::ASSET)['asset']);
-    Util::addStyle($this->appName, $this->getCSSAsset(self::ASSET)['asset']);
+    $this->l = $l;
+    $this->logger = $logger;
 
     $initialStateService->provideInitialState(
       $this->appName,
       'data',
       [ 'modal' => $cloudConfig->getAppValue($this->appName, 'modal', true) ]
     );
+
+    list('asset' => $scriptAsset,) = $this->getJSAsset(self::ASSET_BASENAME);
+    Util::addScript($this->appName, $scriptAsset);
+    // No separate CSS asset available.
+    // list('asset' => $scriptAsset,) = $this->getCSSAsset(self::ASSET_BASENAME);
+    // Util::addStyle($this->appName, $scriptAsset);
 
     $bavConfig = new malkusch\bav\DefaultConfiguration();
 
@@ -127,5 +141,6 @@ class Application extends App implements IBootstrap
   /** {@inheritdoc} */
   public function register(IRegistrationContext $context):void
   {
+    // nothing
   }
 }

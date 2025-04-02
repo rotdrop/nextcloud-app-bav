@@ -24,8 +24,7 @@ const appName = appInfo.info.id[0];
 const productionMode = process.env.NODE_ENV === 'production';
 
 webpackConfig.entry = {
-  'admin-settings': path.join(__dirname, 'src', 'admin-settings.js'),
-  bav: path.join(__dirname, 'src', 'script.js'),
+  bav: path.join(__dirname, 'src', 'app.ts'),
 };
 
 webpackConfig.output = {
@@ -36,6 +35,26 @@ webpackConfig.output = {
   chunkFilename: 'js/chunks/[name]-[contenthash].js',
   clean: false,
   compareBeforeEmit: true,
+};
+
+const svgoOptions = {
+  multipass: true,
+  js2svg: {
+    indent: 2,
+    pretty: true,
+  },
+  plugins: [
+    {
+      name: 'preset-default',
+      params: {
+        overrides: {
+          // viewBox is required to resize SVGs with CSS.
+          // @see https://github.com/svg/svgo/issues/1128
+          removeViewBox: false,
+        },
+      },
+    },
+  ],
 };
 
 webpackConfig.plugins = webpackConfig.plugins.concat([
@@ -129,12 +148,14 @@ webpackConfig.module.rules = [
   },
   {
     test: /\.svg$/i,
-    use: 'svgo-loader',
+    resourceQuery: /^$/,
+    loader: 'svgo-loader',
     type: 'asset', // 'asset/resource',
     generator: {
       filename: './css/img/[name]-[hash][ext]',
       publicPath: '../',
     },
+    options: svgoOptions,
   },
   {
     test: /\.vue$/,
@@ -184,6 +205,17 @@ webpackConfig.module.rules = [
       'v-tooltip',
       'yocto-queue',
     ]),
+  },
+  {
+    resourceQuery: /raw/,
+    type: 'asset/source',
+  },
+  {
+    test: /\.svg$/i,
+    resourceQuery: /raw/,
+    loader: 'svgo-loader',
+    type: 'asset/source',
+    options: svgoOptions,
   },
 ];
 

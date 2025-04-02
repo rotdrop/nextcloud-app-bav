@@ -1,12 +1,8 @@
-<?php
 /**
- * Orchestra member, musician and project management application.
- *
- * BAV -- Bank Account Validator
+ * BAV -- German Bank Account Validator
  *
  * @author Claus-Justus Heine
- * @copyright 2020-2025 Claus-Justus Heine <himself@claus-justus-heine.de>
- * @license AGPL-3.0-or-later
+ * @copyright 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU GENERAL PUBLIC LICENSE
@@ -21,27 +17,11 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
-return [
-  'routes' => [
-    [
-      'name' => 'page#index',
-      'url' => '/',
-      'verb' => 'GET',
-    ],
-    [
-      'name' => 'validation#validate',
-      'url' => '/validate',
-      'verb' => 'POST',
-    ],
-    [
-      'name' => 'admin_settings#set',
-      'url' => '/settings/admin/set/{parameter}',
-      'verb' => 'POST',
-    ],
-    [
-      'name' => 'admin_settings#get',
-      'url' => '/settings/admin/get/{parameter}/{default}',
-      'verb' => 'GET'
-    ],
-  ]
-];
+
+export interface BankAccountData {
+  BIC: string,
+  IBAN: string,
+  accountId: string,
+  bankId: string,
+  bankName: string,
+}
