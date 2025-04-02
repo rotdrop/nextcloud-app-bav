@@ -42,11 +42,10 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IL10N;
+use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
-
-use OCA\BAV\Listener\Registration as ListenerRegistration;
 
 /*
  *
@@ -63,6 +62,7 @@ class Application extends App implements IBootstrap
 {
   use \OCA\BAV\Toolkit\Traits\AppNameTrait;
   use \OCA\BAV\Toolkit\Traits\AssetTrait;
+  use \OCA\BAV\Toolkit\Traits\ApiRequestTrait;
 
   private const ASSET_BASENAME = 'bav';
 
@@ -71,7 +71,6 @@ class Application extends App implements IBootstrap
   {
     $this->appName = $this->getAppInfoAppName(__DIR__);
     parent::__construct($this->appName, $urlParams);
-    $this->initializeAssets(__DIR__);
   }
 
   /** {@inheritdoc} */
@@ -81,32 +80,38 @@ class Application extends App implements IBootstrap
   }
 
   /**
-   * @param IUserSession $userSession
-   *
    * @param IConfig $cloudConfig
    *
    * @param IInitialStateService $initialStateService
    *
-   * @param LoggerInterface $logger
-   *
    * @param IL10N $l
+   *
+   * @param IRequest $request
+   *
+   * @param IUserSession $userSession
+   *
+   * @param LoggerInterface $logger
    *
    * @return void
    */
   public function initialize(
-    IUserSession $userSession,
     IConfig $cloudConfig,
     IInitialStateService $initialStateService,
-    LoggerInterface $logger,
     IL10N $l,
+    IRequest $request,
+    IUserSession $userSession,
+    LoggerInterface $logger,
   ):void {
     $user = $userSession->getUser();
     if (empty($user)) {
-      return; // this is an interactive logged-on app only
+      return; // only for authenticated users
+    }
+    $this->logger = $logger;
+    if ($this->isNonInteractiveRequest($request)) {
+      return; // only in the web-frontend
     }
 
     $this->l = $l;
-    $this->logger = $logger;
 
     $initialStateService->provideInitialState(
       $this->appName,
@@ -114,6 +119,7 @@ class Application extends App implements IBootstrap
       [ 'modal' => $cloudConfig->getAppValue($this->appName, 'modal', true) ]
     );
 
+    $this->initializeAssets(__DIR__);
     list('asset' => $scriptAsset,) = $this->getJSAsset(self::ASSET_BASENAME);
     Util::addScript($this->appName, $scriptAsset);
     // No separate CSS asset available.
