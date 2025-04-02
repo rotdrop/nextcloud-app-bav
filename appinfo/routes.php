@@ -38,10 +38,5 @@ return [
       'url' => '/settings/admin/set/{parameter}',
       'verb' => 'POST',
     ],
-    [
-      'name' => 'admin_settings#get',
-      'url' => '/settings/admin/get/{parameter}/{default}',
-      'verb' => 'GET'
-    ],
   ]
 ];
