@@ -15,4 +15,3 @@ lib/Toolkit/[A-Z]*
 *~
 /vendor-bin/**/vendor/
 /vendor-bin/**/composer.lock
-l10n/**
