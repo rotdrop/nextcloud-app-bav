@@ -188,7 +188,6 @@ const currentHistory = computed(
 
 const pushHistory = (data: BankAccountData) => {
   if (isEmptyData(data)) {
-    console.debug('BAV HISTORY PUSH EMPTY DATA', { data })
     return
   }
   if (currentHistory.value) {
@@ -200,23 +199,15 @@ const pushHistory = (data: BankAccountData) => {
       }
     }
     if (equal) {
-      console.debug('BAV HISTORY PUSH EQUAL STATES', { data, current: currentHistory.value })
       return
     }
   }
   historyData.value.splice(historyPosition.value + 1, Infinity, { ...data })
   ++historyPosition.value
-  console.debug('BAV HISTORY AFTER PUSH', {
-    position: historyPosition.value,
-    data: historyData.value,
-    top: atHistoryTop.value,
-    bottom: atHistoryBottom.value,
-  })
 }
 
 const clearForm = () => {
   Object.assign(accountData, accountDataDefaults)
-  console.debug('BAV RESET ATTEMPT', { accountData, accountDataDefaults })
 }
 
 const stateHistoryGo = (delta: number) => {
@@ -232,12 +223,6 @@ const stateHistoryGo = (delta: number) => {
     // should not happen ...
     clearForm()
   }
-  console.debug('BAV HISTORY AFTER GO', {
-    position: historyPosition.value,
-    data: historyData.value,
-    top: atHistoryTop.value,
-    bottom: atHistoryBottom.value,
-  })
   validateInput({ data: accountData, changed: null, liveUpdate: false })
 }
 
@@ -252,11 +237,6 @@ let abortController = new AbortController()
 
 const human = (value: string, partLen = 4) => {
   const re = new RegExp('.{1,' + partLen + '}', 'gs')
-  // console.info('BAV HUMANIFY', {
-  //   value,
-  //   re,
-  //   match: value.match(re),
-  // })
   return value.match(re)!.join(' ')
 }
 
@@ -291,7 +271,6 @@ const splitSuggestion = (suggestion: string, iban: string) => {
     }
     parts.push(part)
   }
-  console.info('SPLIT SUGGESTION', { suggestion, iban, parts })
   return parts
 }
 
@@ -317,17 +296,11 @@ const validateInput = async ({ data, changed, liveUpdate }: ValidateInputArgs) =
         signal: abortController.signal,
       },
     )
-    console.info('VALIDATE RESPONSE', { data: response.data })
     for (const key of Object.keys(accountDataDefaults)) {
       if (liveUpdate && key === changed) {
         continue // do not interrupt user input
       }
       if (accountData[key] !== response.data[key]) {
-        console.info('RECEIVED BANK ACCOUNT UPDATE', {
-          key,
-          old: accountData[key],
-          new: response.data[key],
-        })
         accountData[key] = response.data[key]
       }
     }
@@ -335,7 +308,6 @@ const validateInput = async ({ data, changed, liveUpdate }: ValidateInputArgs) =
     suggestions.value = Object.fromEntries(
       Object.entries(response.data.suggestions).map(([machine, human]) => [machine, splitSuggestion(human, accountData.IBAN)]),
     )
-    console.debug('SPLIT SUGGESTIONS', { suggestions: suggestions.value })
     if (!liveUpdate || (isFilledData(accountData) && Object.keys(suggestions.value).length === 0)) {
       pushHistory(accountData)
     }
@@ -432,7 +404,6 @@ along with this program.  If not, see {gnuLicenses}.`,
     { gnuLicenses: 'http://www.gnu.org/licenses/' },
   ),
 })
-console.info('BAV ABOUT', { about })
 </script>
 <style scoped lang="scss">
 .suggestion {
