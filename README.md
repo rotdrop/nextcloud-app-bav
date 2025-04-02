@@ -43,7 +43,7 @@ the proper IBAN.
 
 ## Disclaimer
 
-Plese make sure that you have read and understood the terms of the GNU
+Please make sure that you have read and understood the terms of the GNU
 Affero General Public License (AGPL), in particular the paragraphs
 §15, §16, §17 (AKA "no warranty"). In summary:
 
