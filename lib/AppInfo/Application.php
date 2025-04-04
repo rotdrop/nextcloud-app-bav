@@ -26,9 +26,6 @@
 
 namespace OCA\BAV\AppInfo;
 
-use malkusch;
-use PDO;
-
 /*-********************************************************
  *
  * Bootstrap
@@ -39,13 +36,9 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\IConfig;
-use OCP\IInitialStateService;
-use OCP\IL10N;
 use OCP\IRequest;
-use OCP\IUserSession;
-use OCP\Util;
-use Psr\Log\LoggerInterface;
+
+use OCA\BAV\Listener\Registration as ListenerRegistration;
 
 /*
  *
@@ -61,10 +54,6 @@ include_once __DIR__ . '/../../vendor/autoload.php';
 class Application extends App implements IBootstrap
 {
   use \OCA\BAV\Toolkit\Traits\AppNameTrait;
-  use \OCA\BAV\Toolkit\Traits\AssetTrait;
-  use \OCA\BAV\Toolkit\Traits\ApiRequestTrait;
-
-  private const ASSET_BASENAME = 'bav';
 
   /** {@inheritdoc} */
   public function __construct(array $urlParams = [])
@@ -76,77 +65,12 @@ class Application extends App implements IBootstrap
   /** {@inheritdoc} */
   public function boot(IBootContext $context): void
   {
-    $context->injectFn([$this, 'initialize']);
-  }
-
-  /**
-   * @param IConfig $cloudConfig
-   *
-   * @param IInitialStateService $initialStateService
-   *
-   * @param IL10N $l
-   *
-   * @param IRequest $request
-   *
-   * @param IUserSession $userSession
-   *
-   * @param LoggerInterface $logger
-   *
-   * @return void
-   */
-  public function initialize(
-    IConfig $cloudConfig,
-    IInitialStateService $initialStateService,
-    IL10N $l,
-    IRequest $request,
-    IUserSession $userSession,
-    LoggerInterface $logger,
-  ):void {
-    $user = $userSession->getUser();
-    if (empty($user)) {
-      return; // only for authenticated users
-    }
-    $this->logger = $logger;
-    if ($this->isNonInteractiveRequest($request)) {
-      return; // only in the web-frontend
-    }
-
-    $this->l = $l;
-
-    $initialStateService->provideInitialState(
-      $this->appName,
-      'data',
-      [ 'modal' => $cloudConfig->getAppValue($this->appName, 'modal', true) ]
-    );
-
-    $this->initializeAssets(__DIR__);
-    list('asset' => $scriptAsset,) = $this->getJSAsset(self::ASSET_BASENAME);
-    Util::addScript($this->appName, $scriptAsset);
-    // No separate CSS asset available.
-    // list('asset' => $scriptAsset,) = $this->getCSSAsset(self::ASSET_BASENAME);
-    // Util::addStyle($this->appName, $scriptAsset);
-
-    $bavConfig = new malkusch\bav\DefaultConfiguration();
-
-    $dbType = $cloudConfig->getSystemValue('dbtype', 'mysql');
-    $dbHost = $cloudConfig->getSystemValue('dbhost', 'localhost');
-    $dbName = $cloudConfig->getSystemValue('dbname', false);
-    $dbUser = $cloudConfig->getSystemValue('dbuser', false);
-    $dbPass = $cloudConfig->getSystemValue('dbpassword', false);
-
-    $dbURI = $dbType.':'.'host='.$dbHost.';dbname='.$dbName;
-
-    $pdo = new PDO($dbURI, $dbUser, $dbPass);
-    $bavConfig->setDataBackendContainer(new malkusch\bav\PDODataBackendContainer($pdo));
-
-    $bavConfig->setUpdatePlan(new malkusch\bav\AutomaticUpdatePlan());
-
-    \malkusch\bav\ConfigurationRegistry::setConfiguration($bavConfig);
+    // nothing
   }
 
   /** {@inheritdoc} */
   public function register(IRegistrationContext $context):void
   {
-    // nothing
+    ListenerRegistration::register($context);
   }
 }
