@@ -59,11 +59,14 @@ const mount = async (target: HTMLElement) => {
 };
 
 onDocumentLoaded(() => {
-  const appLinkSelector = 'li.app-menu-entry a[href*="' + appName + '"]';
+  const appLinkSelector = [
+    'li.app-menu-entry a[href*="' + appName + '"]',
+    'li.app-menu__overflow-entry a[href*="' + appName + '"]',
+  ].map(selector => selector + ', ' + selector + ' *').join(', ');
 
   document.body.addEventListener('click', (event) => {
     const target = event?.target as HTMLElement|null;
-    if (!target || !target.matches(appLinkSelector + ', ' + appLinkSelector + ' *')) {
+    if (!target || !target.matches(appLinkSelector)) {
       console.info('NO BAV MATCH', event);
       return;
     }
