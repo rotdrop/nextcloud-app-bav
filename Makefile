@@ -96,16 +96,17 @@ include $(APP_TOOLKIT_DIR)/tools/scopeme.mk
 include $(DEV_LIB_DIR)/makefile/ts-app-config.mk
 
 L10N_FILES = $(wildcard l10n/*.js l10n/*.json)
-CSS_FILES = $(shell find $(ABSSRCDIR)/style -name "*.css" -o -name "*.scss")
+# CSS_FILES = $(shell find $(ABSSRCDIR)/style -name "*.css" -o -name "*.scss")
 JS_FILES = $(shell find $(ABSSRCDIR)/src -name "*.js" -o -name "*.vue" -o -name "*.ts")
 IMG_FILES = $(shell find $(ABSSRCDIR)/img -name "*.svg")
 
 NPM_INIT_DEPS =\
  Makefile package-lock.json package.json webpack.config.js .eslintrc.js
 
+#  $(CSS_FILES)
+
 WEBPACK_DEPS =\
  $(NPM_INIT_DEPS)\
- $(CSS_FILES)\
  $(L10N_FILES)\
  $(JS_FILES)\
  $(IMG_FILES)\
