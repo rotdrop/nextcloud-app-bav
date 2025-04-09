@@ -67,7 +67,7 @@ onDocumentLoaded(() => {
   document.body.addEventListener('click', (event) => {
     const target = event?.target as HTMLElement|null;
     if (!target || !target.matches(appLinkSelector)) {
-      console.info('NO BAV MATCH', event);
+      console.debug('NO BAV MATCH', event);
       return;
     }
     console.info('BAV GOT NAVIGATION CLICK EVENT', event);
