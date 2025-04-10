@@ -3,7 +3,7 @@
         'name' => 'rotdrop/nextcloud-bav',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'c9123234665f1c13212bb7a5f0c5c62af240dce3',
+        'reference' => '94f3dd4205cc6a7727c874bd43276f5957663b43',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'malkusch/php-index' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '5ff1e7cd1c0b05363a0a793c7f0318b3605e1025',
+            'reference' => '8c048360a16279ffc9faf0e7653ff02c637ace2b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../malkusch/php-index',
             'aliases' => array(),
@@ -40,7 +40,7 @@
         'rotdrop/bav' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'c9adc503267c04cdc58d534e552687b2e8534786',
+            'reference' => '0767fd81ddc05cdf7633ec3b3871b886dc9b11b2',
             'type' => 'library',
             'install_path' => __DIR__ . '/../rotdrop/bav',
             'aliases' => array(),
@@ -49,7 +49,7 @@
         'rotdrop/nextcloud-bav' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'c9123234665f1c13212bb7a5f0c5c62af240dce3',
+            'reference' => '94f3dd4205cc6a7727c874bd43276f5957663b43',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

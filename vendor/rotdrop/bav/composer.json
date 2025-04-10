@@ -1,0 +1,62 @@
+{
+    "name": "rotdrop/bav",
+    "type": "library",
+    "description": "BAV provides validation for German Bank Accounts (Konto)",
+    "keywords": ["bank", "account", "bankaccount", "validation", "check", "konto"],
+    "homepage": "http://github.com/rotdrop/bav/",
+    "license": "WTFPL",
+    "version": "dev-master",
+    "authors": [
+        {
+            "name": "Markus Malkusch",
+            "email": "markus@malkusch.de",
+            "homepage": "http://markus.malkusch.de",
+            "role": "Developer"
+        },
+        {
+            "name": "Markus Zierhut",
+            "email": "markus@zierhut.net",
+            "homepage": "https://markus.zierhut.name",
+            "role": "Developer"
+        },
+        {
+            "name": "Claus-Justus Heine",
+            "email": "himself@claus-justus-heine.de",
+            "homepage": "https://claus-justus-heine.de",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "files": ["autoloader/autoloader.php"]
+    },
+    "require": {
+        "php": ">=7.4",
+        "malkusch/php-index": "dev-master"
+    },
+    "suggest": {
+        "ext-PDO": "Allows storing bank information in a database",
+        "ext-mbstring": "Enables UTF-8 support",
+        "ext-dom": "Enables picking the download URI by xpath",
+        "lib-curl": "Enables API for downloading the bank file",
+        "doctrine/orm": "Support for Doctrine ORM data backend"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=4",
+        "doctrine/orm": "^2"
+    },
+    "archive": {
+        "exclude": ["/tests"]
+    },
+    "bin": [
+        "bin/bav-update.php",
+        "bin/bav-install.php"
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/bav-php/php-index"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

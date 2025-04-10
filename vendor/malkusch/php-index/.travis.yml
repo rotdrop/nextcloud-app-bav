@@ -1,0 +1,20 @@
+language: php
+
+sudo: false
+
+cache:
+    directories:
+        - $HOME/.composer/cache
+
+php:
+    - 5.5
+    - 5.4
+    - 5.3
+
+install:
+    - composer require squizlabs/php_codesniffer
+
+script:
+    - phpunit tests/unit
+    - vendor/bin/phpcs --standard=PSR2 classes/ docs/
+

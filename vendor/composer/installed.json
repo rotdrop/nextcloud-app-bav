@@ -45,7 +45,7 @@
             "dist": {
                 "type": "path",
                 "url": "3rdparty/php-index",
-                "reference": "5ff1e7cd1c0b05363a0a793c7f0318b3605e1025"
+                "reference": "8c048360a16279ffc9faf0e7653ff02c637ace2b"
             },
             "require": {
                 "php": ">=5.3.0"
@@ -80,6 +80,7 @@
                 "index"
             ],
             "transport-options": {
+                "symlink": false,
                 "relative": true
             },
             "install-path": "../malkusch/php-index"
@@ -154,7 +155,7 @@
             "dist": {
                 "type": "path",
                 "url": "3rdparty/bav",
-                "reference": "c9adc503267c04cdc58d534e552687b2e8534786"
+                "reference": "0767fd81ddc05cdf7633ec3b3871b886dc9b11b2"
             },
             "require": {
                 "malkusch/php-index": "dev-master",
@@ -221,6 +222,7 @@
                 "validation"
             ],
             "transport-options": {
+                "symlink": false,
                 "relative": true
             },
             "install-path": "../rotdrop/bav"
