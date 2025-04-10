@@ -21,11 +21,17 @@
   "repositories": [
     {
       "type": "path",
-      "url": "3rdparty/bav"
+      "url": "3rdparty/bav",
+      "options": {
+        "symlink": false
+      }
     },
     {
       "type": "path",
-      "url": "3rdparty/php-index"
+      "url": "3rdparty/php-index",
+      "options": {
+        "symlink": false
+      }
     }
   ],
   "config": {
