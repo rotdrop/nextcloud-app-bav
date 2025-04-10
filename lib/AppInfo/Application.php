@@ -55,6 +55,8 @@ class Application extends App implements IBootstrap
 {
   use \OCA\BAV\Toolkit\Traits\AppNameTrait;
 
+  protected string $appName;
+
   /** {@inheritdoc} */
   public function __construct(array $urlParams = [])
   {
