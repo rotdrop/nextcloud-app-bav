@@ -3,7 +3,7 @@
  * BAV - Bank Account Validator for German bank accounts.
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright Claus-Justus Heine 2014-2020, 2025
+ * @copyright Claus-Justus Heine 2025
  * @license   AGPL-3.0-or-later
  *
  * Nextcloud DokuWiki is free software: you can redistribute it and/or
@@ -23,21 +23,19 @@
 
 namespace OCA\BAV\Listener;
 
-use PDO;
 use Throwable;
-use malkusch;
 
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\IAppContainer;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
+
+use OCA\BAV\Service\BAV;
 
 /**
  * Load the script assets for interactive requests.
@@ -81,32 +79,13 @@ class BeforeTemplateRenderedListener implements IEventListener
 
     $this->appName = $this->appContainer->get('AppName');
     $this->logger = $this->appContainer->get(LoggerInterface::class);
-    $cloudConfig = $this->appContainer->get(IConfig::class);
 
     try {
       $this->initializeAssets(__DIR__);
       list('asset' => $scriptAsset,) = $this->getJSAsset(self::ASSET_BASENAME);
-      Util::addScript($this->appName, $scriptAsset);
-      // No separate CSS asset available.
-      // list('asset' => $scriptAsset,) = $this->getCSSAsset(self::ASSET_BASENAME);
-      // Util::addStyle($this->appName, $scriptAsset);
+      util::addScript($this->appName, $scriptAsset);
 
-      $bavConfig = new malkusch\bav\DefaultConfiguration();
-
-      $dbType = $cloudConfig->getSystemValue('dbtype', 'mysql');
-      $dbHost = $cloudConfig->getSystemValue('dbhost', 'localhost');
-      $dbName = $cloudConfig->getSystemValue('dbname', false);
-      $dbUser = $cloudConfig->getSystemValue('dbuser', false);
-      $dbPass = $cloudConfig->getSystemValue('dbpassword', false);
-
-      $dbURI = $dbType . ':' . 'host=' . $dbHost . ';dbname=' . $dbName;
-
-      $pdo = new PDO($dbURI, $dbUser, $dbPass);
-      $bavConfig->setDataBackendContainer(new malkusch\bav\PDODataBackendContainer($pdo));
-
-      $bavConfig->setUpdatePlan(new malkusch\bav\AutomaticUpdatePlan());
-
-      malkusch\bav\ConfigurationRegistry::setConfiguration($bavConfig);
+      /* $unused = */$this->appContainer->get(BAV::class);
     } catch (Throwable $t) {
       $this->logException($t);
     }

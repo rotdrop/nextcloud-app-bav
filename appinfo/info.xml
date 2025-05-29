@@ -5,7 +5,7 @@
     <name>German Bank Account Validator</name>
     <summary>German Bank Account Validator</summary>
     <description>German Bank Account Validator</description>
-    <version>1.0.0-rc1</version>
+    <version>1.0.0-rc2</version>
     <licence>agpl</licence>
     <author mail="himself@claus-justus-heine.de" homepage="https://gitlab.claus-justus-heine.de/nextcloud/apps/bav.git">Claus-Justus Heine</author>
     <namespace>BAV</namespace>
@@ -26,4 +26,10 @@
             <route>bav.page.index</route>
         </navigation>
     </navigations>
+    <background-jobs>
+        <job>OCA\BAV\BackgroundJob\UpdateJob</job>
+    </background-jobs>
+    <commands>
+        <command>OCA\BAV\Command\Update</command>
+    </commands>
 </info>
