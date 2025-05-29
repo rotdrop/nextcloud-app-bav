@@ -24,10 +24,6 @@
 
 namespace OCA\BAV\Controller;
 
-use malkusch;
-use malkusch\bav\BAV;
-use PHP_IBAN;
-
 use OCP\AppFramework\Controller;
 use OCP\IRequest;
 

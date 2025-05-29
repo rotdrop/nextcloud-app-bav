@@ -24,8 +24,6 @@
 
 namespace OCA\BAV\Controller;
 
-use malkusch;
-use malkusch\bav\BAV;
 use PHP_IBAN;
 
 use OCP\AppFramework\Controller;
@@ -34,6 +32,8 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
+
+use OCA\BAV\Service\BAV;
 
 /**
  * Validate bank account data and complete it.
@@ -45,17 +45,15 @@ class ValidationController extends Controller
 {
   use \OCA\BAV\Toolkit\Traits\LoggerTrait;
 
-  private BAV $bav;
-
   // phpcs:disable Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     string $appName,
     IRequest $request,
+    private BAV $bav,
     protected IL10N $l,
     protected LoggerInterface $logger,
   ) {
     parent::__construct($appName, $request);
-    $this->bav = new malkusch\bav\BAV;
   }
   // phpcs:enable Squiz.Commenting.FunctionComment.Missing
 
@@ -107,8 +105,6 @@ class ValidationController extends Controller
     $suggestions = [];
     $alternatives = [];
 
-    $bav = new malkusch\bav\BAV;
-
     $bankAccountIBAN = $IBAN;
     $bankAccountBIC = $BIC;
     $bankAccountBankId = $bankId;
@@ -159,8 +155,8 @@ class ValidationController extends Controller
 
     if ($bankAccountBankId != '') {
       $blz = $bankAccountBankId;
-      if ($bav->isvalidBank($blz)) {
-        $agency = $bav->getMainAgency($blz);
+      if ($this->bav->isvalidBank($blz)) {
+        $agency = $this->bav->getMainAgency($blz);
         $bavBIC = $agency->getBIC();
         $bankAccountBankName = $agency->getName().', '.$agency->getCity();
         if ($bankAccountBIC == '') {
@@ -173,7 +169,7 @@ class ValidationController extends Controller
         }
         if ($bankAccountId != '') {
           $kto = $bankAccountId;
-          if ($bav->isValidAccount($kto)) {
+          if ($this->bav->isValidAccount($kto)) {
             $selfIBAN = self::makeIBAN($blz, $kto);
             if ($bankAccountIBAN == '') {
               $bankAccountIBAN = $selfIBAN;
