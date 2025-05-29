@@ -49,6 +49,7 @@ class UpdateJob extends TimedJob
   ) {
     parent::__construct($timeFactory);
     $this->setInterval($cloudConfig->getAppValue($appName, 'update_interval', 24*3600));
+    $this->setAllowParallelRuns(false);
   }
   // phpcs:enable
 
