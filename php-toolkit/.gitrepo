@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:rotdrop/nextcloud-app-toolkit.git
 	branch = main
-	commit = b1d42bf3767c281b50fec021ab2cc6ec92d89afd
-	parent = 8a988dd36a4f38c2abc3d4ce48b02811dcdbf15b
+	commit = df8473adb923b60b4d7651d222ab92e5230729bd
+	parent = bb61041d191371ef1603acdd2a0e6f0f4549d98c
 	method = merge
 	cmdver = 0.4.9
