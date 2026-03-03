@@ -27,7 +27,7 @@ use Throwable;
 
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\AppFramework\IAppContainer;
+use Psr\Container\ContainerInterface;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IUser;
@@ -53,9 +53,9 @@ class BeforeTemplateRenderedListener implements IEventListener
   protected string $appName;
 
   /**
-   * @param IAppContainer $appContainer
+   * @param ContainerInterface $appContainer
    */
-  public function __construct(protected IAppContainer $appContainer)
+  public function __construct(protected ContainerInterface $appContainer)
   {
   }
 
