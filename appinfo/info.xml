@@ -5,7 +5,7 @@
     <name>German Bank Account Validator</name>
     <summary>German Bank Account Validator</summary>
     <description>German Bank Account Validator</description>
-    <version>1.0.0-rc2</version>
+    <version>1.0.0-rc3</version>
     <licence>agpl</licence>
     <author mail="himself@claus-justus-heine.de" homepage="https://gitlab.claus-justus-heine.de/nextcloud/apps/bav.git">Claus-Justus Heine</author>
     <namespace>BAV</namespace>
@@ -13,8 +13,8 @@
     <category>tools</category>
     <bugs>https://gitlab.claus-justus-heine.de/nextcloud/apps/bav/-/issues</bugs>
     <dependencies>
-        <php min-version="8.0" max-version="8.4" />
-        <nextcloud min-version="29" max-version="32" />
+        <php min-version="8.4" max-version="8.5" />
+        <nextcloud min-version="32" max-version="33" />
     </dependencies>
     <types>
       <filesystem/><!-- required for catching dav events, otherwise app is not loaded -->
