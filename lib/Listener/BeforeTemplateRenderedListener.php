@@ -3,7 +3,7 @@
  * BAV - Bank Account Validator for German bank accounts.
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright Claus-Justus Heine 2025
+ * @copyright Claus-Justus Heine 2025, 2026
  * @license   AGPL-3.0-or-later
  *
  * Nextcloud DokuWiki is free software: you can redistribute it and/or
@@ -30,6 +30,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use Psr\Container\ContainerInterface;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Util;
@@ -47,6 +48,8 @@ class BeforeTemplateRenderedListener implements IEventListener
   public const EVENT = BeforeTemplateRenderedEvent::class;
 
   private const ASSET_BASENAME = 'bav';
+
+  protected IL10N $l;
 
   protected LoggerInterface $logger;
 
@@ -79,6 +82,7 @@ class BeforeTemplateRenderedListener implements IEventListener
 
     $this->appName = $this->appContainer->get('AppName');
     $this->logger = $this->appContainer->get(LoggerInterface::class);
+    $this->l = $this->appContainer->get(IL10N::class);
 
     try {
       $this->initializeAssets(__DIR__);
