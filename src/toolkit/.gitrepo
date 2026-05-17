@@ -5,8 +5,8 @@
 ;
 [subrepo]
 	remote = git@github.com:rotdrop/nextcloud-app-toolkit-js.git
-	branch = main
-	commit = e39960ad502b35559bb96c8ee6f1b74e55886a8f
-	parent = 3caeda5d9405e85e255b66ee344e420adb651563
+	branch = legacy-vue2
+	commit = 8bbe99a67c360440b40022d769425df8cead3ee7
+	parent = 660141bfcd363acc7b6a501ec92c33695e8dc92f
 	method = merge
 	cmdver = 0.4.9
