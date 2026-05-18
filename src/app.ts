@@ -2,7 +2,7 @@
  * BAV -- German Bank Account Validator
  *
  * @author Claus-Justus Heine
- * @copyright 2014-2022, 2024, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2014-2022, 2024-2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU GENERAL PUBLIC LICENSE
@@ -18,43 +18,34 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import type { App } from 'vue';
+
+import { createApp } from 'vue';
 import { appName } from './config.ts';
 import onDocumentLoaded from './toolkit/util/on-document-loaded.ts';
-import Vue from 'vue';
-import { generateFilePath } from '@nextcloud/router';
-import { getRequestToken } from '@nextcloud/auth';
 
-// CSP config for webpack dynamic chunk loading
-// eslint-disable-next-line
-__webpack_nonce__ = btoa(getRequestToken() || '')
+import './webpack-setup.ts';
 
-// eslint-disable-next-line
-__webpack_public_path__ = generateFilePath(appName, '', '');
+// https://stackoverflow.com/questions/69488256/vue-3-append-component-to-the-dom-best-practice
 
-interface BavVueInstance extends Vue {
-  getMounted: () => boolean,
-  getVisibility: () => boolean,
-  setVisibility: (visible: boolean) => void,
-}
+// type BavVueInstance = Component & {
+//   getMounted: () => boolean;
+//   getVisibility: () => boolean;
+//   setVisibility: (visible: boolean) => void;
+// };
 
-let vueInstance: BavVueInstance |undefined;
+let vueApp: App|undefined;
 
 const mount = async (target: HTMLElement) => {
-  if (!vueInstance) {
+  if (!vueApp) {
     const vueComponent = (await import('./App.vue')).default;
-    vueInstance = new (Vue.extend(vueComponent))({
-      // nothing ATM
-    });
+    vueApp = createApp(vueComponent);
   }
-  console.info('BAV VUE INSTANCE', {
-    vueInstance,
-    target,
-  });
-  if (!vueInstance.getMounted()) {
-    return vueInstance.$mount(target);
+  if (!vueApp?._instance?.isMounted) {
+    return vueApp.mount(target);
   }
-  if (!vueInstance.getVisibility()) {
-    vueInstance.setVisibility(true);
+  if (!vueApp?._instance?.exposed?.getVisibility()) {
+    vueApp?._instance?.exposed?.setVisibility(true);
   }
 };
 
@@ -62,7 +53,7 @@ onDocumentLoaded(() => {
   const appLinkSelector = [
     'li.app-menu-entry a[href*="' + appName + '"]',
     'li.app-menu__overflow-entry a[href*="' + appName + '"]',
-  ].map(selector => selector + ', ' + selector + ' *').join(', ');
+  ].map((selector) => selector + ', ' + selector + ' *').join(', ');
 
   document.body.addEventListener('click', (event) => {
     const target = event?.target as HTMLElement|null;

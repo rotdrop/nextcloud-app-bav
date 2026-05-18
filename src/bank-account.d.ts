@@ -2,7 +2,7 @@
  * BAV -- German Bank Account Validator
  *
  * @author Claus-Justus Heine
- * @copyright 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2025, 2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU GENERAL PUBLIC LICENSE
@@ -19,9 +19,9 @@
  */
 
 export interface BankAccountData {
-  BIC: string,
-  IBAN: string,
-  accountId: string,
-  bankId: string,
-  bankName: string,
+  BIC: string;
+  IBAN: string;
+  accountId: string;
+  bankId: string;
+  bankName: string;
 }

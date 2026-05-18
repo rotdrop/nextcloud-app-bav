@@ -2,7 +2,7 @@
  * BAV -- German Bank Account Validator
  *
  * @author Claus-Justus Heine
- * @copyright 2014-2021, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2014-2021, 2025, 2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU GENERAL PUBLIC LICENSE
@@ -19,6 +19,7 @@
  */
 
 import type { AppName } from '../build/ts-types/app-config.ts';
+
 import { appName } from '../build/ts-types/app-config.ts';
 
 export type {

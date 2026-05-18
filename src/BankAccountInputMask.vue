@@ -2,7 +2,7 @@
  - BAV -- German Bank Account Validator
  -
  - @author Claus-Justus Heine
- - @copyright 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ - @copyright 2025, 2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  -
  - This library is free software; you can redistribute it and/or
  - modify it under the terms of the GNU GENERAL PUBLIC LICENSE
@@ -19,35 +19,35 @@
  -->
 <template>
   <div class="container flex flex-column">
-    <NcTextField :value.sync="accountData.IBAN"
+    <NcTextField v-model="accountData.IBAN"
                  type="text"
                  name="bankAccountIBAN"
                  placeholder="DE48123456780123456789"
                  :label="t(appName, 'IBAN')"
                  @blur="onBlur('IBAN')"
     />
-    <NcTextField :value.sync="accountData.BIC"
+    <NcTextField v-model="accountData.BIC"
                  type="text"
                  name="bankAccountBIC"
                  placeholder="XYBLAHDEFXX"
                  :label="t(appName, 'BIC')"
                  @blur="onBlur('BIC')"
     />
-    <NcTextField :value.sync="accountData.bankId"
+    <NcTextField v-model="accountData.bankId"
                  type="text"
                  name="bankAccountBankId"
                  placeholder="12345678"
                  :label="t(appName, 'Bank Id')"
                  @blur="onBlur('bankId')"
     />
-    <NcTextField :value.sync="accountData.accountId"
+    <NcTextField v-model="accountData.accountId"
                  type="text"
                  name="bankAccountId"
                  placeholder="0123456789"
                  :label="t(appName, 'Bank Account Id')"
                  @blur="onBlur('accountId')"
     />
-    <NcTextField :value.sync="accountData.bankName"
+    <NcTextField v-model="accountData.bankName"
                  type="text"
                  readonly
                  name="bankAccountBankName"
@@ -56,8 +56,10 @@
     />
   </div>
 </template>
+
 <script setup lang="ts">
-import { appName } from './config.ts'
+import type { BankAccountData } from './bank-account.d.ts'
+
 import { translate as t } from '@nextcloud/l10n'
 import {
   NcTextField,
@@ -66,21 +68,21 @@ import {
   reactive,
   watch,
 } from 'vue'
-import type { BankAccountData } from './bank-account.d.ts'
+import { appName } from './config.ts'
 
 const props = defineProps<{ bankAccount: BankAccountData }>()
+
+const emit = defineEmits(['update:bankAccount', 'blur:accountField'])
 
 console.info('BAV PROPS', { props })
 
 const accountData = reactive(props.bankAccount)
 
-const emit = defineEmits(['update:bankAccount', 'blur:account-field'])
-
 const onBlur = (key: string) => {
-  emit('blur:account-field', { [key]: accountData[key] })
+  emit('blur:accountField', { [key]: accountData[key] })
 }
 
-const accountKeys: (keyof BankAccountData)[] = Object.keys(props.bankAccount).filter(key => !key.startsWith('_')) as (keyof BankAccountData)[]
+const accountKeys: (keyof BankAccountData)[] = Object.keys(props.bankAccount).filter((key) => !key.startsWith('_')) as (keyof BankAccountData)[]
 
 watch(props, () => {
   for (const key of accountKeys) {
@@ -100,5 +102,7 @@ for (const key of accountKeys) {
 }
 
 </script>
+
 <style scoped lang="scss">
+  /* nothing */
 </style>

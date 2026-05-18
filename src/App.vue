@@ -2,7 +2,7 @@
  - BAV -- German Bank Account Validator
  -
  - @author Claus-Justus Heine
- - @copyright 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ - @copyright 2025, 2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  -
  - This library is free software; you can redistribute it and/or
  - modify it under the terms of the GNU GENERAL PUBLIC LICENSE
@@ -22,10 +22,10 @@
        :has-prev="false"
        container="#body-user"
   -->
-  <NcDialog :name="t(appName, 'BAV - Bank Account Validator (DE)')"
+  <NcDialog v-model:open="showDialog"
+            :name="t(appName, 'BAV - Bank Account Validator (DE)')"
             size="large"
-            :close-on-click-outside="false"
-            :open.sync="showDialog"
+            :closeOnClickOutside="false"
   >
     <template #actions>
       <NcButton :disabled="atHistoryBottom"
@@ -43,8 +43,8 @@
       >
         {{ t(appName, 'Clear') }}
       </NcButton>
-      <NcPopover :shown.sync="showAbout"
-                 :focus-trap="false"
+      <NcPopover v-model:shown="showAbout"
+                 noFocusTrap
       >
         <template #trigger>
           <NcButton @click="showAbout = true">
@@ -78,9 +78,9 @@
                       :title="t(appName, 'app-logo')"
       />
       <BankAccountInputMask ref="inputForm"
-                            :bank-account="accountData"
+                            :bankAccount="accountData"
                             @update:bankAccount="onUpdateBankAccount"
-                            @blur:account-field="onBlur"
+                            @blur:accountField="onBlur"
       />
       <h6 v-if="hints.length > 0" class="hints">
         {{ t(appName, 'Errors and Hints') }}
@@ -103,7 +103,8 @@
             &nbsp;
             <!-- eslint-disable-next-line vue/require-v-for-key -->
             <span v-for="part in parts"
-                  :class="['iban-part', { 'part-equal': part.equal, 'part-different': !part.equal }]"
+                  class="iban-part"
+                  :class="{ 'part-equal': part.equal, 'part-different': !part.equal }"
             >{{ part.str }}</span>
           </button>
         </li>
@@ -111,32 +112,32 @@
     </template>
   </NcDialog>
 </template>
+
 <script setup lang="ts">
-import { appName } from './config.ts'
-import { generateUrl as generateAppUrl } from './toolkit/util/generate-url.ts'
-import { translate as t } from '@nextcloud/l10n'
+import type { BankAccountData } from './bank-account.d.ts'
+
 import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
 import {
   NcButton,
   NcDialog,
   NcPopover,
 } from '@nextcloud/vue'
-import DynamicSvgIcon from '@rotdrop/nextcloud-vue-components/lib/components/DynamicSvgIcon.vue'
-import { showError } from '@nextcloud/dialogs'
 import {
   computed,
-  onMounted,
-  onUnmounted,
   reactive,
   ref,
 } from 'vue'
+import DynamicSvgIcon from '@rotdrop/nextcloud-vue-components/lib/components/DynamicSvgIcon.vue'
 import BankAccountInputMask from './BankAccountInputMask.vue'
+import appIcon from '../img/bav-color.svg?raw'
+import { appName } from './config.ts'
 import {
   isAxiosError,
   isAxiosErrorResponse,
 } from './toolkit/types/axios-type-guards.ts'
-import type { BankAccountData } from './bank-account.d.ts'
-import appIcon from '../img/bav-color.svg?raw'
+import { generateUrl as generateAppUrl } from './toolkit/util/generate-url.ts'
 
 const showDialog = ref(true)
 
@@ -146,10 +147,10 @@ const inputForm = ref<null | Vue>(null)
 
 const hints = ref<string[]>([])
 interface EqualityPart {
-  str: string,
-  equal: boolean,
-  start: number,
-  len: number,
+  str: string
+  equal: boolean
+  start: number
+  len: number
 }
 const suggestions = ref<Record<string, EqualityPart[]>>({})
 const suggestionsLength = computed(() => Object.keys(suggestions.value).length)
@@ -229,8 +230,8 @@ const stateHistoryGo = (delta: number) => {
 const validationUrl = generateAppUrl('validate')
 
 interface ValidateResponse extends BankAccountData {
-  messages: string[],
-  suggestions: Record<string, string>,
+  messages: string[]
+  suggestions: Record<string, string>
 }
 
 let abortController = new AbortController()
@@ -280,12 +281,18 @@ const selectSuggestion = (iban: string) => {
 }
 
 interface ValidateInputArgs {
-  data: BankAccountData,
-  changed: keyof BankAccountData|null,
-  liveUpdate: boolean,
+  data: BankAccountData
+  changed: keyof BankAccountData|null
+  liveUpdate: boolean
 }
 
-const validateInput = async ({ data, changed, liveUpdate }: ValidateInputArgs) => {
+/**
+ * @param root0 TBD.
+ * @param root0.data TBD.
+ * @param root0.changed TBD.
+ * @param root0.liveUpdate TBD.
+ */
+async function validateInput({ data, changed, liveUpdate }: ValidateInputArgs) {
   try {
     abortController.abort()
     abortController = new AbortController()
@@ -307,7 +314,7 @@ const validateInput = async ({ data, changed, liveUpdate }: ValidateInputArgs) =
     hints.value = response.data.messages
     suggestions.value = Object.fromEntries(
       Object.entries(response.data.suggestions).map(([machine, human]) => [machine, splitSuggestion(human, accountData.IBAN)]),
-    )
+    ) as Record<string, EqualityPart[]>
     if (!liveUpdate || (isFilledData(accountData) && Object.keys(suggestions.value).length === 0)) {
       pushHistory(accountData)
     }
@@ -331,8 +338,8 @@ const validateInput = async ({ data, changed, liveUpdate }: ValidateInputArgs) =
 }
 
 interface UpdateBankAccountEvent {
-  data: BankAccountData,
-  changed: keyof BankAccountData,
+  data: BankAccountData
+  changed: keyof BankAccountData
 }
 
 const onUpdateBankAccount = async (event: UpdateBankAccountEvent) => {
@@ -351,17 +358,9 @@ const setVisibility = (visible: boolean) => {
 
 const getVisibility = () => showDialog.value
 
-let mounted = false
-
-onMounted(() => { mounted = true })
-onUnmounted(() => { mounted = false })
-
-const getMounted = () => mounted
-
 defineExpose({
   setVisibility,
   getVisibility,
-  getMounted,
 })
 
 // Vue has problems with literal texts, so hack around those Vue deficiencies
@@ -405,6 +404,7 @@ along with this program.  If not, see {gnuLicenses}.`,
   ),
 })
 </script>
+
 <style scoped lang="scss">
 .suggestion {
   .iban-part.part-different {
