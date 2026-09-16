@@ -13,8 +13,8 @@
     <category>tools</category>
     <bugs>https://gitlab.claus-justus-heine.de/nextcloud/apps/bav/-/issues</bugs>
     <dependencies>
-        <php min-version="8.5" max-version="8.5" />
-        <nextcloud min-version="33" max-version="33" />
+        <php min-version="8.5" max-version="8.6" />
+        <nextcloud min-version="33" max-version="35" />
     </dependencies>
     <types>
       <filesystem/><!-- required for catching dav events, otherwise app is not loaded -->
