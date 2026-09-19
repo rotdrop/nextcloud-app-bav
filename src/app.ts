@@ -24,8 +24,6 @@ import { createApp } from 'vue';
 import { appName } from './config.ts';
 import onDocumentLoaded from './toolkit/util/on-document-loaded.ts';
 
-import './webpack-setup.ts';
-
 // https://stackoverflow.com/questions/69488256/vue-3-append-component-to-the-dom-best-practice
 
 // type BavVueInstance = Component & {
