@@ -32,11 +32,8 @@ namespace OCA\BAV\AppInfo;
  *
  */
 
-use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
-use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\IRequest;
 
 use OCA\BAV\Listener\Registration as ListenerRegistration;
 use OCA\BAV\Toolkit\AppInfo\AbstractApplication;
@@ -49,12 +46,6 @@ include_once __DIR__ . '/../Toolkit/AppInfo/AbstractApplication.php';
  */
 class Application extends AbstractApplication
 {
-  /** {@inheritdoc} */
-  public function boot(IBootContext $context): void
-  {
-    // nothing
-  }
-
   /** {@inheritdoc} */
   public function register(IRegistrationContext $context):void
   {
