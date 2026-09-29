@@ -20,9 +20,9 @@
 
 import type { App } from 'vue';
 
+import { subscribe } from '@nextcloud/event-bus';
 import { createApp } from 'vue';
 import { appName } from './config.ts';
-import onDocumentLoaded from './toolkit/util/on-document-loaded.ts';
 
 // https://stackoverflow.com/questions/69488256/vue-3-append-component-to-the-dom-best-practice
 
@@ -47,22 +47,16 @@ const mount = async (target: HTMLElement) => {
   }
 };
 
-onDocumentLoaded(() => {
-  const appLinkSelector = [
-    'li.app-menu-entry a[href*="' + appName + '"]',
-    'li.app-menu__overflow-entry a[href*="' + appName + '"]',
-  ].map((selector) => selector + ', ' + selector + ' *').join(', ');
+let mountTarget: HTMLDivElement;
 
-  document.body.addEventListener('click', (event) => {
-    const target = event?.target as HTMLElement|null;
-    if (!target || !target.matches(appLinkSelector)) {
-      return;
-    }
-    console.debug('BAV GOT NAVIGATION CLICK EVENT', event);
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    const mountTarget = document.createElement('div');
-    target.appendChild(mountTarget);
-    mount(mountTarget);
-  });
+subscribe('core:navigation:action', (action) => {
+  if (action.id !== appName) {
+    return;
+  }
+  if (!mountTarget) {
+    mountTarget = document.createElement('div');
+    mountTarget.id = `${appName}-mount-target`;
+    document.body.appendChild(mountTarget);
+  }
+  mount(mountTarget);
 });

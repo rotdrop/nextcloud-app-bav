@@ -14,7 +14,7 @@
     <bugs>https://gitlab.claus-justus-heine.de/nextcloud/apps/bav/-/issues</bugs>
     <dependencies>
         <php min-version="8.5" max-version="8.6" />
-        <nextcloud min-version="33" max-version="35" />
+        <nextcloud min-version="35" max-version="35" />
     </dependencies>
     <types>
       <filesystem/><!-- required for catching dav events, otherwise app is not loaded -->
@@ -23,7 +23,8 @@
     <navigations>
         <navigation>
             <name>BAV</name>
-            <route>bav.page.index</route>
+            <route>#</route>
+            <type>action</type>
         </navigation>
     </navigations>
     <background-jobs>
