@@ -14,9 +14,7 @@
     "rotdrop/bav": "dev-master"
   },
   "require-dev": {
-    "phpmd/phpmd" : "@stable",
-    "squizlabs/php_codesniffer": "3.*",
-    "zebra-north/phpcs-short-types": "^1.0"
+    "bamarni/composer-bin-plugin": "^1.8"
   },
   "repositories": [
     {
@@ -32,19 +30,27 @@
     "optimize-autoloader": true,
     "classmap-authoritative": true,
     "platform": {
-      "php": "8.1.0"
+      "php": "8.4.0"
     },
     "allow-plugins": {
       "bamarni/composer-bin-plugin": true
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "OCA\\BAV\\": "lib/",
+      "OCA\\RotDrop\\Toolkit\\": "php-toolkit/",
+      "OCA\\RotDrop\\DevScripts\\PhpToTypeScript\\": "dev-scripts/lib/scripts/php-to-typescript/",
+      "Spatie\\TypeScriptTransformer\\": "vendor-bin/typescript-transformer/vendor/spatie/typescript-transformer/src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "extra": {
     "bamarni-bin": {
       "bin-links": true,
       "target-directory": "vendor-bin",
       "forward-command": true
     }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+  }
 }

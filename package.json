@@ -3,13 +3,12 @@
   "version": "1.0.0-rc4",
   "description": ">German Bank Account Validator",
   "author": "Claus-Justus Heine <himself@claus-justus-heine.de>",
+  "type": "module",
   "scripts": {
-    "build": "NODE_ENV=production webpack --progress --mode production --config webpack.config.js",
-    "dev": "NODE_ENV=development webpack --progress --mode development --config webpack.config.js",
+    "build": "vite --mode production build",
+    "dev": "vite --mode development build",
     "lint": "eslint --ext .js,.ts,.vue src",
-    "lint:fix": "eslint --ext .js,.ts,.vue src --fix",
-    "stylelint": "stylelint css/*.css css/*.scss src/**/*.scss src/**/*.vue",
-    "stylelint:fix": "stylelint css/*.css css/*.scss src/**/*.scss src/**/*.vue --fix"
+    "lint:fix": "eslint --ext .js,.ts,.vue src --fix"
   },
   "repository": {
     "type": "git",
@@ -26,42 +25,52 @@
     "@nextcloud/axios": "^2.6.0",
     "@nextcloud/browserslist-config": "^3.1.2",
     "@nextcloud/dialogs": "^7.3.0",
-    "@nextcloud/eslint-config": "^9.0.0-rc.8",
+    "@nextcloud/eslint-config": "^9.0.1",
     "@nextcloud/event-bus": "^3.3.3",
     "@nextcloud/l10n": "^3.4.1",
     "@nextcloud/router": "^3.1.0",
+    "@nextcloud/vite-config": "^3.0.0-beta.1",
     "@nextcloud/vue": "^9.8.0",
-    "@nextcloud/webpack-vue-config": "^7.0.2",
+    "@prettier/plugin-php": "^0.25.0",
     "@rotdrop/nextcloud-vue-components": "file:repositories/rotdrop/nextcloud-vue-components",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "axios": "^1.16.1",
-    "babel-loader-exclude-node-modules-except": "^1.2.4",
     "bootstrap": "^5.3.8",
-    "css-loader": "^7.1.4",
-    "css-minimizer-webpack-plugin": "^8.0.0",
-    "csso-webpack-plugin": "^3.0.0",
-    "eslint-webpack-plugin": "^6.0.0",
-    "file-loader": "^6.2.0",
     "floating-vue": "^5.2.2",
-    "html-webpack-plugin": "^5.6.7",
-    "mini-css-extract-plugin": "^2.10.2",
-    "mount-vue-component": "^0.10.2",
+    "prettier": "^3.9.9",
     "sass": "^1.99.0",
-    "style-loader": "^4.0.0",
-    "svgo-loader": "^5.0.0",
     "typescript": "^6.0.3",
+    "vite": "^8.3.1",
+    "vite-plugin-svgo": "^3.0.1",
     "vue": "^3.5.34",
-    "webpack": "^5.106.2",
-    "webpack-bundle-analyzer": "^5.3.0",
-    "webpack-cli": "*",
-    "webpack-deadcode-plugin": "^0.1.17",
-    "webpack-merge": "^6.0.1",
-    "webpack-node-externals": "^3.0.0",
-    "webpack-visualizer-plugin2": "^2.0.0",
-    "xml-loader": "^1.2.1",
     "xml-reader": "^2.4.3",
     "xml2js": "^0.6.2"
   },
+  "prettier": {
+    "singleQuote": true,
+    "tabWidth": 2,
+    "useTabs": false,
+    "printWidth": 160,
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true,
+    "plugins": [
+      "@prettier/plugin-php",
+      "@trivago/prettier-plugin-sort-imports"
+    ],
+    "overrides": [
+      {
+        "files": "*.php",
+        "options": {
+          "parser": "php"
+        }
+      }
+    ]
+  },
   "browserslist": [
     "extends @nextcloud/browserslist-config"
-  ]
+  ],
+  "allowScripts": {
+    "@parcel/watcher": true,
+    "core-js": true
+  }
 }
