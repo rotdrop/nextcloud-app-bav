@@ -6,8 +6,31 @@
       "php"
     ],
     "php-path-list": [
-      "."
+      ".",
+      "../../lib/",
+      "../../3rdparty/"
     ],
-    "php-path-list-without-subdir": []
+    "php-path-list-without-subdir": [],
+    "ignore-ruleset": [
+      "# like .gitignore file ",
+      "/3rdparty/**/[Ee]xamples/**/*.php",
+      "/3rdparty/**/[tT]ests/**/*.php",
+      "/build/**",
+      "/vendor-bin/cs-fixer/**",
+      "/vendor-bin/php-scoper/**",
+      "/vendor-bin/phpmd/**",
+      "/vendor-bin/rector/**",
+      "/vendor*/**/polyfill-php80/**/*.php",
+      "/vendor*/**/polyfill-php81/**/*.php",
+      "/vendor*/humbug/php-scoper/**",
+      "/vendor*/jpgraph/**",
+      "/vendor/**/[Ee]xamples/**/*.php",
+      "/vendor/**/[tT]ests/**/*.php",
+      "/vendor/*.php",
+      "/vendor/composer/*.php",
+      "/vendor/squizlabs/php_codesniffer/**/*.php",
+      "/vendor/tecnickcom/tcpdf/fonts/**",
+      "#  -- end -- "
+    ]
   }
 }
