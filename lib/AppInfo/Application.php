@@ -3,7 +3,7 @@
  * BAV - Bank Account Validator for German bank accounts.
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright Claus-Justus Heine 2014-2020, 2025
+ * @copyright Claus-Justus Heine 2014-2020, 2025, 2026
  * @license   AGPL-3.0-or-later
  *
  * Nextcloud DokuWiki is free software: you can redistribute it and/or
@@ -39,31 +39,16 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\IRequest;
 
 use OCA\BAV\Listener\Registration as ListenerRegistration;
+use OCA\BAV\Toolkit\AppInfo\AbstractApplication;
+use OCA\BAV\Toolkit\Middleware\ExceptionMiddleware;
 
-/*
- *
- **********************************************************
- *
- */
-
-include_once __DIR__ . '/../../vendor/autoload.php';
+include_once __DIR__ . '/../Toolkit/AppInfo/AbstractApplication.php';
 
 /**
  * App entry point.
  */
-class Application extends App implements IBootstrap
+class Application extends AbstractApplication
 {
-  use \OCA\BAV\Toolkit\Traits\AppNameTrait;
-
-  protected string $appName;
-
-  /** {@inheritdoc} */
-  public function __construct(array $urlParams = [])
-  {
-    $this->appName = $this->getAppInfoAppName(__DIR__);
-    parent::__construct($this->appName, $urlParams);
-  }
-
   /** {@inheritdoc} */
   public function boot(IBootContext $context): void
   {
@@ -73,6 +58,8 @@ class Application extends App implements IBootstrap
   /** {@inheritdoc} */
   public function register(IRegistrationContext $context):void
   {
+    parent::register($context);
     ListenerRegistration::register($context);
+    $context->registerMiddleWare(ExceptionMiddleware::class);
   }
 }
