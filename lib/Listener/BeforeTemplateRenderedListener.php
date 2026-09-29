@@ -86,9 +86,8 @@ class BeforeTemplateRenderedListener implements IEventListener
 
     try {
       $this->initializeAssets(__DIR__);
-      list('asset' => $scriptAsset,) = $this->getJSAsset(self::ASSET_BASENAME);
+      $scriptAsset = $this->getJSAsset(self::ASSET_BASENAME);
       util::addScript($this->appName, $scriptAsset);
-
       /* $unused = */$this->appContainer->get(BAV::class);
     } catch (Throwable $t) {
       $this->logException($t);
