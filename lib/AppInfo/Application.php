@@ -40,7 +40,6 @@ use OCP\IL10N;
 
 use OCA\BAV\Listener\Registration as ListenerRegistration;
 use OCA\BAV\Toolkit\AppInfo\AbstractApplication;
-use OCA\BAV\Toolkit\Middleware\ExceptionMiddleware;
 
 include_once __DIR__ . '/../Toolkit/AppInfo/AbstractApplication.php';
 
@@ -76,6 +75,5 @@ class Application extends AbstractApplication
   {
     parent::register($context);
     ListenerRegistration::register($context);
-    $context->registerMiddleWare(ExceptionMiddleware::class);
   }
 }
