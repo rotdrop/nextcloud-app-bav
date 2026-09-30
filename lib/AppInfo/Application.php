@@ -34,6 +34,9 @@ namespace OCA\BAV\AppInfo;
 
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\INavigationManager;
+use OCP\IURLGenerator;
+use OCP\IL10N;
 
 use OCA\BAV\Listener\Registration as ListenerRegistration;
 use OCA\BAV\Toolkit\AppInfo\AbstractApplication;
@@ -46,6 +49,28 @@ include_once __DIR__ . '/../Toolkit/AppInfo/AbstractApplication.php';
  */
 class Application extends AbstractApplication
 {
+  /** {@inheritdoc} */
+  public function boot(IBootContext $context): void
+  {
+    $context->injectFn(
+      function(
+        IL10N $l,
+        INavigationManager $navigationManager,
+        IURLGenerator $urlGenerator,
+      ) {
+        $navigationManager->add(fn() => [
+          'app' => self::$appName,
+          'href' => '',
+          'icon' => $urlGenerator->imagePath(self::$appName, 'app.svg'),
+          'id' => self::$appName,
+          'name' => 'BAV',
+          // 'name' => $l->t('German Bank Account Validator'),
+          'type' => 'action',
+        ]);
+      },
+    );
+  }
+
   /** {@inheritdoc} */
   public function register(IRegistrationContext $context):void
   {

@@ -20,13 +20,13 @@
       <filesystem/><!-- required for catching dav events, otherwise app is not loaded -->
       <dav/>
     </types>
-    <navigations>
+    <!-- <navigations>
         <navigation>
             <name>BAV</name>
             <route>#</route>
             <type>action</type>
         </navigation>
-    </navigations>
+    </navigations> -->
     <background-jobs>
         <job>OCA\BAV\BackgroundJob\UpdateJob</job>
     </background-jobs>
