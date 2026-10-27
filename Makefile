@@ -94,10 +94,27 @@ dev-setup: app-toolkit composer
 # The build-system fragments live in vendor/, which does not exist before the
 # first composer run. Bootstrap it with a plain composer.json and no plugins
 # (the OCP patch is applied by the regular composer run afterwards).
+# Pure clean runs must not trigger this bootstrap. If the fragments are absent
+# there is nothing of theirs to clean, so only provide stubs for the targets
+# which are normally defined by them.
+CLEAN_GOALS = clean distclean mostlyclean realclean downloadsclean
+ifneq ($(MAKECMDGOALS),)
+ifeq ($(filter-out $(CLEAN_GOALS),$(MAKECMDGOALS)),)
+CLEAN_ONLY = 1
+endif
+endif
+
+ifeq ($(CLEAN_ONLY),1)
+ifeq ($(wildcard $(DEV_LIB_DIR)/makefile/npm.mk),)
+webpack-clean dev-scripts-real-clean:
+.PHONY: webpack-clean dev-scripts-real-clean
+endif
+else
 $(DEV_LIB_DIR)/makefile/composer.mk:
 	test -f composer.json || cp composer.json.in composer.json
 	$(COMPOSER) install --no-plugins $(COMPOSER_OPTIONS)
 	$(COMPOSER) patches-repatch
+endif
 
 -include $(DEV_LIB_DIR)/makefile/composer.mk
 
