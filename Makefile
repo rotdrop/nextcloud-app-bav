@@ -14,7 +14,7 @@ APP_NAMESPACE = $(shell $(XPATH) -q -e '/info/namespace/text()' $(APP_INFO))
 else
 $(error The xpath binary could not be found, falling back to using the CWD as app-name)
 endif
-DEV_LIB_DIR = $(ABSSRCDIR)/dev-scripts/lib
+DEV_LIB_DIR = $(ABSSRCDIR)/vendor/rotdrop/nextcloud-app-build-system
 BUILDDIR = ./build
 ABSBUILDDIR = $(CURDIR)/build
 BUILD_TOOLS_DIR = $(BUILDDIR)/tools
@@ -91,15 +91,23 @@ build-no-dev:
 dev-setup: app-toolkit composer
 .PHONY: dev-setup
 
-include $(DEV_LIB_DIR)/makefile/composer.mk
+# The build-system fragments live in vendor/, which does not exist before the
+# first composer run. Bootstrap it with a plain composer.json and no plugins
+# (the OCP patch is applied by the regular composer run afterwards).
+$(DEV_LIB_DIR)/makefile/composer.mk:
+	test -f composer.json || cp composer.json.in composer.json
+	$(COMPOSER) install --no-plugins $(COMPOSER_OPTIONS)
+	$(COMPOSER) patches-repatch
+
+-include $(DEV_LIB_DIR)/makefile/composer.mk
 
 APP_TOOLKIT_DIR = $(ABSSRCDIR)/php-toolkit
 APP_TOOLKIT_DEST = $(ABSSRCDIR)/lib/Toolkit
 APP_TOOLKIT_NS = BAV
 
 include $(APP_TOOLKIT_DIR)/tools/scopeme.mk
-include $(DEV_LIB_DIR)/makefile/ts-app-config.mk
-include $(DEV_LIB_DIR)/makefile/ts-types-files.mk
+-include $(DEV_LIB_DIR)/makefile/ts-app-config.mk
+-include $(DEV_LIB_DIR)/makefile/ts-types-files.mk
 
 L10N_FILES = $(wildcard l10n/*.js l10n/*.json)
 # CSS_FILES = $(shell find $(ABSSRCDIR)/style -name "*.css" -o -name "*.scss")
@@ -119,7 +127,7 @@ WEBPACK_DEPS =\
  $(TS_APP_CONFIG)\
  ts-types-files
 
-include $(DEV_LIB_DIR)/makefile/npm.mk
+-include $(DEV_LIB_DIR)/makefile/npm.mk
 
 #@@ Run phpcs on the PHP code
 phpcs: composer
@@ -144,12 +152,13 @@ APPSTORE_FILES =\
  README.md
 
 # .htaccess is blacklisted by the app-store installer, so we have to remove it
-APPSTORE_BLACKLISTED = foobar .git* .*keep .htaccess *~
+APPSTORE_BLACKLISTED = foobar vendor/rotdrop/nextcloud-app-build-system .git* .*keep .htaccess *~
 
-#@private
-appstore: COMPOSER_OPTIONS := $(COMPOSER_OPTIONS) --no-dev
 #@@ Prepare appstore archive
+# The build-system is a dev dependency and is needed for the npm build, so
+# the dev dependencies are only pruned after the assets have been built.
 appstore: clean dev-setup npm-build
+	$(COMPOSER) install $(COMPOSER_OPTIONS) --no-dev
 	mkdir -p $(APPSTORE_SIGN_DIR)/$(APP_NAME)
 	$(RSYNC) -a -L $(APPSTORE_BLACKLISTED:%=--exclude '%') $(APPSTORE_FILES) $(APPSTORE_SIGN_DIR)/$(APP_NAME)
 	mkdir -p $(BUILD_CERT_DIR)
