@@ -31,7 +31,7 @@ try {
   $autoloader = require_once(__DIR__ . '/lib/scripts/vendor/autoload.php');
   require_once($appDir . '/vendor/autoload.php');
   // require_once($appDir . '/vendor-scoped/autoload.php');
-  require_once($appDir . '/vendor-bin/typescript-transformer/vendor/autoload.php');
+  require_once($appDir . '/vendor-bin/php-to-typescript/vendor/autoload.php');
 } catch (\Throwable $t) {
   fwrite(STDERR, 'Composer autoloads not set up: ' . $t->getMessage() . PHP_EOL);
   exit(1);
@@ -41,11 +41,6 @@ try {
 $autoloader->addPsr4(
   \OCA\BAV::class . '\\',
   __DIR__ . '/../lib',
-  true,
-);
-$autoloader->addPsr4(
-  \OCA\RotDrop\DevScripts\PhpToTypeScript::class . '\\',
-  __DIR__ . '/lib/scripts/php-to-typescript',
   true,
 );
 $autoloader->addPsr4(
@@ -75,7 +70,7 @@ $scopedNamespaces = [
 ];
 
 use Spatie\TypeScriptTransformer\Collectors\EnumCollector;
-use OCA\RotDrop\DevScripts\PhpToTypeScript\DTOCollector;
+use OCA\RotDrop\DevScripts\PhpToTypeScript\Collectors\DTOCollector;
 
 $collectors = [
   EnumCollector::class,
