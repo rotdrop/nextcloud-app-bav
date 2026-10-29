@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:rotdrop/nextcloud-app-build-system.git
 	branch = copilot/composer-bin-php-to-typescript
-	commit = 124bc65ae6c7913406e8105d3fd5116b9c57dc08
-	parent = 4af1d5f9ed8516e256a6bf74d00e7fcb2803096f
+	commit = d70872611b6d2f37377511dfd20d34653af5658e
+	parent = 75d3013d5b836987e8513e44aab6ed32529b327f
 	method = merge
 	cmdver = 0.4.9
