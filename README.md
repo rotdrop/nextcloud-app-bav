@@ -7,6 +7,7 @@
 - [Disclaimer](#disclaimer)
 - [Privacy and Security](#privacy-and-security)
 - [Testing](#testing)
+- [Building](#building)
 - [Screenshots](#screenshots)
 
 <!-- markdown-toc end -->
@@ -82,6 +83,26 @@ encrypted.
 
 There are some German "dummy" IBANs which do not correspond to actual
 bank accounts but pass the validation, e.g. `DE89 3704 0044 0532 0130 00`
+
+## Building
+
+Use PHP 8.5, Composer 2, Node.js 24, npm, GNU Make, `xpath`
+(`libxml-xpath-perl` on Debian/Ubuntu), `rsync`, and `jq`:
+
+```sh
+git submodule update --init --recursive
+make appstore
+```
+
+The app-store target installs development tools for type generation and frontend
+compilation, then removes root Composer development dependencies before
+packaging without forwarding that removal to the Composer bin environments.
+The unsigned archive is written to
+`build/artifacts/appstore/`; signing is skipped when no signing key is available.
+
+The Build app-store package workflow runs these steps on pushes and pull
+requests, and can also be started manually. It verifies the archive's runtime
+autoloading and asset manifest, then uploads the package as a workflow artifact.
 
 ## Screenshots
 

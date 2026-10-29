@@ -36,6 +36,7 @@
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "axios": "^1.16.1",
     "bootstrap": "^5.3.8",
+    "esbuild": "^0.28.2",
     "floating-vue": "^5.2.2",
     "prettier": "^3.9.9",
     "sass": "^1.99.0",
@@ -71,6 +72,7 @@
   ],
   "allowScripts": {
     "@parcel/watcher": true,
-    "core-js": true
+    "core-js": true,
+    "esbuild": true
   }
 }
