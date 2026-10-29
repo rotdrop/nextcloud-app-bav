@@ -1,0 +1,93 @@
+name: Build app-store package
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  appstore:
+    name: Build and verify app-store archive
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      COMPOSER_NO_INTERACTION: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: bcmath, curl, dom, fileinfo, intl, mbstring, pdo_sqlite, xml, zip
+          tools: composer:v2
+          coverage: none
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y libxml-xpath-perl rsync jq
+
+      - name: Build app-store package
+        run: |
+          version="$(xpath -q -e '/info/version/text()' appinfo/info.xml)"
+          make appstore VERSION="$version"
+
+      - name: Verify app-store package
+        shell: bash
+        run: |
+          app_name="$(xpath -q -e '/info/id/text()' appinfo/info.xml)"
+          version="$(xpath -q -e '/info/version/text()' appinfo/info.xml)"
+          archive="build/artifacts/appstore/${app_name}-${version}.tar.gz"
+          test -s "$archive"
+          package_dir="$(mktemp -d)"
+          tar -xzf "$archive" -C "$package_dir"
+          app_dir="$package_dir/$app_name"
+          for file in appinfo/info.xml vendor/autoload.php js/asset-meta.json COPYING README.md; do
+            test -s "$app_dir/$file"
+          done
+          test ! -d "$app_dir/vendor/bamarni"
+          APP_DIR="$app_dir" php <<'PHP'
+          <?php
+          $appDir = getenv('APP_DIR');
+          require $appDir . '/vendor/autoload.php';
+          if (!class_exists(\PHP_IBAN\IBAN::class) || !class_exists(\malkusch\bav\BAV::class)) {
+            throw new RuntimeException('Packaged runtime dependencies are missing.');
+          }
+          $assets = json_decode(file_get_contents($appDir . '/js/asset-meta.json'), true, flags: JSON_THROW_ON_ERROR);
+          if (empty($assets)) {
+            throw new RuntimeException('The asset manifest is empty.');
+          }
+          foreach ($assets as $entry) {
+            if (empty($entry['js'])) {
+              throw new RuntimeException('An asset entry has no JavaScript bundle.');
+            }
+            foreach ($entry as $asset) {
+              if (!is_file($appDir . '/' . $asset) || filesize($appDir . '/' . $asset) === 0) {
+                throw new RuntimeException('Missing or empty packaged asset: ' . $asset);
+              }
+            }
+          }
+          PHP
+
+      - name: Upload app-store package
+        uses: actions/upload-artifact@v7
+        with:
+          name: bav-appstore
+          path: build/artifacts/appstore/*.tar.gz
+          if-no-files-found: error
+          retention-days: 7

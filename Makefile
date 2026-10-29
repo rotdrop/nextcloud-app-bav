@@ -136,7 +136,6 @@ APPSTORE_FILES =\
  js\
  img\
  l10n\
- templates\
  lib\
  vendor\
  CHANGELOG.md\
@@ -147,9 +146,9 @@ APPSTORE_FILES =\
 APPSTORE_BLACKLISTED = foobar .git* .*keep .htaccess *~
 
 #@private
-appstore: COMPOSER_OPTIONS := $(COMPOSER_OPTIONS) --no-dev
 #@@ Prepare appstore archive
 appstore: clean dev-setup npm-build
+	$(COMPOSER) install $(COMPOSER_OPTIONS) --no-dev --no-plugins
 	mkdir -p $(APPSTORE_SIGN_DIR)/$(APP_NAME)
 	$(RSYNC) -a -L $(APPSTORE_BLACKLISTED:%=--exclude '%') $(APPSTORE_FILES) $(APPSTORE_SIGN_DIR)/$(APP_NAME)
 	mkdir -p $(BUILD_CERT_DIR)
