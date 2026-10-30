@@ -20,6 +20,7 @@ project](https://github.com/bav-php/bav). The actuall backend used,
 however, is [my fork](https://github.com/rotdrop/bav.git) as
 unfortunately the original Github repo is no longer maintained, it
 seem.
+The app uses the fork's Doctrine ORM backend with the Nextcloud database.
 
 BAV validates IBAN checksums by the known methods (using
 [php-iban](https://github.com/globalcitizen/php-iban)) and using the
@@ -97,9 +98,10 @@ make appstore
 The app-store target installs development tools for type generation and frontend
 compilation, then removes root Composer development dependencies before
 packaging without forwarding that removal to the Composer bin environments.
-The shared build rules in `dev-scripts/lib` are a git submodule. The PHP toolkit
-is installed through `composer-scoped.json` and isolated with PHP-Scoper into
-`vendor-scoped`; there is no vendored `php-toolkit` checkout. The TypeScript
+The shared build rules in `dev-scripts/lib` are a git submodule. The PHP toolkit,
+PHP-IBAN, BAV library, and Doctrine ORM dependencies are installed through
+`composer-scoped.json` and isolated with PHP-Scoper into `vendor-scoped`; there
+is no vendored `php-toolkit` checkout. The TypeScript
 converter and its standalone Nextcloud API stubs are installed in
 `vendor-bin/php-to-typescript`.
 Run `make toolkit-l10n` after updating the toolkit and commit the generated

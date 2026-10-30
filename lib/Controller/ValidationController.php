@@ -24,7 +24,10 @@
 
 namespace OCA\BAV\Controller;
 
-use PHP_IBAN;
+use OCA\BAV\Scoped\PHP_IBAN;
+
+use function OCA\BAV\Scoped\iban_to_human_format;
+use function OCA\BAV\Scoped\iban_to_machine_format;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
