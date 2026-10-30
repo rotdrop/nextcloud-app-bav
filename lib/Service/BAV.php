@@ -25,13 +25,13 @@ namespace OCA\BAV\Service;
 
 use Exception;
 use InvalidArgumentException;
-use malkusch;
-use malkusch\bav\Configuration\ConfigurationRegistry;
-use malkusch\bav\Configuration\DefaultConfiguration;
-use malkusch\bav\DataBackend\DataBackend;
-use malkusch\bav\DataBackend\Orm\Doctrine\DoctrineBackendContainer;
-use malkusch\bav\DataBackend\Update\AutomaticUpdatePlan;
-use malkusch\bav\DataBackend\Update\UpdatePlan;
+use OCA\BAV\Scoped\malkusch\bav\BAV as BAVBackend;
+use OCA\BAV\Scoped\malkusch\bav\Configuration\ConfigurationRegistry;
+use OCA\BAV\Scoped\malkusch\bav\Configuration\DefaultConfiguration;
+use OCA\BAV\Scoped\malkusch\bav\DataBackend\DataBackend;
+use OCA\BAV\Scoped\malkusch\bav\DataBackend\Orm\Doctrine\DoctrineBackendContainer;
+use OCA\BAV\Scoped\malkusch\bav\DataBackend\Update\AutomaticUpdatePlan;
+use OCA\BAV\Scoped\malkusch\bav\DataBackend\Update\UpdatePlan;
 
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
@@ -40,7 +40,7 @@ use Psr\Log\LoggerInterface;
  * Silly name. However, initialize the BAV database backend and allow to
  * conveniently set the update plan.
  */
-class BAV extends malkusch\bav\BAV
+class BAV extends BAVBackend
 {
   use \OCA\BAV\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
