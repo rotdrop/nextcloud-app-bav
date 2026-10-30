@@ -20,6 +20,7 @@ project](https://github.com/bav-php/bav). The actuall backend used,
 however, is [my fork](https://github.com/rotdrop/bav.git) as
 unfortunately the original Github repo is no longer maintained, it
 seem.
+The app uses the fork's Doctrine ORM backend with the Nextcloud database.
 
 BAV validates IBAN checksums by the known methods (using
 [php-iban](https://github.com/globalcitizen/php-iban)) and using the

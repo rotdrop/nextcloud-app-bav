@@ -25,12 +25,11 @@ namespace OCA\BAV\Service;
 
 use Exception;
 use InvalidArgumentException;
-use PDO;
 use malkusch;
 use malkusch\bav\Configuration\ConfigurationRegistry;
 use malkusch\bav\Configuration\DefaultConfiguration;
 use malkusch\bav\DataBackend\DataBackend;
-use malkusch\bav\DataBackend\Pdo\PDODataBackendContainer;
+use malkusch\bav\DataBackend\Orm\Doctrine\DoctrineBackendContainer;
 use malkusch\bav\DataBackend\Update\AutomaticUpdatePlan;
 use malkusch\bav\DataBackend\Update\UpdatePlan;
 
@@ -63,16 +62,41 @@ class BAV extends malkusch\bav\BAV
     try {
       $bavConfig = new DefaultConfiguration();
 
-      $dbType = $cloudConfig->getSystemValue('dbtype', 'mysql');
-      $dbHost = $cloudConfig->getSystemValue('dbhost', 'localhost');
-      $dbName = $cloudConfig->getSystemValue('dbname', false);
-      $dbUser = $cloudConfig->getSystemValue('dbuser', false);
-      $dbPass = $cloudConfig->getSystemValue('dbpassword', false);
+      $dbType = $cloudConfig->getSystemValue('dbtype', 'sqlite');
+      $dbName = $cloudConfig->getSystemValue('dbname', 'nextcloud');
+      $connectionParams = [
+        'driver' => match ($dbType) {
+          'mysql' => 'pdo_mysql',
+          'pgsql' => 'pdo_pgsql',
+          'sqlite', 'sqlite3' => 'pdo_sqlite',
+          default => throw new InvalidArgumentException('Unsupported Nextcloud database type: ' . $dbType),
+        },
+        'user' => $cloudConfig->getSystemValue('dbuser', ''),
+        'password' => $cloudConfig->getSystemValue('dbpassword', ''),
+      ];
 
-      $dbURI = $dbType . ':' . 'host=' . $dbHost . ';dbname=' . $dbName;
+      if ($dbType === 'sqlite' || $dbType === 'sqlite3') {
+        $dataDir = $cloudConfig->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
+        $connectionParams['path'] = $dataDir . '/' . $dbName . '.db';
+      } else {
+        $connectionParams['dbname'] = $dbName;
+        $dbHost = $cloudConfig->getSystemValue('dbhost', 'localhost');
+        $matches = [];
+        if (preg_match('/^(.*):([^\]:]+)$/', $dbHost, $matches)) {
+          $dbHost = $matches[1];
+          if (is_numeric($matches[2])) {
+            $connectionParams['port'] = (int)$matches[2];
+          } else {
+            $connectionParams['unix_socket'] = $matches[2];
+          }
+        }
+        if (preg_match('/^\[([^\]]+)\]$/', $dbHost, $matches)) {
+          $dbHost = $matches[1];
+        }
+        $connectionParams['host'] = $dbHost;
+      }
 
-      $pdo = new PDO($dbURI, $dbUser, $dbPass);
-      $bavConfig->setDataBackendContainer(new PDODataBackendContainer($pdo));
+      $bavConfig->setDataBackendContainer(DoctrineBackendContainer::buildByConnection($connectionParams));
 
       ConfigurationRegistry::setConfiguration($bavConfig);
 
