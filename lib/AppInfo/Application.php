@@ -39,9 +39,10 @@ use OCP\IURLGenerator;
 use OCP\IL10N;
 
 use OCA\BAV\Listener\Registration as ListenerRegistration;
-use OCA\BAV\Toolkit\AppInfo\AbstractApplication;
+use OCA\BAV\Scoped\OCA\RotDrop\Toolkit\AppInfo\AbstractApplication;
 
-include_once __DIR__ . '/../Toolkit/AppInfo/AbstractApplication.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor-scoped/autoload.php';
 
 /**
  * App entry point.

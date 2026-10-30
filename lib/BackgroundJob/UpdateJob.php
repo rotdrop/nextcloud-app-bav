@@ -37,7 +37,7 @@ use OCA\BAV\Service\BAV;
  */
 class UpdateJob extends TimedJob
 {
-  use \OCA\BAV\Toolkit\Traits\LoggerTrait;
+  use \OCA\BAV\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(

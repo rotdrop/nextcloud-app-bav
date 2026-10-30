@@ -43,7 +43,7 @@ use OCA\BAV\Service\BAV;
  */
 class BeforeTemplateRenderedListener implements IEventListener
 {
-  use \OCA\BAV\Toolkit\Traits\AssetTrait;
+  use \OCA\BAV\Scoped\OCA\RotDrop\Toolkit\Traits\AssetTrait;
 
   public const EVENT = BeforeTemplateRenderedEvent::class;
 

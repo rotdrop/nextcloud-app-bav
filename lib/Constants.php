@@ -25,10 +25,10 @@ namespace OCA\BAV;
 
 use Spatie\TypeScriptTransformer\Attributes as TSAttributes;
 
-use OCA\BAV\Toolkit\Constants as ToolkitConstants;
+use OCA\BAV\Scoped\OCA\RotDrop\Toolkit\Constants as ToolkitConstants;
 
 /** A couple of constants in order to avoid string literals. */
-#[TSAttributes\Typescript]
+#[TSAttributes\TypeScript]
 class Constants extends ToolkitConstants
 {
 }

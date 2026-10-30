@@ -38,7 +38,7 @@ use OCA\BAV\Service\BAV;
 /** Command for updating the BAV database tables. */
 class Update extends Command
 {
-  use \OCA\BAV\Toolkit\Traits\LoggerTrait;
+  use \OCA\BAV\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(

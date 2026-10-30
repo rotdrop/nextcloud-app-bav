@@ -8,9 +8,10 @@ stamp*
 *.html
 #*
 composer.lock
+/composer-scoped.lock
+/vendor-scoped/
 /composer.json
 vendor
-lib/Toolkit/[A-Z]*
 *-build-hash
 *~
 /vendor-bin/**/vendor/

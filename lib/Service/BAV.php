@@ -37,7 +37,7 @@ use Psr\Log\LoggerInterface;
  */
 class BAV extends malkusch\bav\BAV
 {
-  use \OCA\BAV\Toolkit\Traits\LoggerTrait;
+  use \OCA\BAV\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
   public const UPDATE_PLAN_NONE = 'none';
   public const UPDATE_PLAN_LOGGER = 'logger';
@@ -99,7 +99,7 @@ class BAV extends malkusch\bav\BAV
       switch ($plan) {
         case self::UPDATE_PLAN_NONE:
           $plan = new class($this->logger) extends malkusch\bav\UpdatePlan {
-            use \OCA\BAV\Toolkit\Traits\LoggerTrait;
+            use \OCA\BAV\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
             // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
             public function __construct(protected LoggerInterface $logger)
@@ -122,7 +122,7 @@ class BAV extends malkusch\bav\BAV
           break;
         case self::UPDATE_PLAN_LOGGER:
           $plan = new class($this->logger) extends malkusch\bav\UpdatePlan {
-            use \OCA\BAV\Toolkit\Traits\LoggerTrait;
+            use \OCA\BAV\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
             // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
             public function __construct(protected LoggerInterface $logger)

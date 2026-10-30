@@ -43,7 +43,7 @@ use OCA\BAV\Service\BAV;
  */
 class ValidationController extends Controller
 {
-  use \OCA\BAV\Toolkit\Traits\LoggerTrait;
+  use \OCA\BAV\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
   // phpcs:disable Squiz.Commenting.FunctionComment.Missing
   public function __construct(

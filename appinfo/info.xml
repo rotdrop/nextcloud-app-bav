@@ -9,6 +9,7 @@
     <licence>agpl</licence>
     <author mail="himself@claus-justus-heine.de" homepage="https://gitlab.claus-justus-heine.de/nextcloud/apps/bav.git">Claus-Justus Heine</author>
     <namespace>BAV</namespace>
+    <scopednamespace>Scoped</scopednamespace>
     <category>office</category>
     <category>tools</category>
     <bugs>https://gitlab.claus-justus-heine.de/nextcloud/apps/bav/-/issues</bugs>

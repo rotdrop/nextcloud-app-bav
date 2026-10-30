@@ -18,12 +18,12 @@
   },
   "repositories": [
     {
-      "type": "path",
-      "url": "3rdparty/bav"
+      "type": "vcs",
+      "url": "https://github.com/rotdrop/bav.git"
     },
     {
-      "type": "path",
-      "url": "3rdparty/php-index"
+      "type": "vcs",
+      "url": "https://github.com/bav-php/php-index.git"
     }
   ],
   "config": {
@@ -40,7 +40,7 @@
   "prefer-stable": true,
   "extra": {
     "bamarni-bin": {
-      "bin-links": true,
+      "bin-links": false,
       "target-directory": "vendor-bin",
       "forward-command": true
     }

@@ -1,0 +1,25 @@
+{
+  "name": "rotdrop/nextcloud-bav-scoped",
+  "description": "App-isolated PHP toolkit for BAV",
+  "type": "project",
+  "license": "AGPL-3.0-or-later",
+  "require": {
+    "rotdrop/nextcloud-app-toolkit": "dev-main"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/rotdrop/nextcloud-app-toolkit"
+    }
+  ],
+  "config": {
+    "vendor-dir": "vendor-scoped",
+    "optimize-autoloader": true,
+    "classmap-authoritative": true,
+    "platform": {
+      "php": "8.4.0"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
