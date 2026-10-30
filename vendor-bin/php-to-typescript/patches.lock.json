@@ -1,0 +1,17 @@
+{
+    "_hash": "94de1b2e943a5b31d554bc081668dbf24a88dfe90dfa7634513709afde1c78a1",
+    "patches": {
+        "nextcloud/ocp": [
+            {
+                "package": "nextcloud/ocp",
+                "description": "Fix server version at 35.0.0.0",
+                "url": "../../composer-patches/nextcloud/ocp/get-version.patch",
+                "sha256": "89ccb534a861f118987f43ae95694d9aeeac087ac68e5c08b7f2489c54872946",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ]
+    }
+}

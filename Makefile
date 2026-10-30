@@ -21,6 +21,7 @@ BUILD_TOOLS_DIR = $(BUILDDIR)/tools
 TYPESCRIPT_CONVERTER = $(ABSSRCDIR)/dev-scripts/php-to-typescript.php
 TS_TYPES_DIR = $(ABSBUILDDIR)/ts-types
 TS_PHP_SOURCE_DIRS = lib
+WRAPPER_NAMESPACE_POSTFIX = Scoped
 
 SILENT = @
 
@@ -31,7 +32,8 @@ NPM = $(shell which npm 2> /dev/null)
 BUNDLER_CONFIG = vite.config.ts
 WGET = $(shell which wget 2> /dev/null)
 OPENSSL = $(shell which openssl 2> /dev/null)
-PHPUNIT = ./vendor/bin/phpunit
+PHPUNIT = $(ABSSRCDIR)/vendor-bin/phpunit/vendor/bin/phpunit
+PHP_SCOPER = $(ABSSRCDIR)/vendor-bin/php-scoper/vendor/bin/php-scoper
 
 COMPOSER_SYSTEM = $(shell which composer 2> /dev/null)
 ifeq (, $(COMPOSER_SYSTEM))
@@ -93,11 +95,27 @@ dev-setup: app-toolkit composer
 
 include $(DEV_LIB_DIR)/makefile/composer.mk
 
-APP_TOOLKIT_DIR = $(ABSSRCDIR)/php-toolkit
-APP_TOOLKIT_DEST = $(ABSSRCDIR)/lib/Toolkit
-APP_TOOLKIT_NS = BAV
+$(PHP_SCOPER): composer.lock vendor-bin/php-scoper/composer.json | composer
+	$(COMPOSER) bin php-scoper install
+	test -x "$@"
+	touch "$@"
 
-include $(APP_TOOLKIT_DIR)/tools/scopeme.mk
+$(BUILDDIR)/vendor-scoped/autoload.php: composer-scoped.json $(wildcard composer-scoped.lock)
+	mkdir -p $(BUILDDIR)
+	env COMPOSER="$(ABSSRCDIR)/composer-scoped.json" $(COMPOSER) -d$(BUILDDIR) install $(COMPOSER_OPTIONS) --no-dev
+
+vendor-scoped/autoload.php: $(BUILDDIR)/vendor-scoped/autoload.php scoper.inc.php Makefile $(PHP_SCOPER)
+	$(PHP_SCOPER) add-prefix -d$(BUILDDIR) --config=$(ABSSRCDIR)/scoper.inc.php --output-dir=$(ABSSRCDIR)/vendor-scoped --force
+	env COMPOSER="$(ABSSRCDIR)/composer-scoped.json" $(COMPOSER) dump-autoload --no-dev
+
+app-toolkit: vendor-scoped/autoload.php
+.PHONY: app-toolkit
+
+#@@ Generate the toolkit string catalogue for translation extraction.
+toolkit-l10n: app-toolkit
+	$(PHP) vendor-scoped/rotdrop/nextcloud-app-toolkit/tools/extract-l10n.php l10n-sources/toolkit-strings.php
+.PHONY: toolkit-l10n
+
 include $(DEV_LIB_DIR)/makefile/ts-app-config.mk
 include $(DEV_LIB_DIR)/makefile/ts-types-files.mk
 
@@ -123,11 +141,11 @@ include $(DEV_LIB_DIR)/makefile/npm.mk
 
 #@@ Run phpcs on the PHP code
 phpcs: composer
-	vendor/bin/phpcs -s --report=emacs --standard=$(SRCDIR)/.phpcs.xml lib/ appinfo/ templates/
+	vendor-bin/phpcs/vendor/bin/phpcs -s --report=emacs --standard=$(SRCDIR)/.phpcs.xml lib/ appinfo/ templates/
 
 #@@ Run phpmd on the PHP code
 phpmd: composer
-	vendor/bin/phpmd lib/,appinfo/,templates/ text $(SRCDIR)/.phpmd.xml
+	vendor-bin/phpmd/vendor/bin/phpmd lib/,appinfo/,templates/ text $(SRCDIR)/.phpmd.xml
 
 # what has to be copied to the appstore archive
 APPSTORE_FILES =\
@@ -138,6 +156,7 @@ APPSTORE_FILES =\
  l10n\
  lib\
  vendor\
+ vendor-scoped\
  CHANGELOG.md\
  COPYING\
  README.md
@@ -190,9 +209,9 @@ clean: ## Tidy up local environment
 #@@ Same as clean but also removes dependencies installed by composer, bower and npm
 distclean: clean ## Clean even more, calls clean
 	rm -rf vendor
+	rm -rf vendor-scoped
 	rm -rf vendor-bin/**/vendor
 	rm -rf node_modules
-	rm -rf lib/Toolkit/*
 .PHONY: distclean
 
 #@@ Almost everything but downloads

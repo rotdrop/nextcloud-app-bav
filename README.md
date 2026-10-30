@@ -97,6 +97,14 @@ make appstore
 The app-store target installs development tools for type generation and frontend
 compilation, then removes root Composer development dependencies before
 packaging without forwarding that removal to the Composer bin environments.
+The shared build rules in `dev-scripts/lib` are a git submodule. The PHP toolkit
+is installed through `composer-scoped.json` and isolated with PHP-Scoper into
+`vendor-scoped`; there is no vendored `php-toolkit` checkout. The TypeScript
+converter and its standalone Nextcloud API stubs are installed in
+`vendor-bin/php-to-typescript`.
+Run `make toolkit-l10n` after updating the toolkit and commit the generated
+`l10n-sources/toolkit-strings.php` catalogue so translation extraction also sees
+strings from the Composer package.
 The unsigned archive is written to
 `build/artifacts/appstore/`; signing is skipped when no signing key is available.
 

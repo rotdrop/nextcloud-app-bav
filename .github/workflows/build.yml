@@ -57,7 +57,7 @@ jobs:
           package_dir="$(mktemp -d)"
           tar -xzf "$archive" -C "$package_dir"
           app_dir="$package_dir/$app_name"
-          for file in appinfo/info.xml vendor/autoload.php js/asset-meta.json COPYING README.md; do
+          for file in appinfo/info.xml vendor/autoload.php vendor-scoped/autoload.php js/asset-meta.json COPYING README.md; do
             test -s "$app_dir/$file"
           done
           test ! -d "$app_dir/vendor/bamarni"
@@ -65,8 +65,13 @@ jobs:
           <?php
           $appDir = getenv('APP_DIR');
           require $appDir . '/vendor/autoload.php';
+          require $appDir . '/vendor-scoped/autoload.php';
           if (!class_exists(\PHP_IBAN\IBAN::class) || !class_exists(\malkusch\bav\BAV::class)) {
             throw new RuntimeException('Packaged runtime dependencies are missing.');
+          }
+          if (!trait_exists(\OCA\BAV\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait::class)
+              || \OCA\BAV\Scoped\OCA\RotDrop\Toolkit\Service\AppInfoService::getAppInfoAppName() !== 'bav') {
+            throw new RuntimeException('The packaged toolkit is missing or cannot locate the app.');
           }
           $assets = json_decode(file_get_contents($appDir . '/js/asset-meta.json'), true, flags: JSON_THROW_ON_ERROR);
           if (empty($assets)) {
