@@ -66,8 +66,17 @@ jobs:
           $appDir = getenv('APP_DIR');
           require $appDir . '/vendor/autoload.php';
           require $appDir . '/vendor-scoped/autoload.php';
-          if (!class_exists(\PHP_IBAN\IBAN::class) || !class_exists(\malkusch\bav\BAV::class)) {
+          if (!class_exists(\OCA\BAV\Scoped\PHP_IBAN\IBAN::class)
+              || !class_exists(\OCA\BAV\Scoped\malkusch\bav\BAV::class)
+              || !class_exists(\OCA\BAV\Scoped\malkusch\bav\DataBackend\Orm\Doctrine\DoctrineBackendContainer::class)
+              || !class_exists(\OCA\BAV\Scoped\Doctrine\ORM\EntityManager::class)) {
             throw new RuntimeException('Packaged runtime dependencies are missing.');
+          }
+          $iban = new \OCA\BAV\Scoped\PHP_IBAN\IBAN('DE89370400440532013000');
+          if (!$iban->Verify()
+              || \OCA\BAV\Scoped\iban_to_machine_format('DE89 3704 0044 0532 0130 00') !== $iban->MachineFormat()
+              || \OCA\BAV\Scoped\iban_to_human_format($iban->MachineFormat()) !== 'DE89 3704 0044 0532 0130 00') {
+            throw new RuntimeException('The packaged IBAN validator is not functional.');
           }
           if (!trait_exists(\OCA\BAV\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait::class)
               || \OCA\BAV\Scoped\OCA\RotDrop\Toolkit\Service\AppInfoService::getAppInfoAppName() !== 'bav') {
