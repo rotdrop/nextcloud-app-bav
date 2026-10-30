@@ -49,6 +49,9 @@ use OCA\RotDrop\DevScripts\PhpToTypeScript;
 $excludes = [
   'lib/Mount', // there is nothing to convert, and code diversion between NC versions triggers errors.
   'lib/Storage',
+  'vendor-scoped/rotdrop/nextcloud-app-toolkit/src/Service/ArchiveService.php',
+  'vendor-scoped/rotdrop/nextcloud-app-toolkit/src/Backend/ArchiveBackend.php',
+  'vendor-scoped/rotdrop/nextcloud-app-toolkit/src/Backend/ArchiveFormats.php',
 ];
 
 $scopedNamespaces = [
@@ -68,10 +71,10 @@ $collectors = [
 ];
 
 $phpToTypeScript = new PhpToTypeScript\PhpToTypeScript(
+  collectors: $collectors,
   devScriptsFolder: __DIR__,
   excludes: $excludes,
   scopedNamespaces: $scopedNamespaces,
-  collectors: $collectors,
 );
 
 try {

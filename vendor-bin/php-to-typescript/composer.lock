@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f22e74375ec242dd49291be7b12c0aa",
+    "content-hash": "59234f80e19c59826e2934df0cf18e92",
     "packages": [],
     "packages-dev": [
         {
@@ -759,19 +759,21 @@
         },
         {
             "name": "rotdrop/php-to-typescript",
-            "version": "v2.0.0",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rotdrop/php-to-typescript.git",
-                "reference": "de2ce7050564c7bbee87b9b31c8a31474ce1c9fa"
+                "reference": "4615e6d7025a203d7e30ea0d7e655ff10da64590"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rotdrop/php-to-typescript/zipball/de2ce7050564c7bbee87b9b31c8a31474ce1c9fa",
-                "reference": "de2ce7050564c7bbee87b9b31c8a31474ce1c9fa",
+                "url": "https://api.github.com/repos/rotdrop/php-to-typescript/zipball/4615e6d7025a203d7e30ea0d7e655ff10da64590",
+                "reference": "4615e6d7025a203d7e30ea0d7e655ff10da64590",
                 "shasum": ""
             },
             "require": {
+                "cweagans/composer-patches": "^2.0",
+                "nextcloud/ocp": "dev-stable33 || dev-stable34 || dev-stable35",
                 "php": "^8.2",
                 "phpdocumentor/type-resolver": "^1.6.2",
                 "spatie/typescript-transformer": "^2.5",
@@ -784,6 +786,11 @@
             },
             "type": "library",
             "extra": {
+                "patches": {
+                    "nextcloud/ocp": {
+                        "Fix server version at 35.0.0.0": "composer-patches/nextcloud/ocp/get-version.patch"
+                    }
+                },
                 "bamarni-bin": {
                     "bin-links": false,
                     "target-directory": "vendor-bin",
@@ -791,6 +798,9 @@
                 }
             },
             "autoload": {
+                "files": [
+                    "autoload-ocp.php"
+                ],
                 "psr-4": {
                     "OCA\\RotDrop\\DevScripts\\PhpToTypeScript\\": "src/"
                 }
@@ -817,10 +827,10 @@
             ],
             "description": "PHP to TypeScript conversion for Nextcloud apps and the RotDrop toolkit",
             "support": {
-                "source": "https://github.com/rotdrop/php-to-typescript/tree/v2.0.0",
+                "source": "https://github.com/rotdrop/php-to-typescript/tree/v2.0.2",
                 "issues": "https://github.com/rotdrop/php-to-typescript/issues"
             },
-            "time": "2026-10-30T11:45:25+00:00"
+            "time": "2026-10-30T14:30:34+00:00"
         },
         {
             "name": "spatie/typescript-transformer",
@@ -1951,10 +1961,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "nextcloud/ocp": 20,
-        "rotdrop/php-to-typescript": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {},
