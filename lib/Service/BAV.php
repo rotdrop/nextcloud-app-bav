@@ -25,13 +25,13 @@ namespace OCA\BAV\Service;
 
 use Exception;
 use InvalidArgumentException;
-use OCA\BAV\Scoped\malkusch\bav\BAV as BAVBackend;
-use OCA\BAV\Scoped\malkusch\bav\Configuration\ConfigurationRegistry;
-use OCA\BAV\Scoped\malkusch\bav\Configuration\DefaultConfiguration;
-use OCA\BAV\Scoped\malkusch\bav\DataBackend\DataBackend;
-use OCA\BAV\Scoped\malkusch\bav\DataBackend\Orm\Doctrine\DoctrineBackendContainer;
-use OCA\BAV\Scoped\malkusch\bav\DataBackend\Update\AutomaticUpdatePlan;
-use OCA\BAV\Scoped\malkusch\bav\DataBackend\Update\UpdatePlan;
+use OCA\BAV\Scoped\rotdrop\bav\BAV as BAVBackend;
+use OCA\BAV\Scoped\rotdrop\bav\Configuration\ConfigurationRegistry;
+use OCA\BAV\Scoped\rotdrop\bav\Configuration\DefaultConfiguration;
+use OCA\BAV\Scoped\rotdrop\bav\DataBackend\DataBackend;
+use OCA\BAV\Scoped\rotdrop\bav\DataBackend\Orm\Doctrine\DoctrineBackendContainer;
+use OCA\BAV\Scoped\rotdrop\bav\DataBackend\Update\AutomaticUpdatePlan;
+use OCA\BAV\Scoped\rotdrop\bav\DataBackend\Update\UpdatePlan;
 
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;

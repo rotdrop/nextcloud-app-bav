@@ -67,8 +67,8 @@ jobs:
           require $appDir . '/vendor/autoload.php';
           require $appDir . '/vendor-scoped/autoload.php';
           if (!class_exists(\OCA\BAV\Scoped\PHP_IBAN\IBAN::class)
-              || !class_exists(\OCA\BAV\Scoped\malkusch\bav\BAV::class)
-              || !class_exists(\OCA\BAV\Scoped\malkusch\bav\DataBackend\Orm\Doctrine\DoctrineBackendContainer::class)
+              || !class_exists(\OCA\BAV\Scoped\rotdrop\bav\BAV::class)
+              || !class_exists(\OCA\BAV\Scoped\rotdrop\bav\DataBackend\Orm\Doctrine\DoctrineBackendContainer::class)
               || !class_exists(\OCA\BAV\Scoped\Doctrine\ORM\EntityManager::class)) {
             throw new RuntimeException('Packaged runtime dependencies are missing.');
           }
