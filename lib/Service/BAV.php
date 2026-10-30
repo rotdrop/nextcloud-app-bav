@@ -27,6 +27,12 @@ use Exception;
 use InvalidArgumentException;
 use PDO;
 use malkusch;
+use malkusch\bav\Configuration\ConfigurationRegistry;
+use malkusch\bav\Configuration\DefaultConfiguration;
+use malkusch\bav\DataBackend\DataBackend;
+use malkusch\bav\DataBackend\Pdo\PDODataBackendContainer;
+use malkusch\bav\DataBackend\Update\AutomaticUpdatePlan;
+use malkusch\bav\DataBackend\Update\UpdatePlan;
 
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
@@ -55,7 +61,7 @@ class BAV extends malkusch\bav\BAV
     protected LoggerInterface $logger,
   ) {
     try {
-      $bavConfig = new malkusch\bav\DefaultConfiguration();
+      $bavConfig = new DefaultConfiguration();
 
       $dbType = $cloudConfig->getSystemValue('dbtype', 'mysql');
       $dbHost = $cloudConfig->getSystemValue('dbhost', 'localhost');
@@ -66,9 +72,9 @@ class BAV extends malkusch\bav\BAV
       $dbURI = $dbType . ':' . 'host=' . $dbHost . ';dbname=' . $dbName;
 
       $pdo = new PDO($dbURI, $dbUser, $dbPass);
-      $bavConfig->setDataBackendContainer(new malkusch\bav\PDODataBackendContainer($pdo));
+      $bavConfig->setDataBackendContainer(new PDODataBackendContainer($pdo));
 
-      malkusch\bav\ConfigurationRegistry::setConfiguration($bavConfig);
+      ConfigurationRegistry::setConfiguration($bavConfig);
 
       $this->setUpdatePlan(self::UPDATE_PLAN_LOGGER);
 
@@ -84,21 +90,21 @@ class BAV extends malkusch\bav\BAV
   /**
    * Configure the update plan to use and return the old plan.
    *
-   * @param null|string|malkusch\bav\UpdatePlan $plan
+   * @param null|string|UpdatePlan $plan
    *
-   * @return null|malkusch\bav\UpdatePlan
+   * @return null|UpdatePlan
    *
    * @throws InvalidArgumentException
    */
-  public function setUpdatePlan(string|malkusch\bav\UpdatePlan $plan):?malkusch\bav\UpdatePlan
+  public function setUpdatePlan(string|UpdatePlan $plan):?UpdatePlan
   {
-    $configuration = malkusch\bav\ConfigurationRegistry::getConfiguration();
+    $configuration = ConfigurationRegistry::getConfiguration();
     $oldUpdatePlan = $configuration->getUpdatePlan();
 
     if (is_string($plan)) {
       switch ($plan) {
         case self::UPDATE_PLAN_NONE:
-          $plan = new class($this->logger) extends malkusch\bav\UpdatePlan {
+          $plan = new class($this->logger) extends UpdatePlan {
             use \OCA\BAV\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
             // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
@@ -108,20 +114,20 @@ class BAV extends malkusch\bav\BAV
             // phpcs:enable
 
             /** {@inheritdoc} */
-            public function perform(malkusch\bav\Databackend $backend)
+            public function perform(DataBackend $backend)
             {
             }
           };
           break;
         case self::UPDATE_PLAN_AUTO:
-          if ($oldUpdatePlan instanceof malkusch\bav\AutomaticUpdatePlan) {
+          if ($oldUpdatePlan instanceof AutomaticUpdatePlan) {
             $plan = $oldUpdatePlan;
           } else {
-            $plan = new malkusch\bav\AutomaticUpdatePlan();
+            $plan = new AutomaticUpdatePlan();
           }
           break;
         case self::UPDATE_PLAN_LOGGER:
-          $plan = new class($this->logger) extends malkusch\bav\UpdatePlan {
+          $plan = new class($this->logger) extends UpdatePlan {
             use \OCA\BAV\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
             // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
@@ -131,14 +137,14 @@ class BAV extends malkusch\bav\BAV
             // phpcs:enable
 
             /** {@inheritdoc} */
-            public function perform(malkusch\bav\Databackend $backend)
+            public function perform(DataBackend $backend)
             {
               $this->logDebug("BAV's bank data is outdated.");
             }
           };
           break;
         default:
-          throw new InvalidArgumentException('Update plan must be one of {' . implode(', ', self::UPDATE_PLANS) . '} or and instance of ' . malkusch\bav\UpdatePlan::class . '.');
+          throw new InvalidArgumentException('Update plan must be one of {' . implode(', ', self::UPDATE_PLANS) . '} or and instance of ' . UpdatePlan::class . '.');
       }
     }
 
@@ -150,11 +156,11 @@ class BAV extends malkusch\bav\BAV
   /**
    * Return the update plan which currently is in use.
    *
-   * @return malkusch\bav\UpdatePlan
+   * @return UpdatePlan
    */
-  public function getUpdatePlan():malkusch\bav\UpdatePlan
+  public function getUpdatePlan():UpdatePlan
   {
-    return malkusch\bav\ConfigurationRegistry::getConfiguration()->getUpdatePlan();
+    return ConfigurationRegistry::getConfiguration()->getUpdatePlan();
   }
 
   /**
@@ -162,6 +168,6 @@ class BAV extends malkusch\bav\BAV
    */
   public function isOutdated():bool
   {
-    return malkusch\bav\ConfigurationRegistry::getConfiguration()->getUpdatePlan()->isOutdated($this->getDataBackend());
+    return ConfigurationRegistry::getConfiguration()->getUpdatePlan()->isOutdated($this->getDataBackend());
   }
 }
