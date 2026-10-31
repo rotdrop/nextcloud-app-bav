@@ -140,6 +140,7 @@ APPSTORE_FILES =\
  img\
  l10n\
  lib\
+ composer\
  vendor\
  vendor-scoped\
  CHANGELOG.md\
