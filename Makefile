@@ -92,6 +92,7 @@ $(BUILDDIR)/vendor-scoped/autoload.php: composer-scoped.json $(wildcard composer
 vendor-scoped/autoload.php: $(BUILDDIR)/vendor-scoped/autoload.php scoper.inc.php Makefile $(PHP_SCOPER)
 	$(PHP_SCOPER) add-prefix -d$(BUILDDIR) --config=$(ABSSRCDIR)/scoper.inc.php --output-dir=$(ABSSRCDIR)/vendor-scoped --force
 	env COMPOSER="$(ABSSRCDIR)/composer-scoped.json" $(COMPOSER) dump-autoload --no-dev
+	$(call apply-scoped-autoload-patch,vendor-scoped)
 
 app-toolkit: vendor-scoped/autoload.php
 .PHONY: app-toolkit
