@@ -82,6 +82,37 @@ jobs:
               || \OCA\BAV\Scoped\OCA\RotDrop\Toolkit\Service\AppInfoService::getAppInfoAppName() !== 'bav') {
             throw new RuntimeException('The packaged toolkit is missing or cannot locate the app.');
           }
+          $doctrineConfig = new \OCA\BAV\Scoped\Doctrine\ORM\Configuration();
+          $doctrineConfig->setMetadataDriverImpl(new \OCA\BAV\Scoped\Doctrine\ORM\Mapping\Driver\AttributeDriver(
+            \OCA\BAV\Scoped\rotdrop\bav\DataBackend\Orm\Doctrine\DoctrineBackendContainer::getEntityPaths()
+          ));
+          $doctrineConfig->enableNativeLazyObjects(true);
+          $connection = \OCA\BAV\Scoped\Doctrine\DBAL\DriverManager::getConnection([
+            'driver' => 'pdo_sqlite',
+            'memory' => true,
+          ]);
+          $entityManager = new \OCA\BAV\Scoped\Doctrine\ORM\EntityManager($connection, $doctrineConfig);
+          $metadata = $entityManager->getMetadataFactory()->getAllMetadata();
+          $entityNames = array_map(static fn($entity) => $entity->getName(), $metadata);
+          sort($entityNames);
+          if ($entityNames !== [
+            \OCA\BAV\Scoped\rotdrop\bav\Bank\Agency::class,
+            \OCA\BAV\Scoped\rotdrop\bav\Bank\Bank::class,
+            \OCA\BAV\Scoped\rotdrop\bav\DataBackend\Orm\MetaData::class,
+          ]) {
+            throw new RuntimeException('Packaged Doctrine entities were not discovered.');
+          }
+          $mappingErrors = (new \OCA\BAV\Scoped\Doctrine\ORM\Tools\SchemaValidator($entityManager))->validateMapping();
+          if ($mappingErrors !== []) {
+            throw new RuntimeException('Packaged Doctrine mappings are invalid: ' . json_encode($mappingErrors, JSON_THROW_ON_ERROR));
+          }
+          (new \OCA\BAV\Scoped\Doctrine\ORM\Tools\SchemaTool($entityManager))->createSchema($metadata);
+          if ($entityManager->createQuery(
+            'SELECT metadata FROM ' . \OCA\BAV\Scoped\rotdrop\bav\DataBackend\Orm\MetaData::class . ' metadata'
+          )->getResult() !== []) {
+            throw new RuntimeException('Packaged Doctrine query returned unexpected results.');
+          }
+          $entityManager->getConnection()->close();
           $assets = json_decode(file_get_contents($appDir . '/js/asset-meta.json'), true, flags: JSON_THROW_ON_ERROR);
           if (empty($assets)) {
             throw new RuntimeException('The asset manifest is empty.');

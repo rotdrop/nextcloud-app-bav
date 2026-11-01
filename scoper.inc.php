@@ -16,6 +16,26 @@ return [
   ],
   'patchers' => [
     static function (string $filePath, string $prefix, string $contents): string {
+      // Dynamic constant names are not rewritten by PHP-Scoper.
+      if (str_ends_with($filePath, '/doctrine/orm/src/Mapping/Driver/AttributeDriver.php')) {
+        return str_replace(
+          "'Doctrine\\ORM\\Mapping\\ClassMetadata::",
+          "ClassMetadata::class . '::",
+          $contents,
+        );
+      }
+
+      if (str_ends_with($filePath, '/doctrine/orm/src/Query/Lexer.php')) {
+        return str_replace(
+          "'Doctrine\\ORM\\Query\\TokenType::",
+          "TokenType::class . '::",
+          $contents,
+        );
+      }
+
+      return $contents;
+    },
+    static function (string $filePath, string $prefix, string $contents): string {
       if (!str_ends_with($filePath, '/globalcitizen/php-iban/oophp-iban.php')) {
         return $contents;
       }

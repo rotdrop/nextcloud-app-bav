@@ -101,7 +101,10 @@ packaging without forwarding that removal to the Composer bin environments.
 The shared build rules in `dev-scripts/lib` are a git submodule. The PHP toolkit,
 PHP-IBAN, BAV library, and Doctrine ORM dependencies are installed through
 `composer-scoped.json` and isolated with PHP-Scoper into `vendor-scoped`; there
-is no vendored `php-toolkit` checkout. The TypeScript
+is no vendored `php-toolkit` checkout. BAV's Doctrine mappings use PHP attributes
+and class constants rather than namespace-dependent XML filenames.
+`scoper.inc.php` also patches Doctrine's attribute driver and query lexer to
+resolve dynamic constants through their scoped classes. The TypeScript
 converter and its standalone Nextcloud API stubs are installed in
 `vendor-bin/php-to-typescript`.
 Run `make toolkit-l10n` after updating the toolkit and commit the generated
@@ -112,7 +115,8 @@ The unsigned archive is written to
 
 The Build app-store package workflow runs these steps on pushes and pull
 requests, and can also be started manually. It verifies the archive's runtime
-autoloading and asset manifest, then uploads the package as a workflow artifact.
+autoloading, Doctrine metadata, SQLite schema creation and queries, and asset
+manifest, then uploads the package as a workflow artifact.
 
 ## Screenshots
 
