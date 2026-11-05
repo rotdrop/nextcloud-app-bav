@@ -88,6 +88,9 @@ $(PHP_SCOPER): vendor-bin/php-scoper/composer.json | composer
 app-toolkit: vendor-scoped/autoload.php
 .PHONY: app-toolkit
 
+# The analysis build must not use the app root as output directory.
+L10N_VITE_CONFIG = vite.l10n.config.ts
+
 include $(DEV_LIB_DIR)/makefile/l10n.mk
 
 toolkit-l10n: app-toolkit
