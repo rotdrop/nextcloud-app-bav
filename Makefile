@@ -205,7 +205,7 @@ realclean: mostlyclean downloadsclean
 
 #@@ Remove non-npm non-composer downloads
 downloadsclean:
-	rm -rf $(DOWNLOADS_DIR)
+	$(SILENT)if [ -n "$(DOWNLOADS_DIR)" ]; then rm -rf "$(DOWNLOADS_DIR)"; fi
 .PHONY: downloadsclean
 
 #@@ Run the test-suite
