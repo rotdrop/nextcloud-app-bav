@@ -179,6 +179,7 @@ fi
 #@@ Removes build files
 clean: ## Tidy up local environment
 	rm -rf $(BUILDDIR)
+	rm -rf statistics
 .PHONY: clean
 
 #@@ Same as clean but also removes dependencies installed by composer, bower and npm
@@ -186,6 +187,7 @@ distclean: clean ## Clean even more, calls clean
 	rm -rf vendor
 	rm -rf vendor-bin/**/vendor
 	rm -rf node_modules
+	rm -rf repositories/rotdrop/nextcloud-vue-components/node_modules
 	rm -rf lib/Toolkit/*
 .PHONY: distclean
 
@@ -195,6 +197,7 @@ mostlyclean: webpack-clean distclean
 	rm -f composer.json
 	rm -f vendor-bin/**/composer.lock
 	rm -f stamp.composer-core-versions
+	rm -f $(BUILD_FLAVOUR_FILE) $(APP_TOOLKIT_BUILD_HASH)
 	rm -f package-lock.json
 	rm -f *.html
 	rm -f stats.json
