@@ -87,8 +87,9 @@ bank accounts but pass the validation, e.g. `DE89 3704 0044 0532 0130 00`
 
 ## Building
 
-Use PHP 8.5, Composer 2, Node.js 24, npm, GNU Make, `xpath`
-(`libxml-xpath-perl` on Debian/Ubuntu), `rsync`, and `jq`:
+Use PHP 8.5, Composer 2, Node.js 24, npm, GNU Make, Python 3 with `tabulate`
+(`python3-tabulate` on Debian/Ubuntu), `xpath` (`libxml-xpath-perl` on
+Debian/Ubuntu), `rsync`, and `jq`:
 
 ```sh
 git submodule update --init --recursive
@@ -98,7 +99,8 @@ make appstore
 The app-store target installs development tools for type generation and frontend
 compilation, then removes root Composer development dependencies before
 packaging without forwarding that removal to the Composer bin environments.
-The shared build rules in `dev-scripts/lib` are a git submodule. The PHP toolkit,
+The shared build rules in `dev-scripts/lib` and MakeHelp in
+`dev-scripts/MakeHelp` are git submodules. The PHP toolkit,
 PHP-IBAN, BAV library, and Doctrine ORM dependencies are installed through
 `composer-scoped.json` and isolated with PHP-Scoper into `vendor-scoped`; there
 is no vendored `php-toolkit` checkout. BAV's Doctrine mappings use PHP attributes
@@ -107,9 +109,15 @@ and class constants rather than namespace-dependent XML filenames.
 resolve dynamic constants through their scoped classes. The TypeScript
 converter and its standalone Nextcloud API stubs are installed in
 `vendor-bin/php-to-typescript`.
-Run `make toolkit-l10n` after updating the toolkit and commit the generated
-`l10n-sources/toolkit-strings.php` catalogue so translation extraction also sees
-strings from the Composer package.
+The shared `namespace-wrapper.mk` rules build the scoped dependencies;
+`make namespace-wrapper` can also be run separately.
+The Vue components are installed directly from their Git repository through npm,
+with the resolved revision pinned in `package-lock.json`; no local checkout is
+needed. Run `make l10n-sources` after updating the toolkit or Vue components and
+commit the generated `l10n-sources/toolkit-strings.php` and
+`l10n-sources/vue-components-strings.js` catalogues so translation extraction also
+sees strings from these packages. These catalogues are extraction inputs, not
+runtime code; do not import or execute them.
 The unsigned archive is written to
 `build/artifacts/appstore/`; signing is skipped when no signing key is available.
 
