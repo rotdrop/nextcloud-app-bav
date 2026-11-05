@@ -28,3 +28,14 @@ src/toolkit/util/settings-sync.ts
 vendor/
 vendor-scoped/
 statistics/
+# BEGIN generated nextcloud-vue-components exclusions
+node_modules/@rotdrop/nextcloud-vue-components/lib/components/ColorPickerExtension.vue
+node_modules/@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue
+node_modules/@rotdrop/nextcloud-vue-components/lib/components/SelectWithSubmitButton.vue
+node_modules/@rotdrop/nextcloud-vue-components/lib/components/TextFieldWithSubmitButton.vue
+node_modules/@rotdrop/nextcloud-vue-components/lib/components/TextFieldWithTrailingButton.vue
+node_modules/@rotdrop/nextcloud-vue-components/lib/directives/Tooltip/index.ts
+node_modules/@rotdrop/nextcloud-vue-components/lib/index.ts
+node_modules/@rotdrop/nextcloud-vue-components/lib/util/color.ts
+node_modules/@rotdrop/nextcloud-vue-components/lib/util/default-palette.ts
+# END generated nextcloud-vue-components exclusions
