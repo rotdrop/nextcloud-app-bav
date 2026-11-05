@@ -75,32 +75,23 @@ build-no-dev:
 .PHONY: build-no-dev
 
 #@private
-dev-setup: app-toolkit composer
+dev-setup: namespace-wrapper composer
 .PHONY: dev-setup
 
 include $(DEV_LIB_DIR)/makefile/composer.mk
 
-$(PHP_SCOPER): composer.lock vendor-bin/php-scoper/composer.json | composer
-	$(COMPOSER) bin php-scoper install
-	test -x "$@"
-	touch "$@"
+SCOPED_COMPOSER_UPDATE_OPTIONS = --no-dev
+include $(DEV_LIB_DIR)/makefile/namespace-wrapper.mk
 
-$(BUILDDIR)/vendor-scoped/autoload.php: composer-scoped.json $(wildcard composer-scoped.lock)
-	mkdir -p $(BUILDDIR)
-	env COMPOSER="$(ABSSRCDIR)/composer-scoped.json" $(COMPOSER) -d$(BUILDDIR) install $(COMPOSER_OPTIONS) --no-dev
-
-vendor-scoped/autoload.php: $(BUILDDIR)/vendor-scoped/autoload.php scoper.inc.php Makefile $(PHP_SCOPER)
-	$(PHP_SCOPER) add-prefix -d$(BUILDDIR) --config=$(ABSSRCDIR)/scoper.inc.php --output-dir=$(ABSSRCDIR)/vendor-scoped --force
-	env COMPOSER="$(ABSSRCDIR)/composer-scoped.json" $(COMPOSER) dump-autoload --no-dev
-	$(call apply-scoped-autoload-patch,vendor-scoped)
+$(PHP_SCOPER): vendor-bin/php-scoper/composer.json | composer
 
 app-toolkit: vendor-scoped/autoload.php
 .PHONY: app-toolkit
 
-#@@ Generate the toolkit string catalogue for translation extraction.
+include $(DEV_LIB_DIR)/makefile/l10n.mk
+
 toolkit-l10n: app-toolkit
-	$(PHP) vendor-scoped/rotdrop/nextcloud-app-toolkit/tools/extract-l10n.php l10n-sources/toolkit-strings.php
-.PHONY: toolkit-l10n
+vue-components-l10n: node_modules
 
 include $(DEV_LIB_DIR)/makefile/ts-app-config.mk
 include $(DEV_LIB_DIR)/makefile/ts-types-files.mk
