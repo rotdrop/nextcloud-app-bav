@@ -9,10 +9,12 @@ on:
 
 jobs:
   release:
-    uses: rotdrop/nextcloud-app-build-system/.github/workflows/release.yml@main
+    uses: rotdrop/nextcloud-app-build-system/.github/workflows/release.yml@v1
     secrets: inherit
     permissions:
       contents: write
     with:
       php-version: '8.5'
       verify-script: dev-scripts/verify-package.sh
+      sign: false
+      upload-to-appstore: false
