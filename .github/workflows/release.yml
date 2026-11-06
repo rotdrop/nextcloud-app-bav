@@ -16,3 +16,5 @@ jobs:
     with:
       php-version: '8.5'
       verify-script: dev-scripts/verify-package.sh
+      sign: false
+      upload-to-appstore: false
