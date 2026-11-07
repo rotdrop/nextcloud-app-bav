@@ -18,4 +18,3 @@ vendor
 /vendor-bin/**/.ac-php*
 .vite/
 patches.lock.json
-package-lock.json
