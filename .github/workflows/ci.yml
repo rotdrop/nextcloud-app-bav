@@ -25,7 +25,7 @@ jobs:
       php-lint-dirs: lib composer appinfo
       verify-script: dev-scripts/verify-package.sh
 
-  phpunit:
+  unit-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -68,3 +68,7 @@ jobs:
       - name: Run PHPUnit unit and integration suites
         working-directory: ${{ steps.server.outputs.app-dir }}
         run: make unit-tests integration-tests
+
+      - name: Run Vitest component suite
+        working-directory: ${{ steps.server.outputs.app-dir }}
+        run: make frontend-tests
