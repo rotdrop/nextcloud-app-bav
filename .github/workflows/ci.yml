@@ -24,3 +24,47 @@ jobs:
       php-version: '8.5'
       php-lint-dirs: lib composer appinfo
       verify-script: dev-scripts/verify-package.sh
+
+  phpunit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+          persist-credentials: false
+
+      - name: Install build utilities
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libxml-xpath-perl rsync wget
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: ctype, curl, dom, fileinfo, gd, iconv, intl, mbstring, openssl, pdo_sqlite, posix, simplexml, sqlite3, xml, zip, apcu, bcmath, gmp, imagick
+          tools: composer:v2
+          coverage: none
+          ini-values: apc.enable_cli=1, memory_limit=1G
+
+      - name: Set up Nextcloud server
+        id: server
+        uses: rotdrop/nextcloud-app-build-system/.github/actions/nextcloud-server@v1
+        with:
+          repository: nextcloud/server
+          ref: stable35
+
+      - name: Install app PHP dependencies
+        working-directory: ${{ steps.server.outputs.app-dir }}
+        run: make dev-setup
+
+      - name: Enable app
+        working-directory: ${{ steps.server.outputs.server-dir }}
+        run: php occ app:enable bav
+
+      - name: Run PHPUnit unit and integration suites
+        working-directory: ${{ steps.server.outputs.app-dir }}
+        run: make unit-tests integration-tests
