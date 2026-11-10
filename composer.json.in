@@ -15,7 +15,7 @@
     "optimize-autoloader": true,
     "classmap-authoritative": true,
     "platform": {
-      "php": "8.4.0"
+      "php": "8.3.0"
     },
     "allow-plugins": {
       "bamarni/composer-bin-plugin": true
