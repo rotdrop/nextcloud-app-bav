@@ -4,6 +4,6 @@
   },
   "sort-packages": true,
   "require-dev": {
-    "phpunit/phpunit": "*"
+    "phpunit/phpunit": "^11.5"
   }
 }
