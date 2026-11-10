@@ -82,6 +82,16 @@ encrypted.
 
 ## Testing
 
+The Vue component tests live in `tests/vitest/`. Run them once with
+`npm test -- --run` or interactively with `npm run test:watch` after `npm ci`.
+They use jsdom and mock Nextcloud UI/services; no running Nextcloud server or
+generated PHP TypeScript files are needed. `src/toolkit/` is not covered.
+
+With the build-system submodule initialized, `make frontend-tests` runs the same
+suite once. `make test` includes it alongside the PHP unit and integration
+suites (which require the Nextcloud/PHP test environment).
+CI runs the Vitest suite after the PHP suites in the same `unit-tests` job.
+
 There are some German "dummy" IBANs which do not correspond to actual
 bank accounts but pass the validation, e.g. `DE89 3704 0044 0532 0130 00`
 
