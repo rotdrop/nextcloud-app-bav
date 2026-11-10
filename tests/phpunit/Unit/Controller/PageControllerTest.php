@@ -1,31 +1,19 @@
 <?php
 
-namespace OCA\Bav\Tests\Unit\Controller;
+namespace OCA\BAV\Tests\Unit\Controller;
 
+use OCP\IRequest;
 use PHPUnit\Framework\TestCase;
 
-use OCP\AppFramework\Http\TemplateResponse;
-
-use OCA\Bav\Controller\PageController;
+use OCA\BAV\Controller\PageController;
 
 
 class PageControllerTest extends TestCase {
-	private $controller;
-	private $userId = 'john';
+	public function testIndexReturnsViewParameters(): void {
+		$request = $this->createMock(IRequest::class);
+		$controller = new PageController('bav', $request);
 
-	protected function setUp(): void {
-		$request = $this->getMockBuilder('OCP\IRequest')->getMock();
-
-		$this->controller = new PageController(
-			'bav', $request, $this->userId
-		);
-	}
-
-	public function testIndex() {
-		$result = $this->controller->index();
-
-		$this->assertEquals('index', $result->getTemplateName());
-		$this->assertTrue($result instanceof TemplateResponse);
+		$this->assertSame([], $controller->index());
 	}
 
 }
