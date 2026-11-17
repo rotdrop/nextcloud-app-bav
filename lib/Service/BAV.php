@@ -25,6 +25,10 @@ namespace OCA\BAV\Service;
 
 use Exception;
 use InvalidArgumentException;
+use OCA\BAV\Cache\DoctrineCache;
+use OCA\BAV\Scoped\Doctrine\DBAL\DriverManager;
+use OCA\BAV\Scoped\Doctrine\ORM\EntityManager;
+use OCA\BAV\Scoped\Doctrine\ORM\ORMSetup;
 use OCA\BAV\Scoped\rotdrop\bav\BAV as BAVBackend;
 use OCA\BAV\Scoped\rotdrop\bav\Configuration\ConfigurationRegistry;
 use OCA\BAV\Scoped\rotdrop\bav\Configuration\DefaultConfiguration;
@@ -58,6 +62,7 @@ class BAV extends BAVBackend
   public function __construct(
     protected IConfig $cloudConfig,
     protected LoggerInterface $logger,
+    DoctrineCache $cache,
   ) {
     try {
       $bavConfig = new DefaultConfiguration();
@@ -96,7 +101,19 @@ class BAV extends BAVBackend
         $connectionParams['host'] = $dbHost;
       }
 
-      $bavConfig->setDataBackendContainer(DoctrineBackendContainer::buildByConnection($connectionParams));
+      $ormConfig = ORMSetup::createAttributeMetadataConfig(
+        DoctrineBackendContainer::getEntityPaths(),
+        cache: $cache,
+      );
+      if (PHP_VERSION_ID >= 80400) {
+        $ormConfig->enableNativeLazyObjects(true);
+      } else {
+        $ormConfig->setProxyDir(sys_get_temp_dir());
+        $ormConfig->setProxyNamespace('BAVDoctrineProxies');
+        $ormConfig->setAutoGenerateProxyClasses(true);
+      }
+      $entityManager = new EntityManager(DriverManager::getConnection($connectionParams), $ormConfig);
+      $bavConfig->setDataBackendContainer(new DoctrineBackendContainer($entityManager));
 
       ConfigurationRegistry::setConfiguration($bavConfig);
 
