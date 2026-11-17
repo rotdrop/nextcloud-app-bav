@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.0.0-rc4] -- unreleased
 
+## Fixed
+
+- Use Nextcloud's configured caches for Doctrine, falling back to an in-process
+  cache when none is available, instead of probing unconfigured Memcached or Redis
+  servers (including during CLI commands).
+
 ## Changed
 
 - NC33
