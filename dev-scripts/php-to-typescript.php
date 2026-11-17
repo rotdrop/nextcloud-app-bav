@@ -63,7 +63,7 @@ $collectors = [
 $phpToTypeScript = new PhpToTypeScript\PhpToTypeScript(
   collectors: $collectors,
   devScriptsFolder: __DIR__,
-  excludes: [$appDir . '/lib/Cache'],
+  excludes: ['lib/Cache'],
   scopedNamespaces: $scopedNamespaces,
 );
 
