@@ -90,7 +90,8 @@ generated PHP TypeScript files are needed. `src/toolkit/` is not covered.
 With the build-system submodule initialized, `make frontend-tests` runs the same
 suite once. `make test` includes it alongside the PHP unit and integration
 suites (which require the Nextcloud/PHP test environment).
-CI runs the Vitest suite after the PHP suites in the same `unit-tests` job.
+CI runs the PHPUnit suites on PHP 8.3, 8.4, and 8.5. The Vitest suite runs
+once, after the PHP suites in the PHP 8.4 `unit-tests` job.
 
 There are some German "dummy" IBANs which do not correspond to actual
 bank accounts but pass the validation, e.g. `DE89 3704 0044 0532 0130 00`
