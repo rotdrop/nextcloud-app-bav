@@ -6,7 +6,7 @@ import { AxiosError, CanceledError } from 'axios';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import App from '../../src/App.vue';
 import BankAccountInputMask from '../../src/BankAccountInputMask.vue';
-import { showError } from '../../src/toolkit/util/toasts.ts';
+import { showError } from '@nextcloud/dialogs';
 
 const emptyAccount: BankAccountData = {
   IBAN: '',
