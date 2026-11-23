@@ -18,3 +18,4 @@ vendor
 /vendor-bin/**/.ac-php*
 .vite/
 patches.lock.json
+.phpunit.result.cache
