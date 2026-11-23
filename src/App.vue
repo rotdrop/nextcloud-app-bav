@@ -77,8 +77,7 @@
                       :data="appIcon"
                       :title="t(appName, 'app-logo')"
       />
-      <BankAccountInputMask ref="inputForm"
-                            :bankAccount="accountData"
+      <BankAccountInputMask :bankAccount="accountData"
                             @update:bankAccount="onUpdateBankAccount"
                             @blur:accountField="onBlur"
       />
@@ -137,13 +136,11 @@ import {
   isAxiosErrorResponse,
 } from './toolkit/types/axios-type-guards.ts'
 import { generateUrl as generateAppUrl } from './toolkit/util/generate-url.ts'
-import { showError } from './toolkit/util/toasts.ts'
+import { showError } from '@nextcloud/dialogs'
 
 const showDialog = ref(true)
 
 const showAbout = ref(false)
-
-const inputForm = ref<null | Vue>(null)
 
 const hints = ref<string[]>([])
 interface EqualityPart {
