@@ -33,6 +33,14 @@
     "BIC" : "BIC",
     "Bank Id" : "Bankleitzahl",
     "Bank Account Id" : "Kontonummer",
-    "Bank" : "Bank"
+    "Bank" : "Bank",
+    "Fetch bank data from the Deutsche Bundesbank and update the database tables of the app." : "Bankdaten von der Deutschen Bundesbank abrufen und die Datenbanktabellen der App aktualisieren.",
+    "Force update even if the databse tables appear to be up to data." : "Aktualisierung erzwingen, auch wenn die Datenbanktabellen aktuell zu sein scheinen.",
+    "The database appears to be up to date, doing nothing." : "Die Datenbank scheint auf dem neuesten Stand zu sein; es ist nichts zu tun.",
+    "The database appears to be up to date, but updating anyway as requested by \"--force\" option." : "Die Datenbank scheint auf dem neuesten Stand zu sein, wird aber wie mit der Option \"--force\" angefordert trotzdem aktualisiert.",
+    "The database appears to be out of date, attempt to update." : "Die Datenbank scheint veraltet zu sein; Aktualisierung wird versucht.",
+    "Attempting to update the database ..." : "Versuche, die Datenbank zu aktualisieren ...",
+    "Not updating as requested by \"--dry\" option." : "Keine Aktualisierung gemäß der Option \"--dry\".",
+    "... the database has been updated." : "... die Datenbank wurde aktualisiert."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
