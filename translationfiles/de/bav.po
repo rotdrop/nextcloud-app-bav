@@ -269,36 +269,42 @@ msgid ""
 "Fetch bank data from the Deutsche Bundesbank and update the database tables "
 "of the app."
 msgstr ""
+"Bankdaten von der Deutschen Bundesbank abrufen und die Datenbanktabellen "
+"der App aktualisieren."
 
 #: lib/Command/Update.php:64
 msgid "Force update even if the databse tables appear to be up to data."
 msgstr ""
+"Aktualisierung erzwingen, auch wenn die Datenbanktabellen aktuell zu sein "
+"scheinen."
 
 #: lib/Command/Update.php:81
 msgid "The database appears to be up to date, doing nothing."
-msgstr ""
+msgstr "Die Datenbank scheint auf dem neuesten Stand zu sein; es ist nichts zu tun."
 
 #: lib/Command/Update.php:84
 msgid ""
 "The database appears to be up to date, but updating anyway as requested by "
 "\"--force\" option."
 msgstr ""
+"Die Datenbank scheint auf dem neuesten Stand zu sein, wird aber wie mit der "
+"Option \"--force\" angefordert trotzdem aktualisiert."
 
 #: lib/Command/Update.php:86
 msgid "The database appears to be out of date, attempt to update."
-msgstr ""
+msgstr "Die Datenbank scheint veraltet zu sein; Aktualisierung wird versucht."
 
 #: lib/Command/Update.php:89
 msgid "Attempting to update the database ..."
-msgstr ""
+msgstr "Versuche, die Datenbank zu aktualisieren ..."
 
 #: lib/Command/Update.php:91
 msgid "Not updating as requested by \"--dry\" option."
-msgstr ""
+msgstr "Keine Aktualisierung gemäß der Option \"--dry\"."
 
 #: lib/Command/Update.php:95
 msgid "... the database has been updated."
-msgstr ""
+msgstr "... die Datenbank wurde aktualisiert."
 
 #~ msgid "BAV"
 #~ msgstr "BAV"
