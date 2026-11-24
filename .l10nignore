@@ -1,13 +1,10 @@
 3rdparty/
+build/
 css/
 js/
 node_modules/
 report.html
-repositories/rotdrop/nextcloud-vue-components/lib/components/ColorPickerExtension.vue
-repositories/rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue
-repositories/rotdrop/nextcloud-vue-components/lib/components/SelectWithSubmitButton.vue
-repositories/rotdrop/nextcloud-vue-components/lib/components/SettingsInputText.vue
-repositories/rotdrop/nextcloud-vue-components/lib/components/TextFieldWithSubmitButton.vue
+src/toolkit/services/entity-repository.ts
 src/toolkit/types/event-bus.d.ts
 src/toolkit/types/nextcloud-files.d.ts
 src/toolkit/types/nextcloud.d.ts
@@ -26,8 +23,41 @@ src/toolkit/util/pangram.ts
 src/toolkit/util/print-r.js
 src/toolkit/util/settings-sync.ts
 vendor/
+vendor-bin/
 vendor-scoped/
 statistics/
+# BEGIN tentatively unreferenced PHP files.
+rotdrop/nextcloud-app-toolkit/src/Controller/EntityRepositoryControllerTrait.php
+rotdrop/nextcloud-app-toolkit/src/Doctrine/ORM/AbstractEntityManager.php
+rotdrop/nextcloud-app-toolkit/src/Doctrine/ORM/EntitySerializer/EntityArrayAdapter.php
+rotdrop/nextcloud-app-toolkit/src/Doctrine/ORM/EntitySerializer/EntitySerializer.php
+rotdrop/nextcloud-app-toolkit/src/Exceptions/AuthorizationException.php
+rotdrop/nextcloud-app-toolkit/src/Exceptions/DatabaseEntityNotUniqueException.php
+rotdrop/nextcloud-app-toolkit/src/Exceptions/DatabaseInconsistentValueException.php
+rotdrop/nextcloud-app-toolkit/src/Exceptions/SessionStillOpenException.php
+rotdrop/nextcloud-app-toolkit/src/Response/HttpStatus.php
+rotdrop/nextcloud-app-toolkit/src/Service/AnyToPdf.php
+rotdrop/nextcloud-app-toolkit/src/Service/AppPasswordService.php
+rotdrop/nextcloud-app-toolkit/src/Service/AppStorageDisclosure.php
+rotdrop/nextcloud-app-toolkit/src/Service/ArchiveService.php
+rotdrop/nextcloud-app-toolkit/src/Service/ExecutableFinder.php
+rotdrop/nextcloud-app-toolkit/src/Service/GroupFoldersService.php
+rotdrop/nextcloud-app-toolkit/src/Service/MimeTypeService.php
+rotdrop/nextcloud-app-toolkit/src/Service/RequestService.php
+rotdrop/nextcloud-app-toolkit/src/Service/SimpleSharingService.php
+rotdrop/nextcloud-app-toolkit/src/Service/UserScopeService.php
+rotdrop/nextcloud-app-toolkit/src/Traits/ApiRequestTrait.php make fill-toolkit-translations  L10N=de L10N_FILL_FLAGS=--force 
+
+rotdrop/nextcloud-app-toolkit/src/Traits/AppNameTrait.php
+rotdrop/nextcloud-app-toolkit/src/Traits/AuthenticatedCommandTrait.php
+rotdrop/nextcloud-app-toolkit/src/Traits/CloudAdminTrait.php
+rotdrop/nextcloud-app-toolkit/src/Traits/DateTimeTrait.php
+rotdrop/nextcloud-app-toolkit/src/Traits/IncludeExcludeTrait.php
+rotdrop/nextcloud-app-toolkit/src/Traits/NodeTrait.php
+rotdrop/nextcloud-app-toolkit/src/Traits/SanitizeFilenameTrait.php
+rotdrop/nextcloud-app-toolkit/src/Traits/TranslatableEnumTrait.php
+rotdrop/nextcloud-app-toolkit/src/Traits/UnusedMethodTrait.php
+rotdrop/nextcloud-app-toolkit/src/Traits/UtilTrait.php
 # BEGIN generated nextcloud-vue-components exclusions
 node_modules/@rotdrop/nextcloud-vue-components/lib/components/ColorPickerExtension.vue
 node_modules/@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue

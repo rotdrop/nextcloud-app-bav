@@ -1,6 +1,10 @@
 OC.L10N.register(
     "bav",
     {
+    "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Installationsproblem; die benötigte Ressource \"%1$s\" vom Typ \"%2$s\" ist auf dem Server nicht installiert, bitte die Systemadministration kontaktieren!",
+    "Unable to serve request to \"%1$s\": %2$s" : "Anfrage an \"%1$s\" konnte nicht bearbeitet werden: %2$s",
+    "reason unknown" : "Grund unbekannt",
+    "Provided data is not a valid SVG image: \"{data}\"." : "Die Daten konstituieren kein gültiges SVG-Bild: \"{data}\".",
     "Failed to validate IBAN" : "Die IBAN scheint nicht korrekt zu sein",
     "Bank-id %1$s from IBAN and submitted bank-id %2$s do not coincide" : "Aus der IBAN abgeleitete BLZ %1$s und angegebene BLZ %2$s stimmen nicht überein",
     "Account-id %1$s from IBAN and submitted account-id %2$s do not coincide" : "Aus der IBAN abgeleitet Kontonummer %1$s und angegebene Kontonummer %2$s stimmen nicht überein",
@@ -9,11 +13,7 @@ OC.L10N.register(
     "The account number %1$s @ %2$s does not appear to be a valid German bank account id" : "Die Kontonummer %1$s @ %2$s scheint ungültig zu sein",
     "The bank-id %s does not seem to be a valid German bank id" : "Die BLZ %s scheint ungültig zu sein.",
     "No errors found, but use at your own risk" : "Keine Fehler gefunden, aber benutzt das Zeug bitte auf eigenes Risko ;)",
-    "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Installationsproblem; die %1$s-Ressource \"%2$s\" ist nicht auf dem Server installiert, bitte kontaktieren Sie den Systemadministrator!",
     "German Bank Account Validator" : "BAV - Bank Account Validator (DE)",
-    "BAV" : "BAV",
-    "Provided data is not a valid SVG image: \"{data}\"." : "Die Daten konstituieren kein gültiges SVG-Bild: \"{data}\".",
-    "reason unknown" : "Grund unbekannt",
     "Unable to validate the given bank account data: {message}" : "Kann die angegebenen Bankdaten nicht überprüfen: {message}",
     "This is a front-end to the German Bank Account Validator (BAV) developed my M. Malkusch." : "Diese App ist ein Front-End für den \"Bank Account Validator\" (BAV),\nder von M. Malkusch für die Überprüfung Deutscher Bankdaten geschrieben wurde.",
     "The backend is no longer actively maintained, but there are some forks on GitHub ({github}).\nHowever, it still seems to work for the majority of German bank accounts." : "Die Programmbibliothek wird nicht mehr gepflegt, aber es gibt noch aktive Ableger auf Github ({github}). Scheinbar funktioniert die Bibliothek aber noch für die meisten Deutschen Bankverbindungen.",
@@ -37,4 +37,4 @@ OC.L10N.register(
     "Bank Account Id" : "Kontonummer",
     "Bank" : "Bank"
 },
-"nplurals=2; plural=(n != 1)");
+"nplurals=2; plural=(n != 1);");
