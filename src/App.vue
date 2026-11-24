@@ -116,6 +116,7 @@
 import type { BankAccountData } from './bank-account.d.ts'
 
 import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import {
   NcButton,
@@ -136,7 +137,6 @@ import {
   isAxiosErrorResponse,
 } from './toolkit/types/axios-type-guards.ts'
 import { generateUrl as generateAppUrl } from './toolkit/util/generate-url.ts'
-import { showError } from '@nextcloud/dialogs'
 
 const showDialog = ref(true)
 
